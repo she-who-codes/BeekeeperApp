@@ -63,6 +63,7 @@ add_executable(BeeKeeper
     src/repositories/ApiaryRepository.cpp
     src/repositories/HiveRepository.cpp
     src/screens/ApiaryScreen.cpp
+    src/config/FontManager.cpp
     
     ${IMGUI_SOURCES}
     ${IMPLOT_SOURCES}

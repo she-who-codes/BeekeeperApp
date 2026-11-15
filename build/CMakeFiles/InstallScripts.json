@@ -1,9 +1,9 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/Users/mandy/Documents/BeekeeperApp/build/cmake_install.cmake",
-		"C:/Users/mandy/Documents/BeekeeperApp/build/external/glfw/cmake_install.cmake",
-		"C:/Users/mandy/Documents/BeekeeperApp/build/external/glfw/src/cmake_install.cmake"
+		"C:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/cmake_install.cmake",
+		"C:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/cmake_install.cmake",
+		"C:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

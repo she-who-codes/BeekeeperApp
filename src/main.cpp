@@ -1,10 +1,11 @@
-
-//#define GLFW_INCLUDE_NONE
-
+#define NOMINMAX
 #include <windows.h>
-#include <GL/gl.h>
 
+#include <GL/gl.h>
 #include <GLFW/glfw3.h>
+
+#include <algorithm>
+#include <iostream>
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -13,6 +14,7 @@
 
 #include "config/AppConfig.h"
 #include "config/Theme.h"
+#include "config/FontManager.h"
 
 #include "database/DatabaseManager.h"
 #include "database/DatabaseMigrations.h"
@@ -21,8 +23,6 @@
 #include "repositories/HiveRepository.h"
 
 #include "screens/ApiaryScreen.h"
-
-#include <iostream>
 
 // --------------------------------------------------
 // GLFW Error Callback
@@ -48,15 +48,14 @@ int main()
 
     if (!glfwInit())
     {
-        std::cerr << "Failed to initialize GLFW." << std::endl;
+        std::cerr << "Failed to initialize GLFW."
+                  << std::endl;
         return 1;
     }
 
-    // OpenGL configuration
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
     // ----------------------------------------------
     // 2. Create Application Window
@@ -79,13 +78,34 @@ int main()
         return 1;
     }
 
-    glfwMakeContextCurrent(window);
+    // Set minimum window dimensions.
+    glfwSetWindowSizeLimits(
+        window,
+        AppConfig::Window::MinimumWidth,
+        AppConfig::Window::MinimumHeight,
+        GLFW_DONT_CARE,
+        GLFW_DONT_CARE
+    );
 
-    // Enable vertical synchronization.
+    glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
     // ----------------------------------------------
-    // 3. Initialize Dear ImGui
+    // 3. Detect Display DPI
+    // ----------------------------------------------
+
+    float dpiX = 1.0f;
+    float dpiY = 1.0f;
+
+    glfwGetWindowContentScale(window, &dpiX, &dpiY);
+
+    const float dpiScale = std::max(dpiX, dpiY);
+
+    std::cout << "Display DPI scale: "
+              << dpiScale << std::endl;
+
+    // ----------------------------------------------
+    // 4. Initialize Dear ImGui
     // ----------------------------------------------
 
     IMGUI_CHECKVERSION();
@@ -93,24 +113,40 @@ int main()
     ImGui::CreateContext();
 
     // ----------------------------------------------
-    // 4. Initialize ImPlot
+    // 5. Initialize ImPlot
     // ----------------------------------------------
 
     ImPlot::CreateContext();
 
     // ----------------------------------------------
-    // 5. Configure ImGui
+    // 6. Configure ImGui
     // ----------------------------------------------
 
     ImGuiIO& io = ImGui::GetIO();
 
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    // Apply BeeKeeper's centralized theme.
-    Theme::Apply();
+    // ----------------------------------------------
+    // 7. Load BeeKeeper Fonts
+    // ----------------------------------------------
+
+    if (!Fonts::Load(dpiScale))
+    {
+        std::cerr << "Warning: Font initialization failed."
+                  << std::endl;
+    }
 
     // ----------------------------------------------
-    // 6. Initialize ImGui Backends
+    // 8. Apply BeeKeeper Theme
+    // ----------------------------------------------
+
+    Theme::Apply();
+
+    // Scale all ImGui dimensions for display DPI.
+    ImGui::GetStyle().ScaleAllSizes(dpiScale);
+
+    // ----------------------------------------------
+    // 9. Initialize ImGui Backends
     // ----------------------------------------------
 
     const char* glslVersion = "#version 130";
@@ -146,7 +182,7 @@ int main()
     }
 
     // ----------------------------------------------
-    // 7. Initialize SQLite Database
+    // 10. Initialize SQLite Database
     // ----------------------------------------------
 
     DatabaseManager database;
@@ -173,7 +209,7 @@ int main()
               << std::endl;
 
     // ----------------------------------------------
-    // 8. Run Database Migrations
+    // 11. Run Database Migrations
     // ----------------------------------------------
 
     if (!DatabaseMigrations::Run(database))
@@ -194,15 +230,14 @@ int main()
     }
 
     // ----------------------------------------------
-    // 9. Initialize Repositories
+    // 12. Initialize Repositories
     // ----------------------------------------------
 
     ApiaryRepository apiaryRepository(database);
-
     HiveRepository hiveRepository(database);
 
     // ----------------------------------------------
-    // 10. Initialize Application Screens
+    // 13. Initialize Application Screens
     // ----------------------------------------------
 
     ApiaryScreen apiaryScreen(
@@ -214,7 +249,7 @@ int main()
               << std::endl;
 
     // ----------------------------------------------
-    // 11. Main Application Loop
+    // 14. Main Application Loop
     // ----------------------------------------------
 
     while (!glfwWindowShouldClose(window))
@@ -255,8 +290,9 @@ int main()
             displayHeight
         );
 
-        // Clear screen using BeeKeeper background color.
-        const ImVec4& background = Theme::Colors::Background;
+        // Use centralized BeeKeeper background color.
+        const ImVec4& background =
+            Theme::Colors::Background;
 
         glClearColor(
             background.x,
@@ -267,7 +303,6 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Render ImGui draw data.
         ImGui_ImplOpenGL3_RenderDrawData(
             ImGui::GetDrawData()
         );
@@ -276,7 +311,7 @@ int main()
     }
 
     // ----------------------------------------------
-    // 12. Shutdown Application
+    // 15. Shutdown Application
     // ----------------------------------------------
 
     std::cout << "Shutting down BeeKeeper..."
@@ -288,8 +323,8 @@ int main()
     ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
-    // Database connection closes automatically when
-    // DatabaseManager is destroyed.
+    // Database closes automatically when its
+    // DatabaseManager instance is destroyed.
 
     glfwDestroyWindow(window);
     glfwTerminate();

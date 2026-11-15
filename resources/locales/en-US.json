@@ -1,0 +1,6 @@
+{
+    "format": {
+        "date_pattern": "MM/DD/YYYY",
+        "date_hint": "MM/DD/YYYY"
+    }
+}

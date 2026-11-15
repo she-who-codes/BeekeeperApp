@@ -1,5 +1,6 @@
 
 #include "Theme.h"
+#include "LayoutUI.h"
 
 namespace Theme
 {
@@ -30,27 +31,32 @@ namespace Theme
     {
         ImGuiStyle &style = ImGui::GetStyle();
 
-        style.WindowPadding = ImVec2(20.0f, 20.0f);
-        style.FramePadding = ImVec2(12.0f, 8.0f);
-        style.CellPadding = ImVec2(10.0f, 8.0f);
-        style.ItemSpacing = ImVec2(10.0f, 10.0f);
-        style.ItemInnerSpacing = ImVec2(8.0f, 6.0f);
-        style.IndentSpacing = 22.0f;
-        style.ScrollbarSize = 12.0f;
-        style.GrabMinSize = 10.0f;
+        // All dimensions come from LayoutUI.h (single source
+        // of truth). They are design pixels at 100% scale;
+        // main() applies ScaleAllSizes() for the display DPI.
+        style.FontSizeBase = UI::Type::Body;
 
-        style.WindowRounding = 10.0f;
-        style.ChildRounding = 8.0f;
-        style.FrameRounding = 6.0f;
-        style.PopupRounding = 8.0f;
-        style.ScrollbarRounding = 8.0f;
-        style.GrabRounding = 6.0f;
-        style.TabRounding = 6.0f;
+        style.WindowPadding = ImVec2(UI::Spacing::WindowPaddingX, UI::Spacing::WindowPaddingY);
+        style.FramePadding = ImVec2(UI::Spacing::FramePaddingX, UI::Spacing::FramePaddingY);
+        style.CellPadding = ImVec2(UI::Spacing::CellPaddingX, UI::Spacing::CellPaddingY);
+        style.ItemSpacing = ImVec2(UI::Spacing::ItemSpacingX, UI::Spacing::ItemSpacingY);
+        style.ItemInnerSpacing = ImVec2(UI::Spacing::ItemInnerSpacingX, UI::Spacing::ItemInnerSpacingY);
+        style.IndentSpacing = UI::Spacing::Indent;
+        style.ScrollbarSize = UI::Size::ScrollbarWidth;
+        style.GrabMinSize = UI::Size::GrabMin;
 
-        style.WindowBorderSize = 0.0f;
-        style.ChildBorderSize = 1.0f;
-        style.FrameBorderSize = 0.0f;
-        style.PopupBorderSize = 1.0f;
+        style.WindowRounding = UI::Radius::Window;
+        style.ChildRounding = UI::Radius::Child;
+        style.FrameRounding = UI::Radius::Frame;
+        style.PopupRounding = UI::Radius::Popup;
+        style.ScrollbarRounding = UI::Radius::Scrollbar;
+        style.GrabRounding = UI::Radius::Grab;
+        style.TabRounding = UI::Radius::Tab;
+
+        style.WindowBorderSize = UI::Border::Window;
+        style.ChildBorderSize = UI::Border::Child;
+        style.FrameBorderSize = UI::Border::Frame;
+        style.PopupBorderSize = UI::Border::Popup;
 
         ImVec4 *colors = style.Colors;
 
@@ -62,7 +68,9 @@ namespace Theme
         colors[ImGuiCol_PopupBg] = Colors::SurfaceRaised;
         colors[ImGuiCol_Border] = Colors::Border;
 
-        colors[ImGuiCol_FrameBg] = Colors::SurfaceRaised;
+        // Inputs use the darkest surface so they stay visible
+        // on both panels (Surface) and dialogs (SurfaceRaised).
+        colors[ImGuiCol_FrameBg] = Colors::Background;
         colors[ImGuiCol_FrameBgHovered] = Colors::ForestLight;
         colors[ImGuiCol_FrameBgActive] = Colors::Sage;
 
@@ -114,9 +122,12 @@ namespace Theme
         colors[ImGuiCol_TableRowBg] = Colors::Surface;
         colors[ImGuiCol_TableRowBgAlt] = Colors::SurfaceRaised;
 
+        colors[ImGuiCol_ModalWindowDimBg] = ImVec4(
+            Colors::Background.x, Colors::Background.y, Colors::Background.z, 0.70f);
+
         colors[ImGuiCol_TextSelectedBg] = ImVec4(
             Colors::Sage.x, Colors::Sage.y, Colors::Sage.z, 0.45f);
 
-        colors[ImGuiCol_NavHighlight] = Colors::Honey;
+        colors[ImGuiCol_NavCursor] = Colors::Honey;
     }
 }

@@ -1,0 +1,128 @@
+{
+    "meta": {
+        "language_name": "English"
+    },
+
+    "format": {
+        "date_pattern": "YYYY-MM-DD",
+        "date_hint": "YYYY-MM-DD"
+    },
+
+    "app": {
+        "name": "BeeKeeper"
+    },
+
+    "navigation": {
+        "dashboard": "Dashboard",
+        "apiaries": "Apiaries",
+        "inspections": "Inspections",
+        "reports": "Reports",
+        "settings": "Settings"
+    },
+
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "search": "Search",
+        "today": "Today",
+        "dismiss": "Dismiss",
+        "archive": "Archive",
+        "restore": "Restore",
+        "required_legend": "Required"
+    },
+
+    "errors": {
+        "save_failed": "Could not save your changes. {details}",
+        "load_failed": "Could not load data. {details}"
+    },
+
+    "validation": {
+        "date_required": "Enter a date.",
+        "date_format": "Enter the date as {pattern}.",
+        "date_invalid": "That date does not exist.",
+        "date_future": "This date can't be in the future."
+    },
+
+    "apiary": {
+        "screen_title": "Apiary Management",
+        "screen_subtitle": "Manage your apiaries and the colonies they contain.",
+        "add_button": "+ Add Apiary",
+        "list_heading": "Your apiaries",
+        "list_empty": "No apiaries yet. Add your first apiary to get started.",
+        "welcome_title": "Welcome to BeeKeeper!",
+        "welcome_body": "Create an apiary to start organizing your hives.",
+
+        "form": {
+            "title_add": "Add Apiary",
+            "name": "Name",
+            "location": "Location",
+            "notes": "Notes",
+            "save": "Save Apiary",
+            "name_required": "Apiary name is required."
+        }
+    },
+
+    "hive": {
+        "section_title": "Hives",
+        "count_active": "{count} active",
+        "add_button": "+ Add Hive",
+        "show_archived": "Show archived ({count})",
+        "empty_title": "No hives yet",
+        "empty_body": "Add a hive to this apiary to begin tracking a colony.",
+        "type_not_set": "Hive type not specified",
+        "setup_on": "Hive set up {date}",
+        "setup_not_set": "Set-up date not set",
+        "colony_on": "Colony established {date}",
+        "colony_not_set": "No colony date recorded",
+        "archived_chip": "Archived",
+        "edit": "Edit",
+        "archive": "Archive",
+        "restore": "Restore",
+        "moved_notice": "\"{hive}\" was moved to {apiary}.",
+        "archived_notice": "\"{hive}\" was archived. Turn on \"Show archived\" to see or restore it.",
+        "restored_notice": "\"{hive}\" was restored.",
+
+        "form": {
+            "title_add": "Add Hive",
+            "title_edit": "Edit Hive",
+            "name": "Hive name",
+            "apiary": "Apiary",
+            "apiary_placeholder": "Select an apiary",
+            "type": "Hive type",
+            "type_placeholder": "Select a hive type",
+            "type_other": "Describe the hive type",
+            "type_other_hint": "e.g. Dadant, National, horizontal",
+            "setup_date": "Hive set-up date",
+            "setup_date_help": "When the hive equipment was set up at this apiary.",
+            "colony_date": "Colony established date",
+            "colony_date_help": "When the current colony was established, e.g. package or nuc installed, swarm caught, or split made. Leave blank if the hive has no colony yet.",
+            "notes": "Notes",
+            "save_add": "Save Hive",
+            "save_edit": "Save Changes",
+            "name_required": "Hive name is required.",
+            "apiary_required": "Choose the apiary this hive is located at.",
+            "type_required": "Choose a hive type.",
+            "type_other_required": "Describe the hive type."
+        },
+
+        "archive_dialog": {
+            "title": "Archive Hive",
+            "body": "Archive \"{hive}\"? It will be hidden from active lists. All of its records are kept and it can be restored at any time.",
+            "confirm": "Archive Hive"
+        }
+    },
+
+    "hive_type": {
+        "langstroth_8": "Langstroth (8-frame)",
+        "langstroth_10": "Langstroth (10-frame)",
+        "long_langstroth": "Long Langstroth",
+        "top_bar": "Top Bar",
+        "warre": "Warr\u00e9",
+        "layens": "Layens",
+        "flow": "Flow Hive",
+        "other": "Other"
+    }
+}

@@ -11,16 +11,8 @@ namespace AppConfig
         constexpr int MinimumHeight = 700;
     }
 
-    namespace Layout
-    {
-        constexpr float MainPadding = 20.0f;
-        constexpr float PanelPadding = 16.0f;
-        constexpr float ItemSpacing = 10.0f;
-        constexpr float SectionSpacing = 24.0f;
-        constexpr float ButtonHeight = 38.0f;
-        constexpr float InputHeight = 36.0f;
-        constexpr float CornerRadius = 8.0f;
-    }
+    // Layout values moved to config/LayoutUI.h
+    // (single source of truth for UI dimensions).
 
     namespace FrameEditor
     {

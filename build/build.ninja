@@ -48,186 +48,206 @@ build CMakeFiles/BeeKeeper.dir/src/main.cpp.obj: CXX_COMPILER__BeeKeeper_unscann
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\main.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/config/Theme.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/config/Theme.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\config\Theme.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\config
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/database/DatabaseManager.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\database\DatabaseManager.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\database
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/database/DatabaseMigrations.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\database\DatabaseMigrations.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\database
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/repositories/ApiaryRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/ApiaryRepository.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\repositories\ApiaryRepository.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\repositories
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/repositories/HiveRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/HiveRepository.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\repositories\HiveRepository.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\repositories
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/screens/ApiaryScreen.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/ApiaryScreen.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\ApiaryScreen.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/screens/HiveFormDialog.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/HiveFormDialog.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\HiveFormDialog.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/config/FontManager.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/config/FontManager.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\config\FontManager.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\config
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/localization/Localization.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/localization/Localization.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\localization\Localization.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\localization
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/localization/DateFormat.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/localization/DateFormat.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\localization\DateFormat.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\localization
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/ui/Widgets.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/ui/Widgets.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\ui\Widgets.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\ui
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/ui/Display.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/ui/Display.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\ui\Display.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\ui
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/imgui.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/imgui.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\imgui.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/imgui_draw.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/imgui_draw.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\imgui_draw.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/imgui_tables.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/imgui_tables.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\imgui_tables.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/imgui_widgets.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/imgui_widgets.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\imgui_widgets.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends/imgui_impl_glfw.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\backends\imgui_impl_glfw.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui\backends
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends/imgui_impl_opengl3.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\backends\imgui_impl_opengl3.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui\backends
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/external/imgui/misc/cpp/imgui_stdlib.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp/imgui_stdlib.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\external\imgui\misc\cpp\imgui_stdlib.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\imgui\misc\cpp
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/implot/implot.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot/implot.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\implot\implot.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\implot
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/implot/implot_items.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot/implot_items.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\implot\implot_items.cpp.obj.d
   FLAGS = -std=gnu++17
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\implot
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj: C_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite/sqlite3.c || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\external\sqlite\sqlite3.c.obj.d
-  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\external\sqlite
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
-  TARGET_PDB = BeeKeeper.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 
@@ -238,15 +258,14 @@ build CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj: C_COMPILER__BeeKee
 #############################################
 # Link the executable BeeKeeper.exe
 
-build BeeKeeper.exe: CXX_EXECUTABLE_LINKER__BeeKeeper_ CMakeFiles/BeeKeeper.dir/src/main.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Theme.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/ApiaryRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/HiveRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/ApiaryScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/FontManager.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot_items.cpp.obj CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
+build BeeKeeper.exe: CXX_EXECUTABLE_LINKER__BeeKeeper_ CMakeFiles/BeeKeeper.dir/src/main.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Theme.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/ApiaryRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/HiveRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/ApiaryScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/HiveFormDialog.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/FontManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/Localization.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/DateFormat.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Widgets.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Display.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/misc/cpp/imgui_stdlib.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot_items.cpp.obj CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
   LINK_LIBRARIES = external/glfw/src/libglfw3.a  -lopengl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\BeeKeeper.dir\
   TARGET_FILE = BeeKeeper.exe
   TARGET_IMPLIB = libBeeKeeper.dll.a
-  TARGET_PDB = BeeKeeper.pdb
+  TARGET_PDB = BeeKeeper.exe.dbg
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 
@@ -418,8 +437,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/context.c.obj: C_COMPILER__glfw_unsc
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/init.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/init.c || cmake_object_order_depends_target_glfw
@@ -429,8 +446,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/init.c.obj: C_COMPILER__glfw_unscann
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/input.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/input.c || cmake_object_order_depends_target_glfw
@@ -440,8 +455,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/input.c.obj: C_COMPILER__glfw_unscan
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/monitor.c || cmake_object_order_depends_target_glfw
@@ -451,8 +464,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/monitor.c.obj: C_COMPILER__glfw_unsc
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/platform.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/platform.c || cmake_object_order_depends_target_glfw
@@ -462,8 +473,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/platform.c.obj: C_COMPILER__glfw_uns
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/vulkan.c || cmake_object_order_depends_target_glfw
@@ -473,8 +482,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj: C_COMPILER__glfw_unsca
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/window.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/window.c || cmake_object_order_depends_target_glfw
@@ -484,8 +491,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/window.c.obj: C_COMPILER__glfw_unsca
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/egl_context.c || cmake_object_order_depends_target_glfw
@@ -495,8 +500,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj: C_COMPILER__glfw_
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/osmesa_context.c || cmake_object_order_depends_target_glfw
@@ -506,8 +509,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj: C_COMPILER__gl
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/null_init.c || cmake_object_order_depends_target_glfw
@@ -517,8 +518,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj: C_COMPILER__glfw_un
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/null_monitor.c || cmake_object_order_depends_target_glfw
@@ -528,8 +527,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.obj: C_COMPILER__glfw
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/null_window.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/null_window.c || cmake_object_order_depends_target_glfw
@@ -539,8 +536,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/null_window.c.obj: C_COMPILER__glfw_
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/null_joystick.c || cmake_object_order_depends_target_glfw
@@ -550,8 +545,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.obj: C_COMPILER__glf
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_module.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_module.c || cmake_object_order_depends_target_glfw
@@ -561,8 +554,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_module.c.obj: C_COMPILER__glfw
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_time.c || cmake_object_order_depends_target_glfw
@@ -572,8 +563,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_time.c.obj: C_COMPILER__glfw_u
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_thread.c || cmake_object_order_depends_target_glfw
@@ -583,8 +572,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_thread.c.obj: C_COMPILER__glfw
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_init.c || cmake_object_order_depends_target_glfw
@@ -594,8 +581,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_init.c.obj: C_COMPILER__glfw_u
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_joystick.c || cmake_object_order_depends_target_glfw
@@ -605,8 +590,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_joystick.c.obj: C_COMPILER__gl
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_monitor.c || cmake_object_order_depends_target_glfw
@@ -616,8 +599,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj: C_COMPILER__glf
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/win32_window.c || cmake_object_order_depends_target_glfw
@@ -627,8 +608,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj: C_COMPILER__glfw
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 build external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj: C_COMPILER__glfw_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/wgl_context.c || cmake_object_order_depends_target_glfw
@@ -638,8 +617,6 @@ build external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj: C_COMPILER__glfw_
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   OBJECT_FILE_DIR = external\glfw\src\CMakeFiles\glfw.dir
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 
@@ -654,9 +631,8 @@ build external/glfw/src/libglfw3.a: C_STATIC_LIBRARY_LINKER__glfw_ external/glfw
   OBJECT_DIR = external\glfw\src\CMakeFiles\glfw.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = external\glfw\src\CMakeFiles\glfw.dir\glfw.pdb
   TARGET_FILE = external\glfw\src\libglfw3.a
-  TARGET_PDB = external\glfw\src\libglfw3.pdb
+  TARGET_PDB = glfw3.a.dbg
   TARGET_SUPPORT_DIR = external\glfw\src\CMakeFiles\glfw.dir
 
 
@@ -782,14 +758,14 @@ build external/glfw/src/all: phony external/glfw/src/libglfw3.a
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/cmake_install.cmake C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/cmake_install.cmake C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src/cmake_install.cmake: RERUN_CMAKE | C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3.pc.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/CMakeLists.txt C$:/msys64/ucrt64/share/cmake/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCCompilerABI.c C$:/msys64/ucrt64/share/cmake/Modules/CMakeCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompilerABI.cpp C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCompilerIdDetection.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDependentOption.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerId.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeFindBinUtils.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeGenericSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeInitializeConfigs.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeLanguageInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeNinjaFindMake.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakePackageConfigHelpers.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystem.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCompilerCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestRCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckCSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckIncludeFile.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckLibraryExists.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PellesC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindOpenGL.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindThreads.cmake C$:/msys64/ucrt64/share/cmake/Modules/GNUInstallDirs.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeInspectCLinker.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/FeatureTesting.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Initialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-windres.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/WindowsPaths.cmake C$:/msys64/ucrt64/share/cmake/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.4.3/CMakeCCompiler.cmake CMakeFiles/4.4.3/CMakeCXXCompiler.cmake CMakeFiles/4.4.3/CMakeRCCompiler.cmake CMakeFiles/4.4.3/CMakeSystem.cmake
+build build.ninja C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/cmake_install.cmake C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/cmake_install.cmake C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/external/glfw/src/cmake_install.cmake: RERUN_CMAKE | C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3.pc.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/CMakeLists.txt C$:/msys64/ucrt64/share/cmake/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDependentOption.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeGenericSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeInitializeConfigs.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeLanguageInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakePackageConfigHelpers.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckCSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckIncludeFile.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckLibraryExists.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindOpenGL.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindThreads.cmake C$:/msys64/ucrt64/share/cmake/Modules/GNUInstallDirs.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Initialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-windres.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/WindowsPaths.cmake C$:/msys64/ucrt64/share/cmake/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.4.3/CMakeCCompiler.cmake CMakeFiles/4.4.3/CMakeCXXCompiler.cmake CMakeFiles/4.4.3/CMakeRCCompiler.cmake CMakeFiles/4.4.3/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3.pc.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/CMakeLists.txt C$:/msys64/ucrt64/share/cmake/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCCompilerABI.c C$:/msys64/ucrt64/share/cmake/Modules/CMakeCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompilerABI.cpp C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCompilerIdDetection.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDependentOption.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerId.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineRCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeFindBinUtils.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeGenericSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeInitializeConfigs.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeLanguageInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeNinjaFindMake.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakePackageConfigHelpers.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCCompiler.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystem.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestCompilerCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeTestRCCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckCSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckIncludeFile.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckLibraryExists.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Diab-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX-CXXImportStd.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/LCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/PellesC-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Renesas-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindOpenGL.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindThreads.cmake C$:/msys64/ucrt64/share/cmake/Modules/GNUInstallDirs.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeInspectCLinker.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/FeatureTesting.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Determine-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Initialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-windres.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/WindowsPaths.cmake C$:/msys64/ucrt64/share/cmake/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.4.3/CMakeCCompiler.cmake CMakeFiles/4.4.3/CMakeCXXCompiler.cmake CMakeFiles/4.4.3/CMakeRCCompiler.cmake CMakeFiles/4.4.3/CMakeSystem.cmake: phony
+build C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMakeLists.txt C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/cmake_uninstall.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3.pc.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/CMake/glfw3Config.cmake.in C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/src/CMakeLists.txt C$:/msys64/ucrt64/share/cmake/Modules/BasicConfigVersion-SameMajorVersion.cmake.in C$:/msys64/ucrt64/share/cmake/Modules/CMakeCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeCommonLanguageInclude.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeDependentOption.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeGenericSystem.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeInitializeConfigs.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeLanguageInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakePackageConfigHelpers.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeRCInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckCSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckIncludeFile.cmake C$:/msys64/ucrt64/share/cmake/Modules/CheckLibraryExists.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Compiler/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindOpenGL.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageHandleStandardArgs.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindPackageMessage.cmake C$:/msys64/ucrt64/share/cmake/Modules/FindThreads.cmake C$:/msys64/ucrt64/share/cmake/Modules/GNUInstallDirs.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckCommon.cmake C$:/msys64/ucrt64/share/cmake/Modules/Internal/CheckSourceCompiles.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Linker/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-C.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU-CXX.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-GNU.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-Initialize.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows-windres.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/Windows.cmake C$:/msys64/ucrt64/share/cmake/Modules/Platform/WindowsPaths.cmake C$:/msys64/ucrt64/share/cmake/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/4.4.3/CMakeCCompiler.cmake CMakeFiles/4.4.3/CMakeCXXCompiler.cmake CMakeFiles/4.4.3/CMakeRCCompiler.cmake CMakeFiles/4.4.3/CMakeSystem.cmake: phony
 
 
 #############################################

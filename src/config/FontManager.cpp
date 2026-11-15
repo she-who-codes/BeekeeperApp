@@ -1,79 +1,74 @@
 
 #include "FontManager.h"
+#include "LayoutUI.h"
 
 #include <iostream>
 
-namespace Fonts
+namespace
 {
-    ImFont* Small = nullptr;
-    ImFont* Body = nullptr;
-    ImFont* Heading = nullptr;
-    ImFont* Bold = nullptr;
+    ImFont* g_regular  = nullptr;
+    ImFont* g_medium   = nullptr;
+    ImFont* g_semiBold = nullptr;
+    ImFont* g_bold     = nullptr;
 
-    bool Load(float dpiScale)
+    ImFont* LoadFace(const char* path)
     {
-        ImGuiIO& io = ImGui::GetIO();
-
-        if (dpiScale <= 0.0f)
-            dpiScale = 1.0f;
-
-        const float smallSize = 13.0f * dpiScale;
-        const float bodySize = 16.0f * dpiScale;
-        const float headingSize = 22.0f * dpiScale;
-        const float boldSize = 16.0f * dpiScale;
-
         ImFontConfig config;
         config.OversampleH = 2;
         config.OversampleV = 2;
         config.PixelSnapH = false;
 
-   Small = io.Fonts->AddFontFromFileTTF(
-    "resources/fonts/Inter_18pt-Regular.ttf",
-    smallSize,
-    &config
-);
+        return ImGui::GetIO().Fonts->AddFontFromFileTTF(
+            path,
+            UI::Type::Body,
+            &config
+        );
+    }
+}
 
-Body = io.Fonts->AddFontFromFileTTF(
-    "resources/fonts/Inter_18pt-Regular.ttf",
-    bodySize,
-    &config
-);
+namespace Fonts
+{
+    ImFont* Get(Face face)
+    {
+        ImFont* font = nullptr;
 
-Heading = io.Fonts->AddFontFromFileTTF(
-    "resources/fonts/Inter_18pt-SemiBold.ttf",
-    headingSize,
-    &config
-);
+        switch (face)
+        {
+            case Face::Regular:  font = g_regular;  break;
+            case Face::Medium:   font = g_medium;   break;
+            case Face::SemiBold: font = g_semiBold; break;
+            case Face::Bold:     font = g_bold;     break;
+        }
 
-Bold = io.Fonts->AddFontFromFileTTF(
-    "resources/fonts/Inter_18pt-Bold.ttf",
-    boldSize,
-    &config
-);
+        return font ? font : g_regular;
+    }
 
-        // Fall back to ImGui's default font if
-        // the bundled font files are unavailable.
-        if (!Body)
+    bool Load()
+    {
+        ImGuiIO& io = ImGui::GetIO();
+
+        // Regular is loaded first so it becomes Fonts[0].
+        g_regular  = LoadFace("resources/fonts/Inter_18pt-Regular.ttf");
+        g_medium   = LoadFace("resources/fonts/Inter_18pt-Medium.ttf");
+        g_semiBold = LoadFace("resources/fonts/Inter_18pt-SemiBold.ttf");
+        g_bold     = LoadFace("resources/fonts/Inter_18pt-Bold.ttf");
+
+        const bool loaded = g_regular != nullptr;
+
+        // Fall back to ImGui's default font if the
+        // bundled font files are unavailable.
+        if (!loaded)
         {
             std::cerr
                 << "Warning: Could not load Inter fonts. "
                 << "Using default ImGui font."
                 << std::endl;
 
-            Body = io.Fonts->AddFontDefault();
+            g_regular = io.Fonts->AddFontDefault();
         }
 
-        if (!Small)
-            Small = Body;
+        io.FontDefault = g_regular;
 
-        if (!Heading)
-            Heading = Body;
-
-        if (!Bold)
-            Bold = Body;
-
-        io.FontDefault = Body;
-
-        return Body != nullptr;
+        return loaded;
     }
 }

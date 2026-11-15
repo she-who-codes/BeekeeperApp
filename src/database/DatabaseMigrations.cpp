@@ -148,6 +148,59 @@ namespace
                 ON frame_observations(frame_id);
 
             )SQL"
+        },
+
+        {
+            2,
+            "Hive management: type keys, custom type, set-up and colony dates, archiving",
+
+            R"SQL(
+
+            -- The single "installation date" was ambiguous. It is
+            -- split into two dates:
+            --   setup_date              : hive equipment set up at the apiary
+            --   colony_established_date : current colony established
+            -- Existing values are kept as the set-up date.
+            ALTER TABLE hives RENAME COLUMN installation_date TO setup_date;
+
+            ALTER TABLE hives ADD COLUMN colony_established_date TEXT;
+
+            UPDATE hives
+               SET setup_date = NULL
+             WHERE trim(setup_date) = '';
+
+            -- Free-text description used when hive_type = 'other'.
+            ALTER TABLE hives ADD COLUMN hive_type_other TEXT;
+
+            -- UTC timestamp of when a hive was archived.
+            ALTER TABLE hives ADD COLUMN archived_at TEXT;
+
+            -- hive_type now stores a stable, locale-independent
+            -- key. Convert the legacy free-text values.
+            UPDATE hives
+               SET hive_type = 'langstroth_10'
+             WHERE lower(trim(hive_type)) = 'langstroth';
+
+            -- Preserve any other legacy text as an 'other' type
+            -- so no user data is lost.
+            UPDATE hives
+               SET hive_type_other = trim(hive_type),
+                   hive_type = 'other'
+             WHERE hive_type IS NOT NULL
+               AND trim(hive_type) <> ''
+               AND hive_type NOT IN
+                   ('langstroth_8', 'langstroth_10', 'long_langstroth',
+                    'top_bar', 'warre', 'layens', 'flow', 'other');
+
+            UPDATE hives
+               SET archived_at = updated_at
+             WHERE is_active = 0
+               AND archived_at IS NULL;
+
+            CREATE INDEX idx_hives_apiary_active
+                ON hives(apiary_id, is_active);
+
+            )SQL"
         }
     };
 }

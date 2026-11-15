@@ -1,13 +1,44 @@
 
 #include "ApiaryScreen.h"
 
-#include "config/FontManager.h"
+#include "config/LayoutUI.h"
 #include "config/Theme.h"
-#include "config/AppConfig.h"
+#include "localization/Localization.h"
+#include "ui/Display.h"
+#include "ui/Widgets.h"
 
 #include "imgui.h"
+#include "imgui_stdlib.h"
 
 #include <algorithm>
+#include <cmath>
+
+namespace
+{
+    constexpr const char* ApiaryFormPopupId = "###ApiaryFormDialog";
+    constexpr const char* ArchivePopupId = "###ArchiveHiveDialog";
+
+    std::string Trim(const std::string& text)
+    {
+        const size_t first = text.find_first_not_of(" \t\r\n");
+
+        if (first == std::string::npos)
+            return "";
+
+        const size_t last = text.find_last_not_of(" \t\r\n");
+        return text.substr(first, last - first + 1);
+    }
+
+    // Single-line preview of multi-line notes.
+    std::string NotesPreview(const std::string& notes)
+    {
+        std::string flat = notes;
+        std::replace(flat.begin(), flat.end(), '\n', ' ');
+        std::replace(flat.begin(), flat.end(), '\r', ' ');
+
+        return UI::Ellipsize(Trim(flat), UI::Card::NotesPreviewChars);
+    }
+}
 
 // --------------------------------------------------
 // Constructor
@@ -18,7 +49,8 @@ ApiaryScreen::ApiaryScreen(
     HiveRepository& hiveRepository
 )
     : m_apiaryRepository(apiaryRepository),
-      m_hiveRepository(hiveRepository)
+      m_hiveRepository(hiveRepository),
+      m_hiveForm(hiveRepository)
 {
     LoadApiaries();
 }
@@ -31,23 +63,15 @@ void ApiaryScreen::LoadApiaries()
 {
     if (!m_apiaryRepository.GetAll(m_apiaries))
     {
-        m_errorMessage = m_apiaryRepository.GetLastError();
+        m_pageError = Localization::Format(
+            "errors.load_failed",
+            { { "details", m_apiaryRepository.GetLastError() } }
+        );
         return;
     }
 
     // Preserve the current selection if possible.
-    bool selectionExists = false;
-
-    for (const Apiary& apiary : m_apiaries)
-    {
-        if (apiary.id == m_selectedApiaryId)
-        {
-            selectionExists = true;
-            break;
-        }
-    }
-
-    if (!selectionExists)
+    if (!FindApiary(m_selectedApiaryId))
     {
         m_selectedApiaryId =
             m_apiaries.empty() ? 0 : m_apiaries.front().id;
@@ -65,10 +89,47 @@ void ApiaryScreen::LoadHives()
 
     if (!m_hiveRepository.GetByApiary(
         m_selectedApiaryId,
-        m_hives))
+        m_hives,
+        HiveRepository::ArchiveFilter::All))
     {
-        m_errorMessage = m_hiveRepository.GetLastError();
+        m_pageError = Localization::Format(
+            "errors.load_failed",
+            { { "details", m_hiveRepository.GetLastError() } }
+        );
     }
+}
+
+const Apiary* ApiaryScreen::FindApiary(int id) const
+{
+    for (const Apiary& apiary : m_apiaries)
+    {
+        if (apiary.id == id)
+            return &apiary;
+    }
+
+    return nullptr;
+}
+
+void ApiaryScreen::SetArchived(const Hive& hive, bool archived)
+{
+    m_pageError.clear();
+    m_pageNotice.clear();
+
+    if (!m_hiveRepository.SetArchived(hive.id, archived))
+    {
+        m_pageError = Localization::Format(
+            "errors.save_failed",
+            { { "details", m_hiveRepository.GetLastError() } }
+        );
+        return;
+    }
+
+    m_pageNotice = Localization::Format(
+        archived ? "hive.archived_notice" : "hive.restored_notice",
+        { { "hive", hive.name } }
+    );
+
+    LoadHives();
 }
 
 // --------------------------------------------------
@@ -77,157 +138,153 @@ void ApiaryScreen::LoadHives()
 
 void ApiaryScreen::Render()
 {
-    ImGuiIO& io = ImGui::GetIO();
+    const ImGuiIO& io = ImGui::GetIO();
 
-    // Fill the available application window.
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    // Fill the application window.
+    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
     ImGui::SetNextWindowSize(io.DisplaySize);
+
+    // Page side padding scales with window width.
+    const float pagePaddingX = std::clamp(
+        io.DisplaySize.x * UI::Spacing::PageRatio,
+        UI::Px(UI::Spacing::PageMin),
+        UI::Px(UI::Spacing::PageMax)
+    );
 
     ImGui::PushStyleVar(
         ImGuiStyleVar_WindowPadding,
-        ImVec2(120, AppConfig::Layout::MainPadding)
+        ImVec2(pagePaddingX, UI::Px(UI::Spacing::PageTop))
     );
 
     ImGui::Begin(
-        "Apiary Management",
+        "###ApiaryManagement",
         nullptr,
         ImGuiWindowFlags_NoDecoration |
         ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoSavedSettings
+        ImGuiWindowFlags_NoSavedSettings |
+        ImGuiWindowFlags_NoBringToFrontOnFocus
     );
 
-    // ----------------------------------------------
-    // Page Header
-    // ----------------------------------------------
+    // Pop straight away: the page padding must not leak
+    // into the child panes.
+    ImGui::PopStyleVar();
 
-    ImGui::PushFont(Fonts::Heading);
-    ImGui::Text("Apiary Management");
-    ImGui::PopFont();
+    DrawHeader();
+    DrawBanners();
 
-    ImGui::Spacing();
-
-    ImGui::PushFont(Fonts::Small);
-    ImGui::TextColored(
-        Theme::Colors::TextSecondary,
-        "Manage your apiaries and the colonies they contain."
-    );
-    ImGui::PopFont();
-
-    ImGui::Spacing();
+    ImGui::Dummy(ImVec2(0.0f, UI::Px(UI::Spacing::Section) * 0.25f));
 
     // ----------------------------------------------
-    // Error Message
+    // Left pane: apiaries (user-resizable)
     // ----------------------------------------------
 
-    if (!m_errorMessage.empty())
-    {
-        ImGui::PushStyleColor(
-            ImGuiCol_Text,
-            Theme::Colors::Danger
-        );
+    const float available = ImGui::GetContentRegionAvail().x;
+    const bool compact = available < UI::Px(UI::Breakpoint::Compact);
 
-        ImGui::TextWrapped(
-            "%s",
-            m_errorMessage.c_str()
-        );
-
-        ImGui::PopStyleColor();
-        ImGui::Spacing();
-    }
-
-    // ----------------------------------------------
-    // Toolbar
-    // ----------------------------------------------
-
-    if (ImGui::Button(
-        "+ Add Apiary",
-        ImVec2(150, AppConfig::Layout::ButtonHeight)
-    ))
-    {
-        m_apiaryName[0] = '\0';
-        m_apiaryLocation[0] = '\0';
-        m_apiaryNotes[0] = '\0';
-
-        m_errorMessage.clear();
-
-        ImGui::OpenPopup("Add Apiary");
-    }
-
-    ImGui::Spacing();
-    ImGui::Separator();
-    ImGui::Spacing();
-
-    // ----------------------------------------------
-    // Main Content Layout
-    // ----------------------------------------------
-
-    ImGui::BeginChild(
-        "ApiaryLayout",
-        ImVec2(0, 0),
-        ImGuiChildFlags_None
+    const float sidebarMin = UI::Em(UI::Pane::SidebarMinEm);
+    const float sidebarMax = std::max(
+        sidebarMin,
+        std::min(
+            UI::Em(UI::Pane::SidebarMaxEm),
+            available * (compact ? UI::Pane::SidebarMaxRatioCompact : UI::Pane::SidebarMaxRatio)
+        )
     );
 
-    ImVec2 available = ImGui::GetContentRegionAvail();
-
-    // Responsive left panel.
-    float leftWidth = std::clamp(
-        available.x * 0.30f,
-        220.0f,
-        320.0f
+    ImGui::SetNextWindowSizeConstraints(
+        ImVec2(sidebarMin, -1.0f),
+        ImVec2(sidebarMax, -1.0f)
     );
 
-    // Give the content panel more room on smaller windows.
-    if (available.x < 850.0f)
-    {
-        leftWidth = std::clamp(
-            available.x * 0.28f,
-            180.0f,
-            240.0f
-        );
-    }
-
-    // ----------------------------------------------
-    // Left Panel: Apiary List
-    // ----------------------------------------------
-
-    ImGui::BeginChild(
-        "ApiaryList",
-        ImVec2(leftWidth, 0),
-        ImGuiChildFlags_Borders
+    UI::BeginScrollPane(
+        "ApiarySidebar",
+        ImVec2(std::min(UI::Em(UI::Pane::SidebarDefaultEm), sidebarMax), 0.0f),
+        UI::Em(UI::Pane::SidebarContentMinEm),
+        ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX
     );
 
     DrawApiaryList();
 
-    ImGui::EndChild();
+    UI::EndScrollPane();
 
-    ImGui::SameLine();
+    ImGui::SameLine(0.0f, UI::Px(UI::Spacing::Gutter));
 
     // ----------------------------------------------
-    // Right Panel: Selected Apiary
+    // Right pane: selected apiary and its hives
     // ----------------------------------------------
 
-    ImGui::BeginChild(
+    UI::BeginScrollPane(
         "HivePanel",
-        ImVec2(0, 0),
-        ImGuiChildFlags_Borders
+        ImVec2(0.0f, 0.0f),
+        UI::Em(UI::Pane::ContentMinEm)
     );
 
     DrawHivePanel();
 
-    ImGui::EndChild();
-
-    ImGui::EndChild();
+    UI::EndScrollPane();
 
     // ----------------------------------------------
     // Dialogs
     // ----------------------------------------------
 
-    DrawAddApiaryPopup();
-    DrawAddHivePopup();
+    DrawApiaryFormDialog();
+    DrawHiveFormDialog();
+    DrawArchiveConfirmDialog();
 
     ImGui::End();
+}
 
-    ImGui::PopStyleVar();
+// --------------------------------------------------
+// Header
+// --------------------------------------------------
+
+void ApiaryScreen::DrawHeader()
+{
+    ImGui::BeginGroup();
+
+    UI::TextStyled(UI::Text::Display, Theme::Colors::TextPrimary, Tr("apiary.screen_title"));
+    UI::TextStyled(UI::Text::Caption, Theme::Colors::TextSecondary, Tr("apiary.screen_subtitle"));
+
+    ImGui::EndGroup();
+
+    // Primary action, right-aligned when it fits.
+    const std::string addLabel = Localization::Label("apiary.add_button", "AddApiary");
+    const float addWidth = UI::ButtonWidth(addLabel.c_str());
+
+    UI::SameLineOrWrap(addWidth);
+
+    const float free = ImGui::GetContentRegionAvail().x - addWidth;
+
+    if (free > 0.0f)
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + free);
+
+    if (UI::Button(addLabel.c_str(), UI::ButtonKind::Primary))
+    {
+        m_apiaryName.clear();
+        m_apiaryLocation.clear();
+        m_apiaryNotes.clear();
+        m_apiaryFormError.clear();
+
+        m_openApiaryForm = true;
+    }
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+}
+
+void ApiaryScreen::DrawBanners()
+{
+    if (!m_pageError.empty()
+        && UI::Banner("ErrorBanner", m_pageError, UI::BannerKind::Error, Tr("common.dismiss")))
+    {
+        m_pageError.clear();
+    }
+
+    if (!m_pageNotice.empty()
+        && UI::Banner("NoticeBanner", m_pageNotice, UI::BannerKind::Success, Tr("common.dismiss")))
+    {
+        m_pageNotice.clear();
+    }
 }
 
 // --------------------------------------------------
@@ -236,66 +293,88 @@ void ApiaryScreen::Render()
 
 void ApiaryScreen::DrawApiaryList()
 {
-    ImGui::PushFont(Fonts::Bold);
-    ImGui::Text("YOUR APIARIES");
-    ImGui::PopFont();
+    UI::TextStyled(UI::Text::Label, Theme::Colors::TextSecondary, Tr("apiary.list_heading"));
 
-    ImGui::Spacing();
     ImGui::Separator();
     ImGui::Spacing();
 
     if (m_apiaries.empty())
     {
-        ImGui::PushFont(Fonts::Small);
-
-        ImGui::TextWrapped(
-            "No apiaries yet. Add your first apiary to get started."
-        );
-
-        ImGui::PopFont();
+        UI::TextStyledWrapped(UI::Text::Caption, Theme::Colors::TextSecondary, Tr("apiary.list_empty"));
         return;
     }
+
+    const float padY = UI::Em(UI::List::RowPaddingYEm);
+    const float padX = ImGui::GetStyle().FramePadding.x;
+    const float nameHeight = UI::LineHeight(UI::Text::Body);
+    const float locationHeight = UI::LineHeight(UI::Text::Caption);
+
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
 
     for (const Apiary& apiary : m_apiaries)
     {
         ImGui::PushID(apiary.id);
 
-        const bool selected =
-            apiary.id == m_selectedApiaryId;
+        const bool selected = apiary.id == m_selectedApiaryId;
+        const bool hasLocation = !apiary.location.empty();
 
-        // Selected apiary.
-        if (ImGui::Selectable(
+        const float rowHeight = padY * 2.0f + nameHeight
+            + (hasLocation ? locationHeight + UI::Px(2.0f) : 0.0f);
+
+        const ImVec2 rowMin = ImGui::GetCursorScreenPos();
+
+        // The selectable is the click/keyboard target;
+        // the two text lines are drawn on top of it.
+        if (ImGui::Selectable("##Apiary", selected, ImGuiSelectableFlags_None, ImVec2(0.0f, rowHeight)))
+        {
+            if (m_selectedApiaryId != apiary.id)
+            {
+                m_selectedApiaryId = apiary.id;
+                m_pageError.clear();
+                m_pageNotice.clear();
+
+                LoadHives();
+            }
+        }
+
+        const ImVec2 rowMax = ImGui::GetItemRectMax();
+        const ImVec4 clip(rowMin.x, rowMin.y, rowMax.x - padX * 0.5f, rowMax.y);
+
+        drawList->AddText(
+            Fonts::Get(UI::Text::Body.face),
+            nameHeight,
+            ImVec2(rowMin.x + padX, rowMin.y + padY),
+            ImGui::GetColorU32(Theme::Colors::TextPrimary),
             apiary.name.c_str(),
-            selected,
-            ImGuiSelectableFlags_None,
-            ImVec2(0, 42)
-        ))
+            nullptr,
+            0.0f,
+            &clip
+        );
+
+        if (hasLocation)
         {
-            m_selectedApiaryId = apiary.id;
-            m_errorMessage.clear();
-
-            LoadHives();
-        }
-
-        // Location subtitle.
-        if (!apiary.location.empty())
-        {
-            ImGui::Indent(10.0f);
-
-            ImGui::PushFont(Fonts::Small);
-
-            ImGui::TextColored(
-                Theme::Colors::TextSecondary,
-                "%s",
-                apiary.location.c_str()
+            drawList->AddText(
+                Fonts::Get(UI::Text::Caption.face),
+                locationHeight,
+                ImVec2(rowMin.x + padX, rowMin.y + padY + nameHeight + UI::Px(2.0f)),
+                ImGui::GetColorU32(Theme::Colors::TextSecondary),
+                apiary.location.c_str(),
+                nullptr,
+                0.0f,
+                &clip
             );
-
-            ImGui::PopFont();
-
-            ImGui::Unindent(10.0f);
         }
 
-        ImGui::Spacing();
+        // Full text on hover in case it was clipped.
+        if (ImGui::BeginItemTooltip())
+        {
+            ImGui::TextUnformatted(apiary.name.c_str());
+
+            if (hasLocation)
+                UI::TextStyled(UI::Text::Caption, Theme::Colors::TextSecondary, apiary.location.c_str());
+
+            ImGui::EndTooltip();
+        }
 
         ImGui::PopID();
     }
@@ -307,413 +386,445 @@ void ApiaryScreen::DrawApiaryList()
 
 void ApiaryScreen::DrawHivePanel()
 {
-    // No apiary selected.
-    if (m_selectedApiaryId == 0)
-    {
-        ImGui::PushFont(Fonts::Heading);
-        ImGui::Text("Welcome to BeeKeeper!");
-        ImGui::PopFont();
+    const Apiary* apiary = FindApiary(m_selectedApiaryId);
 
+    if (!apiary)
+    {
+        UI::TextStyled(UI::Text::Heading, Theme::Colors::TextPrimary, Tr("apiary.welcome_title"));
         ImGui::Spacing();
-
-        ImGui::TextWrapped(
-            "Create an apiary to start organizing your hives."
-        );
-
+        UI::TextStyledWrapped(UI::Text::Body, Theme::Colors::TextSecondary, Tr("apiary.welcome_body"));
         return;
     }
 
-    // Find selected apiary.
-    const Apiary* selectedApiary = nullptr;
-
-    for (const Apiary& apiary : m_apiaries)
-    {
-        if (apiary.id == m_selectedApiaryId)
-        {
-            selectedApiary = &apiary;
-            break;
-        }
-    }
-
-    if (!selectedApiary)
-        return;
-
     // ----------------------------------------------
-    // Apiary Heading
+    // Apiary heading
     // ----------------------------------------------
 
-    ImGui::PushFont(Fonts::Heading);
+    UI::TextStyledWrapped(UI::Text::Heading, Theme::Colors::TextPrimary, apiary->name.c_str());
 
-    ImGui::Text(
-        "%s",
-        selectedApiary->name.c_str()
-    );
-
-    ImGui::PopFont();
-
-    if (!selectedApiary->location.empty())
-    {
-        ImGui::PushFont(Fonts::Small);
-
-        ImGui::TextColored(
-            Theme::Colors::TextSecondary,
-            "%s",
-            selectedApiary->location.c_str()
-        );
-
-        ImGui::PopFont();
-    }
+    if (!apiary->location.empty())
+        UI::TextStyledWrapped(UI::Text::Caption, Theme::Colors::TextSecondary, apiary->location.c_str());
 
     ImGui::Spacing();
     ImGui::Separator();
     ImGui::Spacing();
 
     // ----------------------------------------------
-    // Hive Toolbar
+    // Hive toolbar (wraps on narrow panes / long text)
     // ----------------------------------------------
 
-    ImGui::PushFont(Fonts::Bold);
+    const int activeCount = static_cast<int>(std::count_if(
+        m_hives.begin(), m_hives.end(),
+        [](const Hive& hive) { return hive.isActive; }
+    ));
 
-    ImGui::Text(
-        "Hives (%zu)",
-        m_hives.size()
+    const int archivedCount = static_cast<int>(m_hives.size()) - activeCount;
+
+    ImGui::BeginGroup();
+    UI::TextStyled(UI::Text::Title, Theme::Colors::TextPrimary, Tr("hive.section_title"));
+
+    const std::string countText = Localization::Format(
+        "hive.count_active",
+        { { "count", std::to_string(activeCount) } }
     );
 
-    ImGui::PopFont();
+    UI::TextStyled(UI::Text::Caption, Theme::Colors::TextSecondary, countText.c_str());
+    ImGui::EndGroup();
 
-    ImGui::SameLine();
+    const std::string addLabel = Localization::Label("hive.add_button", "AddHive");
 
-    if (ImGui::Button(
-        "+ Add Hive",
-        ImVec2(120, AppConfig::Layout::ButtonHeight)
-    ))
+    UI::SameLineOrWrap(UI::ButtonWidth(addLabel.c_str()));
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + UI::Px(UI::Spacing::Gutter));
+
+    if (UI::Button(addLabel.c_str(), UI::ButtonKind::Primary))
     {
-        m_hiveName[0] = '\0';
-        m_hiveType[0] = '\0';
-        m_hiveNotes[0] = '\0';
+        m_pageNotice.clear();
+        m_hiveForm.OpenForCreate(m_selectedApiaryId);
+    }
 
-        m_errorMessage.clear();
+    const std::string archivedLabel = Localization::WithId(
+        Localization::Format("hive.show_archived", { { "count", std::to_string(archivedCount) } }),
+        "ShowArchived"
+    );
 
-        ImGui::OpenPopup("Add Hive");
+    UI::SameLineOrWrap(
+        ImGui::CalcTextSize(archivedLabel.c_str(), nullptr, true).x + ImGui::GetFrameHeight() * 2.0f
+    );
+
+    ImGui::SetCursorPosY(
+        ImGui::GetCursorPosY()
+        + (std::max(UI::Px(UI::Size::ButtonHeight), ImGui::GetFrameHeight()) - ImGui::GetFrameHeight()) * 0.5f
+    );
+
+    ImGui::BeginDisabled(archivedCount == 0);
+    ImGui::Checkbox(archivedLabel.c_str(), &m_showArchived);
+    ImGui::EndDisabled();
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // ----------------------------------------------
+    // Empty state
+    // ----------------------------------------------
+
+    if (activeCount == 0 && !(m_showArchived && archivedCount > 0))
+    {
+        ImGui::Spacing();
+        UI::TextStyled(UI::Text::Heading, Theme::Colors::TextPrimary, Tr("hive.empty_title"));
+        ImGui::Spacing();
+        UI::TextStyledWrapped(UI::Text::Body, Theme::Colors::TextSecondary, Tr("hive.empty_body"));
+        return;
+    }
+
+    DrawHiveGrid();
+}
+
+void ApiaryScreen::DrawHiveGrid()
+{
+    // Responsive columns: as many cards as fit at their
+    // minimum width, up to the configured maximum.
+    const float gap = UI::Px(UI::Spacing::Gutter);
+    const float cardMinWidth = UI::Em(UI::Card::HiveMinWidthEm);
+    const float available = ImGui::GetContentRegionAvail().x;
+
+    const int columns = std::clamp(
+        static_cast<int>(std::floor((available + gap) / (cardMinWidth + gap))),
+        1,
+        UI::Card::HiveMaxColumns
+    );
+
+    ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(gap * 0.5f, gap * 0.5f));
+
+    std::vector<const Hive*> visible;
+
+    for (const Hive& hive : m_hives)
+    {
+        if (hive.isActive || m_showArchived)
+            visible.push_back(&hive);
+    }
+
+    if (ImGui::BeginTable("HiveGrid", columns, ImGuiTableFlags_SizingStretchSame))
+    {
+        for (size_t rowStart = 0; rowStart < visible.size(); rowStart += columns)
+        {
+            const size_t rowEnd = std::min(visible.size(), rowStart + columns);
+
+            // Tallest card in this row (previous frame), so
+            // every card in the row ends at the same line.
+            float rowHeight = 0.0f;
+
+            for (size_t i = rowStart; i < rowEnd; ++i)
+            {
+                const auto it = m_cardHeights.find(visible[i]->id);
+
+                if (it != m_cardHeights.end())
+                    rowHeight = std::max(rowHeight, it->second);
+            }
+
+            for (size_t i = rowStart; i < rowEnd; ++i)
+            {
+                ImGui::TableNextColumn();
+                DrawHiveCard(*visible[i], rowHeight);
+            }
+        }
+
+        ImGui::EndTable();
+    }
+
+    ImGui::PopStyleVar();
+}
+
+void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
+{
+    using namespace Theme::Colors;
+
+    ImGui::PushID(hive.id);
+
+    const bool archived = !hive.isActive;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, UI::Px(UI::Spacing::Panel, UI::Spacing::Panel));
+
+    if (archived)
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, Background);
+
+    ImGui::BeginChild(
+        "HiveCard",
+        ImVec2(0.0f, 0.0f),
+        ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY
+    );
+
+    // Name (+ archived chip)
+    UI::TextStyledWrapped(UI::Text::Title, archived ? TextSecondary : TextPrimary, hive.name.c_str());
+
+    if (archived)
+        UI::StatusChip(Tr("hive.archived_chip"), Warning);
+
+    // Type
+    const std::string type = Display::HiveType(hive);
+    UI::TextStyledWrapped(UI::Text::Caption, TextSecondary, type.c_str());
+
+    // Hive set-up date and colony established date
+    const std::string setupDate = Display::Date(hive.setupDate);
+    const std::string colonyDate = Display::Date(hive.colonyEstablishedDate);
+
+    const std::string setupText = setupDate.empty()
+        ? std::string(Tr("hive.setup_not_set"))
+        : Localization::Format("hive.setup_on", { { "date", setupDate } });
+
+    const std::string colonyText = colonyDate.empty()
+        ? std::string(Tr("hive.colony_not_set"))
+        : Localization::Format("hive.colony_on", { { "date", colonyDate } });
+
+    UI::TextStyledWrapped(UI::Text::Caption, TextMuted, setupText.c_str());
+    UI::TextStyledWrapped(UI::Text::Caption, TextMuted, colonyText.c_str());
+
+    // Notes preview
+    if (!hive.notes.empty())
+    {
+        ImGui::Spacing();
+        const std::string preview = NotesPreview(hive.notes);
+        UI::TextStyledWrapped(UI::Text::Caption, TextSecondary, preview.c_str());
     }
 
     ImGui::Spacing();
 
-    // ----------------------------------------------
-    // Empty State
-    // ----------------------------------------------
+    // Push the actions down so they line up with the
+    // tallest card in the row.
+    const auto measured = m_cardHeights.find(hive.id);
 
-    if (m_hives.empty())
+    const float spacer = measured != m_cardHeights.end()
+        ? std::max(0.0f, rowHeight - measured->second)
+        : 0.0f;
+
+    if (spacer > 0.0f)
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + spacer);
+
+    // Actions
+    if (archived)
     {
-        ImGui::Spacing();
+        const std::string restoreLabel = Localization::Label("hive.restore", "Restore");
 
-        ImGui::PushFont(Fonts::Heading);
-        ImGui::Text("No hives yet");
-        ImGui::PopFont();
-
-        ImGui::Spacing();
-
-        ImGui::PushFont(Fonts::Small);
-
-        ImGui::TextColored(
-            Theme::Colors::TextSecondary,
-            "Add a hive to this apiary to begin tracking a colony."
-        );
-
-        ImGui::PopFont();
-
-        return;
+        if (UI::Button(restoreLabel.c_str(), UI::ButtonKind::Secondary, -1.0f))
+            SetArchived(hive, false);
     }
-
-    // ----------------------------------------------
-    // Hive Cards
-    // ----------------------------------------------
-
-    for (const Hive& hive : m_hives)
+    else
     {
-        ImGui::PushID(hive.id);
+        const std::string editLabel = Localization::Label("hive.edit", "Edit");
+        const std::string archiveLabel = Localization::Label("hive.archive", "Archive");
 
-        ImGui::BeginChild(
-            "HiveCard",
-            ImVec2(0, 105),
-            ImGuiChildFlags_Borders
-        );
-
-        ImGui::Spacing();
-        ImGui::Indent(12.0f);
-
-        // Hive name.
-        ImGui::PushFont(Fonts::Bold);
-
-        ImGui::Text(
-            "%s",
-            hive.name.c_str()
-        );
-
-        ImGui::PopFont();
-
-        // Hive type.
-        ImGui::PushFont(Fonts::Small);
-
-        ImGui::TextColored(
-            Theme::Colors::TextSecondary,
-            "%s",
-            hive.hiveType.empty()
-                ? "Hive type not specified"
-                : hive.hiveType.c_str()
-        );
-
-        if (!hive.installationDate.empty())
+        if (UI::Button(editLabel.c_str(), UI::ButtonKind::Secondary, -1.0f))
         {
-            ImGui::TextColored(
-                Theme::Colors::TextMuted,
-                "Installed: %s",
-                hive.installationDate.c_str()
-            );
+            m_pageNotice.clear();
+            m_hiveForm.OpenForEdit(hive);
         }
 
-        ImGui::PopFont();
+        UI::SameLineOrWrap(UI::ButtonWidth(archiveLabel.c_str()));
 
-        ImGui::Unindent(12.0f);
-
-        ImGui::EndChild();
-
-        ImGui::Spacing();
-
-        ImGui::PopID();
+        if (UI::Button(archiveLabel.c_str(), UI::ButtonKind::Subtle, -1.0f))
+        {
+            m_archiveCandidate = hive;
+            m_openArchiveConfirm = true;
+        }
     }
+
+    // Natural height = content without the spacer.
+    m_cardHeights[hive.id] = ImGui::GetCursorPosY() - spacer;
+
+    ImGui::EndChild();
+
+    if (archived)
+        ImGui::PopStyleColor();
+
+    ImGui::PopStyleVar();
+    ImGui::PopID();
 }
 
 // --------------------------------------------------
 // Add Apiary Dialog
 // --------------------------------------------------
 
-void ApiaryScreen::DrawAddApiaryPopup()
+void ApiaryScreen::DrawApiaryFormDialog()
 {
-    if (ImGui::BeginPopupModal(
-        "Add Apiary",
-        nullptr,
-        ImGuiWindowFlags_AlwaysAutoResize
-    ))
+    if (m_openApiaryForm)
     {
-        ImGui::PushFont(Fonts::Heading);
-        ImGui::Text("Create a New Apiary");
-        ImGui::PopFont();
+        ImGui::OpenPopup(ApiaryFormPopupId);
+        m_openApiaryForm = false;
+    }
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
+    UI::SetNextDialogLayout(UI::Dialog::WidthEm);
 
-        // Name.
-        ImGui::Text("Name *");
+    const std::string title = Localization::Label("apiary.form.title_add", "ApiaryFormDialog");
 
-        ImGui::SetNextItemWidth(320);
+    if (!ImGui::BeginPopupModal(
+        title.c_str(),
+        nullptr,
+        ImGuiWindowFlags_NoSavedSettings))
+    {
+        return;
+    }
 
-        ImGui::InputText(
-            "##ApiaryName",
-            m_apiaryName,
-            sizeof(m_apiaryName)
-        );
+    UI::BeginDialogBody("ApiaryFormBody");
 
-        ImGui::Spacing();
+    // Name
+    UI::FormLabel(Tr("apiary.form.name"), true);
 
-        // Location.
-        ImGui::Text("Location");
+    if (ImGui::IsWindowAppearing())
+        ImGui::SetKeyboardFocusHere();
 
-        ImGui::SetNextItemWidth(320);
+    ImGui::SetNextItemWidth(-FLT_MIN);
 
-        ImGui::InputText(
-            "##ApiaryLocation",
-            m_apiaryLocation,
-            sizeof(m_apiaryLocation)
-        );
+    if (ImGui::InputText("##ApiaryName", &m_apiaryName))
+        m_apiaryFormError.clear();
 
-        ImGui::Spacing();
+    UI::FieldError(m_apiaryFormError);
+    ImGui::Spacing();
 
-        // Notes.
-        ImGui::Text("Notes");
+    // Location
+    UI::FormLabel(Tr("apiary.form.location"));
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::InputText("##ApiaryLocation", &m_apiaryLocation);
+    ImGui::Spacing();
 
-        ImGui::SetNextItemWidth(320);
+    // Notes
+    UI::FormLabel(Tr("apiary.form.notes"));
+    ImGui::InputTextMultiline(
+        "##ApiaryNotes",
+        &m_apiaryNotes,
+        ImVec2(-FLT_MIN, UI::Em(UI::Dialog::NotesHeightEm)),
+        ImGuiInputTextFlags_WordWrap
+    );
 
-        ImGui::InputTextMultiline(
-            "##ApiaryNotes",
-            m_apiaryNotes,
-            sizeof(m_apiaryNotes),
-            ImVec2(320, 80)
-        );
+    UI::EndDialogBody();
 
-        ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
 
-        // Validation message.
-        if (!m_errorMessage.empty())
+    const std::string saveLabel = Localization::Label("apiary.form.save", "Save");
+    const std::string cancelLabel = Localization::Label("common.cancel", "Cancel");
+
+    if (UI::Button(saveLabel.c_str(), UI::ButtonKind::Primary))
+    {
+        Apiary apiary;
+        apiary.name = Trim(m_apiaryName);
+        apiary.location = Trim(m_apiaryLocation);
+        apiary.notes = m_apiaryNotes;
+
+        if (apiary.name.empty())
         {
-            ImGui::TextColored(
-                Theme::Colors::Danger,
-                "%s",
-                m_errorMessage.c_str()
-            );
+            m_apiaryFormError = Tr("apiary.form.name_required");
         }
-
-        ImGui::Spacing();
-
-        // Save.
-        if (ImGui::Button("Save Apiary", ImVec2(150, 38)))
+        else if (m_apiaryRepository.Create(apiary))
         {
-            if (m_apiaryName[0] == '\0')
-            {
-                m_errorMessage = "Apiary name is required.";
-            }
-            else
-            {
-                Apiary apiary;
+            m_selectedApiaryId = apiary.id;
+            m_apiaryFormError.clear();
 
-                apiary.name = m_apiaryName;
-                apiary.location = m_apiaryLocation;
-                apiary.notes = m_apiaryNotes;
+            LoadApiaries();
 
-                if (m_apiaryRepository.Create(apiary))
-                {
-                    m_selectedApiaryId = apiary.id;
-                    m_errorMessage.clear();
-
-                    LoadApiaries();
-
-                    ImGui::CloseCurrentPopup();
-                }
-                else
-                {
-                    m_errorMessage =
-                        m_apiaryRepository.GetLastError();
-                }
-            }
-        }
-
-        ImGui::SameLine();
-
-        // Cancel.
-        if (ImGui::Button("Cancel", ImVec2(100, 38)))
-        {
-            m_errorMessage.clear();
             ImGui::CloseCurrentPopup();
         }
-
-        ImGui::EndPopup();
+        else
+        {
+            m_apiaryFormError = Localization::Format(
+                "errors.save_failed",
+                { { "details", m_apiaryRepository.GetLastError() } }
+            );
+        }
     }
+
+    UI::SameLineOrWrap(UI::ButtonWidth(cancelLabel.c_str()));
+
+    const bool escape =
+        ImGui::IsKeyPressed(ImGuiKey_Escape, false) && !ImGui::IsAnyItemActive();
+
+    if (UI::Button(cancelLabel.c_str()) || escape)
+    {
+        m_apiaryFormError.clear();
+        ImGui::CloseCurrentPopup();
+    }
+
+    UI::EndDialogFooter();
+
+    ImGui::EndPopup();
 }
 
 // --------------------------------------------------
-// Add Hive Dialog
+// Add / Edit Hive Dialog
 // --------------------------------------------------
 
-void ApiaryScreen::DrawAddHivePopup()
+void ApiaryScreen::DrawHiveFormDialog()
 {
-    if (ImGui::BeginPopupModal(
-        "Add Hive",
-        nullptr,
-        ImGuiWindowFlags_AlwaysAutoResize
-    ))
+    const HiveFormDialog::Result result = m_hiveForm.Draw(m_apiaries);
+
+    if (result == HiveFormDialog::Result::None)
+        return;
+
+    m_pageError.clear();
+    m_pageNotice.clear();
+
+    const Hive& saved = m_hiveForm.SavedHive();
+
+    // Edited hive moved to another apiary: tell the
+    // user where it went (it leaves this list).
+    if (result == HiveFormDialog::Result::Updated
+        && saved.apiaryId != m_hiveForm.OriginalHive().apiaryId)
     {
-        ImGui::PushFont(Fonts::Heading);
-        ImGui::Text("Add a Hive");
-        ImGui::PopFont();
+        const Apiary* destination = FindApiary(saved.apiaryId);
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        // Hive name.
-        ImGui::Text("Hive Name *");
-
-        ImGui::SetNextItemWidth(320);
-
-        ImGui::InputText(
-            "##HiveName",
-            m_hiveName,
-            sizeof(m_hiveName)
-        );
-
-        ImGui::Spacing();
-
-        // Hive type.
-        ImGui::Text("Hive Type");
-
-        ImGui::SetNextItemWidth(320);
-
-        ImGui::InputText(
-            "##HiveType",
-            m_hiveType,
-            sizeof(m_hiveType)
-        );
-
-        ImGui::Spacing();
-
-        // Notes.
-        ImGui::Text("Notes");
-
-        ImGui::SetNextItemWidth(320);
-
-        ImGui::InputTextMultiline(
-            "##HiveNotes",
-            m_hiveNotes,
-            sizeof(m_hiveNotes),
-            ImVec2(320, 80)
-        );
-
-        ImGui::Spacing();
-
-        // Validation message.
-        if (!m_errorMessage.empty())
-        {
-            ImGui::TextColored(
-                Theme::Colors::Danger,
-                "%s",
-                m_errorMessage.c_str()
-            );
-        }
-
-        ImGui::Spacing();
-
-        // Save.
-        if (ImGui::Button("Save Hive", ImVec2(150, 38)))
-        {
-            if (m_hiveName[0] == '\0')
+        m_pageNotice = Localization::Format(
+            "hive.moved_notice",
             {
-                m_errorMessage = "Hive name is required.";
+                { "hive", saved.name },
+                { "apiary", destination ? destination->name : std::string() }
             }
-            else
-            {
-                Hive hive;
-
-                hive.apiaryId = m_selectedApiaryId;
-                hive.name = m_hiveName;
-                hive.hiveType = m_hiveType;
-                hive.notes = m_hiveNotes;
-
-                if (m_hiveRepository.Create(hive))
-                {
-                    m_errorMessage.clear();
-
-                    LoadHives();
-
-                    ImGui::CloseCurrentPopup();
-                }
-                else
-                {
-                    m_errorMessage =
-                        m_hiveRepository.GetLastError();
-                }
-            }
-        }
-
-        ImGui::SameLine();
-
-        // Cancel.
-        if (ImGui::Button("Cancel", ImVec2(100, 38)))
-        {
-            m_errorMessage.clear();
-            ImGui::CloseCurrentPopup();
-        }
-
-        ImGui::EndPopup();
+        );
     }
+
+    LoadHives();
+}
+
+// --------------------------------------------------
+// Archive Confirmation
+// --------------------------------------------------
+
+void ApiaryScreen::DrawArchiveConfirmDialog()
+{
+    if (m_openArchiveConfirm)
+    {
+        ImGui::OpenPopup(ArchivePopupId);
+        m_openArchiveConfirm = false;
+    }
+
+    UI::SetNextDialogLayout(UI::Dialog::ConfirmWidthEm);
+
+    const std::string title = Localization::Label("hive.archive_dialog.title", "ArchiveHiveDialog");
+
+    if (!ImGui::BeginPopupModal(title.c_str(), nullptr, ImGuiWindowFlags_NoSavedSettings))
+        return;
+
+    const std::string body = Localization::Format(
+        "hive.archive_dialog.body",
+        { { "hive", m_archiveCandidate.name } }
+    );
+
+    UI::TextStyledWrapped(UI::Text::Body, Theme::Colors::TextPrimary, body.c_str());
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    const std::string confirmLabel = Localization::Label("hive.archive_dialog.confirm", "Confirm");
+    const std::string cancelLabel = Localization::Label("common.cancel", "Cancel");
+
+    if (UI::Button(confirmLabel.c_str(), UI::ButtonKind::Danger))
+    {
+        SetArchived(m_archiveCandidate, true);
+        ImGui::CloseCurrentPopup();
+    }
+
+    UI::SameLineOrWrap(UI::ButtonWidth(cancelLabel.c_str()));
+
+    if (UI::Button(cancelLabel.c_str()) || ImGui::IsKeyPressed(ImGuiKey_Escape, false))
+        ImGui::CloseCurrentPopup();
+
+    ImGui::EndPopup();
 }

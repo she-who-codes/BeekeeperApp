@@ -31,6 +31,7 @@ set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui_widgets.cpp
     ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
     ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+    ${IMGUI_DIR}/misc/cpp/imgui_stdlib.cpp
 )
 
 # ==========================================
@@ -63,7 +64,12 @@ add_executable(BeeKeeper
     src/repositories/ApiaryRepository.cpp
     src/repositories/HiveRepository.cpp
     src/screens/ApiaryScreen.cpp
+    src/screens/HiveFormDialog.cpp
     src/config/FontManager.cpp
+    src/localization/Localization.cpp
+    src/localization/DateFormat.cpp
+    src/ui/Widgets.cpp
+    src/ui/Display.cpp
     
     ${IMGUI_SOURCES}
     ${IMPLOT_SOURCES}
@@ -78,6 +84,7 @@ target_include_directories(BeeKeeper PRIVATE
 
     ${IMGUI_DIR}
     ${IMGUI_DIR}/backends
+    ${IMGUI_DIR}/misc/cpp
 
     ${IMPLOT_DIR}
 

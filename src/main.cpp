@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -15,6 +16,9 @@
 #include "config/AppConfig.h"
 #include "config/Theme.h"
 #include "config/FontManager.h"
+#include "config/LayoutUI.h"
+
+#include "localization/Localization.h"
 
 #include "database/DatabaseManager.h"
 #include "database/DatabaseMigrations.h"
@@ -130,7 +134,7 @@ int main()
     // 7. Load BeeKeeper Fonts
     // ----------------------------------------------
 
-    if (!Fonts::Load(dpiScale))
+    if (!Fonts::Load())
     {
         std::cerr << "Warning: Font initialization failed."
                   << std::endl;
@@ -144,6 +148,31 @@ int main()
 
     // Scale all ImGui dimensions for display DPI.
     ImGui::GetStyle().ScaleAllSizes(dpiScale);
+
+    // Fonts are scaled globally by ImGui (1.92+); sizes in
+    // LayoutUI.h stay in design pixels.
+    ImGui::GetStyle().FontScaleDpi = dpiScale;
+
+    // Fixed sizes from LayoutUI.h are scaled via UI::Px().
+    UI::SetDpiScale(dpiScale);
+
+    // ----------------------------------------------
+    // 8b. Load Localization
+    // ----------------------------------------------
+
+    // The Settings view (next phase) will allow the user
+    // to override the detected locale.
+    const std::string locale = Localization::DetectSystemLocale();
+
+    if (!Localization::Initialize(locale))
+    {
+        std::cerr << "Warning: Localization failed to load: "
+                  << Localization::GetLastError()
+                  << std::endl;
+    }
+
+    std::cout << "Locale: "
+              << Localization::CurrentLocale() << std::endl;
 
     // ----------------------------------------------
     // 9. Initialize ImGui Backends

@@ -1,0 +1,26 @@
+
+#pragma once
+
+namespace Strings
+{
+    constexpr const char* AppName = "BeeKeeper";
+
+    namespace Navigation
+    {
+        constexpr const char* Dashboard = "Dashboard";
+        constexpr const char* Apiaries = "Apiaries";
+        constexpr const char* Inspections = "Inspections";
+        constexpr const char* Reports = "Reports";
+        constexpr const char* Settings = "Settings";
+    }
+
+    namespace Common
+    {
+        constexpr const char* Save = "Save";
+        constexpr const char* Cancel = "Cancel";
+        constexpr const char* Delete = "Delete";
+        constexpr const char* Edit = "Edit";
+        constexpr const char* Add = "Add";
+        constexpr const char* Search = "Search";
+    }
+}

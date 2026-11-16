@@ -205,7 +205,10 @@ namespace UI
     {
         constexpr float Window = 0.0f;
         constexpr float Child  = 1.0f;
-        constexpr float Frame  = 0.0f;
+        // Outline on inputs, combos, checkboxes and buttons so
+        // no control blends into panels or dialogs (the three
+        // surface colours are close in brightness).
+        constexpr float Frame  = 1.0f;
         constexpr float Popup  = 1.0f;
     }
 
@@ -270,5 +273,59 @@ namespace UI
     namespace Controls
     {
         constexpr float ButtonMinWidthEm = 6.0f;
+        constexpr float NumberFieldEm    = 5.5f;   // numeric inputs in tables
+        constexpr float ComboFieldEm     = 8.5f;   // short combos (units, months)
+    }
+
+    // ----------------------------------------------
+    // App shell
+    // ----------------------------------------------
+
+    namespace TopBar
+    {
+        constexpr float Height       = 52.0f;  // design px
+        constexpr float NavItemPadEm = 1.1f;   // horizontal padding per nav item
+        constexpr float IndicatorPx  = 3.0f;   // active-tab underline
+    }
+
+    // ----------------------------------------------
+    // First-run setup & Settings
+    // ----------------------------------------------
+
+    namespace Wizard
+    {
+        constexpr float WidthEm      = 48.0f;   // card width (clamped to window)
+        constexpr float MinContentEm = 30.0f;   // below: horizontal scroll
+
+        // Below this height the header and step indicator
+        // scroll with the content (only the footer stays).
+        constexpr float CompactHeightEm = 34.0f;
+    }
+
+    // ----------------------------------------------
+    // Hive detail: box stack & frames
+    // ----------------------------------------------
+
+    namespace HiveStack
+    {
+        // Frame tiles are tap targets (gloves): at least
+        // Size::TouchTarget wide.
+        constexpr float FrameTileHeightEm = 5.5f;
+        constexpr float FrameGap          = 6.0f;    // design px
+        constexpr float NoFrameBarEm      = 1.8f;    // excluder / feeder bar height
+        constexpr float SelectedBorder    = 3.0f;    // design px
+        constexpr float AlertBorder       = 2.0f;    // design px
+
+        constexpr float DetailPanelWidthEm = 22.0f;  // frame details (wide windows)
+        constexpr float SideBySideMinEm    = 56.0f;  // below: details under the stack
+        constexpr float StackMinEm         = 24.0f;  // below: horizontal scroll
+    }
+
+    namespace SettingsView
+    {
+        constexpr float NavWidthEm        = 14.0f;
+        constexpr float ContentMaxWidthEm = 56.0f;  // readable line length
+        constexpr float ContentMinEm      = 34.0f;  // below: horizontal scroll
+        constexpr float CompactHeightEm   = 34.0f;  // below: subtitle hidden
     }
 }

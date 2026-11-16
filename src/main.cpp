@@ -18,15 +18,10 @@
 #include "config/FontManager.h"
 #include "config/LayoutUI.h"
 
-#include "localization/Localization.h"
-
 #include "database/DatabaseManager.h"
 #include "database/DatabaseMigrations.h"
 
-#include "repositories/ApiaryRepository.h"
-#include "repositories/HiveRepository.h"
-
-#include "screens/ApiaryScreen.h"
+#include "App.h"
 
 // --------------------------------------------------
 // GLFW Error Callback
@@ -157,24 +152,6 @@ int main()
     UI::SetDpiScale(dpiScale);
 
     // ----------------------------------------------
-    // 8b. Load Localization
-    // ----------------------------------------------
-
-    // The Settings view (next phase) will allow the user
-    // to override the detected locale.
-    const std::string locale = Localization::DetectSystemLocale();
-
-    if (!Localization::Initialize(locale))
-    {
-        std::cerr << "Warning: Localization failed to load: "
-                  << Localization::GetLastError()
-                  << std::endl;
-    }
-
-    std::cout << "Locale: "
-              << Localization::CurrentLocale() << std::endl;
-
-    // ----------------------------------------------
     // 9. Initialize ImGui Backends
     // ----------------------------------------------
 
@@ -259,20 +236,36 @@ int main()
     }
 
     // ----------------------------------------------
-    // 12. Initialize Repositories
+    // 12. Initialize Application
     // ----------------------------------------------
 
-    ApiaryRepository apiaryRepository(database);
-    HiveRepository hiveRepository(database);
+    // Owns repositories and screens, loads settings and
+    // applies the keeper's language and date format.
+    App app(database);
+    std::string appError;
 
-    // ----------------------------------------------
-    // 13. Initialize Application Screens
-    // ----------------------------------------------
+    if (!app.Initialize(appError))
+    {
+        std::cerr << "Application initialization failed: "
+                  << appError
+                  << std::endl;
 
-    ApiaryScreen apiaryScreen(
-        apiaryRepository,
-        hiveRepository
-    );
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+
+        ImPlot::DestroyContext();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(window);
+        glfwTerminate();
+
+        return 1;
+    }
+
+    if (!appError.empty())
+    {
+        std::cerr << "Warning: " << appError << std::endl;
+    }
 
     std::cout << "BeeKeeper initialized successfully!"
               << std::endl;
@@ -295,7 +288,7 @@ int main()
         // Render Application Screens
         // ------------------------------------------
 
-        apiaryScreen.Render();
+        app.Render();
 
         // ------------------------------------------
         // Render ImGui

@@ -62,4 +62,22 @@ namespace DateFormat
     // True for characters that may appear in text typed
     // for 'pattern' (digits + the pattern's separators).
     bool IsAllowedInput(unsigned int character, const std::string& pattern);
+
+    // ---------------- Date arithmetic ----------------
+
+    // Days since 1970-01-01 (proleptic Gregorian).
+    long DaysFromCivil(const Date& date);
+    Date CivilFromDays(long days);
+
+    Date AddDays(const Date& date, long days);
+
+    // Adds calendar months; the day is clamped to the end
+    // of the month (Jan 31 + 1 month = Feb 28/29).
+    Date AddMonths(const Date& date, int months);
+
+    // to - from, in days.
+    long DaysBetween(const Date& from, const Date& to);
+
+    // Whole months from 'from' to 'to' (0 if to < from).
+    int MonthsBetween(const Date& from, const Date& to);
 }

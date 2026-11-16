@@ -2,6 +2,7 @@
 #include "HiveFormDialog.h"
 
 #include "config/LayoutUI.h"
+#include "database/Transaction.h"
 #include "config/Theme.h"
 #include "localization/Localization.h"
 #include "models/HiveType.h"
@@ -10,6 +11,8 @@
 
 #include "imgui.h"
 #include "imgui_stdlib.h"
+
+#include <algorithm>
 
 namespace
 {
@@ -27,9 +30,120 @@ namespace
     }
 }
 
-HiveFormDialog::HiveFormDialog(HiveRepository& hiveRepository)
-    : m_hiveRepository(hiveRepository)
+HiveFormDialog::HiveFormDialog(
+    HiveRepository& hiveRepository,
+    BoxRepository& boxRepository,
+    DatabaseManager& database)
+    : m_hiveRepository(hiveRepository),
+      m_boxRepository(boxRepository),
+      m_database(database)
 {
+}
+
+// --------------------------------------------------
+// Starting setup
+// --------------------------------------------------
+
+void HiveFormDialog::ResetStartingSetup(const std::string& hiveType)
+{
+    m_startForHiveType = hiveType;
+    m_startBoxTypes.clear();
+
+    // Only boxes that hold frames make sense as a first box.
+    for (const auto* info : HiveEquipment::AllowedBoxTypes(hiveType))
+    {
+        if (info->holdsFrames && std::string(info->key) != "flow_super")
+            m_startBoxTypes.push_back(info);
+    }
+
+    m_startBoxIndex = 0;
+    ApplyStartingBoxDefaults();
+}
+
+void HiveFormDialog::ApplyStartingBoxDefaults()
+{
+    if (m_startBoxTypes.empty())
+        return;
+
+    const std::string key = m_startBoxTypes[m_startBoxIndex]->key;
+
+    m_startFrameCount = HiveEquipment::DefaultFrameCount(key, m_startForHiveType);
+
+    const std::string frameType = HiveEquipment::DefaultFrameType(key, m_startForHiveType);
+    const auto& types = HiveEquipment::FrameTypes();
+
+    m_startFrameTypeIndex = 0;
+
+    for (size_t i = 0; i < types.size(); ++i)
+    {
+        if (frameType == types[i].key)
+            m_startFrameTypeIndex = static_cast<int>(i);
+    }
+}
+
+void HiveFormDialog::DrawStartingSetup()
+{
+    if (m_typeIndex < 0)
+        return;
+
+    const std::string hiveType = HiveTypes::All[m_typeIndex].key;
+
+    if (hiveType != m_startForHiveType)
+        ResetStartingSetup(hiveType);
+
+    if (m_startBoxTypes.empty())
+        return;
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    UI::TextStyled(UI::Text::Title, Theme::Colors::TextPrimary, Tr("hive.form.start_title"));
+    UI::FieldHelp(Tr("hive.form.start_help"));
+
+    ImGui::Checkbox(Localization::Label("hive.form.start_add", "StartAdd").c_str(), &m_addStartingBox);
+
+    if (!m_addStartingBox)
+        return;
+
+    // Box type
+    UI::FormLabel(Tr("boxes.dialog.type"));
+    ImGui::SetNextItemWidth(-FLT_MIN);
+
+    if (ImGui::BeginCombo("##StartBoxType", Tr(m_startBoxTypes[m_startBoxIndex]->labelKey)))
+    {
+        for (size_t i = 0; i < m_startBoxTypes.size(); ++i)
+        {
+            if (ImGui::Selectable(Tr(m_startBoxTypes[i]->labelKey), static_cast<int>(i) == m_startBoxIndex))
+            {
+                m_startBoxIndex = static_cast<int>(i);
+                ApplyStartingBoxDefaults();
+            }
+        }
+
+        ImGui::EndCombo();
+    }
+
+    // Frames
+    UI::FormLabel(Tr("boxes.dialog.frame_count"));
+    ImGui::SetNextItemWidth(UI::Em(UI::Controls::NumberFieldEm));
+    UI::IntInput("##StartFrames", m_startFrameCount, 1, HiveEquipment::MaxFramesPerBox);
+
+    UI::FormLabel(Tr("boxes.dialog.frame_type"));
+
+    const auto& types = HiveEquipment::FrameTypes();
+    ImGui::SetNextItemWidth(-FLT_MIN);
+
+    if (ImGui::BeginCombo("##StartFrameType", Tr(types[m_startFrameTypeIndex].labelKey)))
+    {
+        for (size_t i = 0; i < types.size(); ++i)
+        {
+            if (ImGui::Selectable(Tr(types[i].labelKey), static_cast<int>(i) == m_startFrameTypeIndex))
+                m_startFrameTypeIndex = static_cast<int>(i);
+        }
+
+        ImGui::EndCombo();
+    }
 }
 
 // --------------------------------------------------
@@ -49,6 +163,10 @@ void HiveFormDialog::OpenForCreate(int apiaryId)
     m_setupDateText.clear();
     m_colonyDateText.clear();
     m_notes.clear();
+
+    m_addStartingBox = true;
+    m_startForHiveType.clear();
+    m_startBoxTypes.clear();
 
     ClearErrors();
     m_requestOpen = true;
@@ -162,16 +280,45 @@ HiveFormDialog::Result HiveFormDialog::Save()
     if (!Validate(hive))
         return Result::None;
 
-    const bool ok = m_isEdit
-        ? m_hiveRepository.Update(hive)
-        : m_hiveRepository.Create(hive);
+    bool ok = false;
+    std::string details;
+
+    if (m_isEdit)
+    {
+        ok = m_hiveRepository.Update(hive);
+        details = m_hiveRepository.GetLastError();
+    }
+    else
+    {
+        // The hive and its optional starting box are saved
+        // together: if the box fails, no hive is created.
+        Transaction transaction(m_database);
+        ok = transaction.Begin() && m_hiveRepository.Create(hive);
+        details = ok ? "" : (m_hiveRepository.GetLastError().empty() ? m_database.GetLastError() : m_hiveRepository.GetLastError());
+
+        if (ok && m_addStartingBox && !m_startBoxTypes.empty())
+        {
+            const auto* type = m_startBoxTypes[m_startBoxIndex];
+
+            Box box;
+            box.hiveId = hive.id;
+            box.boxType = type->key;
+            box.role = HiveEquipment::DefaultRole(type->key, false);
+            box.frameCapacity = std::clamp(m_startFrameCount, 1, HiveEquipment::MaxFramesPerBox);
+            box.installedAt = hive.setupDate;
+
+            ok = m_boxRepository.AddBox(box, HiveEquipment::FrameTypes()[m_startFrameTypeIndex].key);
+
+            if (!ok)
+                details = m_boxRepository.GetLastError();
+        }
+
+        ok = ok && transaction.Commit();
+    }
 
     if (!ok)
     {
-        m_saveError = Localization::Format(
-            "errors.save_failed",
-            { { "details", m_hiveRepository.GetLastError() } }
-        );
+        m_saveError = Localization::Format("errors.save_failed", { { "details", details } });
         return Result::None;
     }
 
@@ -399,7 +546,7 @@ void HiveFormDialog::DrawFields(const std::vector<Apiary>& apiaries)
         "##SetupDate",
         m_setupDateText,
         Display::DatePattern(),
-        Display::DateHint(),
+        Display::DateHint().c_str(),
         todayLabel.c_str()))
     {
         m_setupDateError.clear();
@@ -416,7 +563,7 @@ void HiveFormDialog::DrawFields(const std::vector<Apiary>& apiaries)
         "##ColonyDate",
         m_colonyDateText,
         Display::DatePattern(),
-        Display::DateHint(),
+        Display::DateHint().c_str(),
         todayLabel.c_str()))
     {
         m_colonyDateError.clear();
@@ -434,6 +581,9 @@ void HiveFormDialog::DrawFields(const std::vector<Apiary>& apiaries)
         ImVec2(-FLT_MIN, UI::Em(UI::Dialog::NotesHeightEm)),
         ImGuiInputTextFlags_WordWrap
     );
+
+    if (!m_isEdit)
+        DrawStartingSetup();
 
     // No error in the body (e.g. database failure only):
     // nothing to scroll to.

@@ -3,6 +3,7 @@
 #include "DatabaseManager.h"
 
 #include <iostream>
+#include "sqlite3.h"
 #include <vector>
 #include <string>
 
@@ -13,7 +14,43 @@ namespace
         int version;
         const char* description;
         const char* sql;
+
+        // True for migrations that rebuild a table (SQLite
+        // cannot drop a constraint in place). Foreign key
+        // enforcement is switched off around the transaction
+        // and PRAGMA foreign_key_check must pass before
+        // COMMIT, as recommended by the SQLite docs.
+        bool rebuildsTables = false;
     };
+
+    // Returns false (and a description) if any foreign key
+    // reference is broken.
+    bool ForeignKeysValid(DatabaseManager& database, std::string& problem)
+    {
+        sqlite3_stmt* statement = nullptr;
+
+        if (sqlite3_prepare_v2(database.GetHandle(), "PRAGMA foreign_key_check;", -1, &statement, nullptr) != SQLITE_OK)
+        {
+            problem = sqlite3_errmsg(database.GetHandle());
+            return false;
+        }
+
+        const int result = sqlite3_step(statement);
+
+        if (result == SQLITE_ROW)
+        {
+            const unsigned char* table = sqlite3_column_text(statement, 0);
+            problem = std::string("Broken foreign key in table ")
+                + (table ? reinterpret_cast<const char*>(table) : "?");
+        }
+        else if (result != SQLITE_DONE)
+        {
+            problem = sqlite3_errmsg(database.GetHandle());
+        }
+
+        sqlite3_finalize(statement);
+        return result == SQLITE_DONE;
+    }
 
     const std::vector<Migration> migrations =
     {
@@ -201,6 +238,154 @@ namespace
                 ON hives(apiary_id, is_active);
 
             )SQL"
+        },
+
+        {
+            3,
+            "Settings: app settings, mite check methods, maintenance task types",
+
+            R"SQL(
+
+            -- Scalar settings as key/value text
+            -- (locale, date pattern, temperature unit, seasons...).
+            CREATE TABLE app_settings
+            (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL,
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+
+            -- Built-in methods have method_key; keeper-defined
+            -- methods have custom_name. Never deleted: archived.
+            CREATE TABLE mite_check_methods
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                method_key TEXT UNIQUE,
+                custom_name TEXT,
+                unit TEXT NOT NULL
+                    CHECK (unit IN ('percent_bees', 'mites_per_day', 'percent_cells')),
+                sample_size INTEGER NOT NULL DEFAULT 0
+                    CHECK (sample_size >= 0),
+                is_enabled INTEGER NOT NULL DEFAULT 1
+                    CHECK (is_enabled IN (0, 1)),
+                is_archived INTEGER NOT NULL DEFAULT 0
+                    CHECK (is_archived IN (0, 1)),
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                CHECK (method_key IS NOT NULL OR custom_name IS NOT NULL)
+            );
+
+            -- Watch (amber) / Act (red) levels per season.
+            -- NULL = no alert for that season.
+            CREATE TABLE mite_method_thresholds
+            (
+                method_id INTEGER NOT NULL,
+                season TEXT NOT NULL
+                    CHECK (season IN ('spring', 'summer', 'fall', 'winter')),
+                watch_level REAL CHECK (watch_level IS NULL OR watch_level >= 0),
+                act_level REAL CHECK (act_level IS NULL OR act_level >= 0),
+
+                PRIMARY KEY (method_id, season),
+
+                FOREIGN KEY (method_id)
+                    REFERENCES mite_check_methods(id)
+                    ON DELETE CASCADE,
+
+                CHECK (watch_level IS NULL OR act_level IS NULL
+                       OR watch_level <= act_level)
+            );
+
+            CREATE TABLE maintenance_task_types
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                task_key TEXT UNIQUE,
+                custom_name TEXT,
+                is_enabled INTEGER NOT NULL DEFAULT 1
+                    CHECK (is_enabled IN (0, 1)),
+                interval_value INTEGER NOT NULL
+                    CHECK (interval_value > 0),
+                interval_unit TEXT NOT NULL
+                    CHECK (interval_unit IN ('days', 'weeks', 'months', 'years')),
+                task_trigger TEXT NOT NULL DEFAULT 'recurring'
+                    CHECK (task_trigger IN ('recurring', 'after_treatment')),
+                is_archived INTEGER NOT NULL DEFAULT 0
+                    CHECK (is_archived IN (0, 1)),
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                CHECK (task_key IS NOT NULL OR custom_name IS NOT NULL)
+            );
+
+            )SQL"
+        },
+
+        {
+            4,
+            "Boxes & frames: box role and capacity, frame history",
+
+            R"SQL(
+
+            -- Boxes ---------------------------------------------
+            -- position: 1 = bottom box. removed_at set = removed
+            -- from the hive (history kept, never deleted).
+            ALTER TABLE boxes ADD COLUMN box_role TEXT
+                CHECK (box_role IS NULL OR box_role IN ('brood', 'honey_super'));
+
+            ALTER TABLE boxes ADD COLUMN frame_capacity INTEGER NOT NULL DEFAULT 0
+                CHECK (frame_capacity >= 0);
+
+            ALTER TABLE boxes ADD COLUMN notes TEXT;
+
+            CREATE INDEX idx_boxes_hive_position
+                ON boxes(hive_id, removed_at, position);
+
+            -- Frames --------------------------------------------
+            -- Rebuilt so a position can hold one ACTIVE frame
+            -- while replaced frames (is_active = 0) keep their
+            -- history. The old UNIQUE(box_id, position) allowed
+            -- only one frame per position ever.
+            CREATE TABLE frames_new
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                box_id INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                frame_label TEXT,
+                frame_type TEXT,
+                installed_at TEXT,
+                removed_at TEXT,
+                notes TEXT,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                is_active INTEGER NOT NULL DEFAULT 1
+                    CHECK (is_active IN (0, 1)),
+
+                FOREIGN KEY (box_id)
+                    REFERENCES boxes(id)
+                    ON DELETE RESTRICT
+            );
+
+            INSERT INTO frames_new
+                (id, box_id, position, frame_label, frame_type, created_at, is_active)
+            SELECT
+                id, box_id, position, frame_label, frame_type, created_at, is_active
+            FROM frames;
+
+            DROP TABLE frames;
+
+            ALTER TABLE frames_new RENAME TO frames;
+
+            CREATE INDEX idx_frames_box
+                ON frames(box_id);
+
+            CREATE UNIQUE INDEX idx_frames_active_position
+                ON frames(box_id, position)
+                WHERE is_active = 1;
+
+            )SQL",
+
+            true    // rebuilds the frames table
         }
     };
 }
@@ -227,6 +412,23 @@ namespace DatabaseMigrations
                       << migration.version << ": "
                       << migration.description << std::endl;
 
+            // Must be changed outside a transaction.
+            if (migration.rebuildsTables && !database.Execute("PRAGMA foreign_keys = OFF;"))
+                return false;
+
+            // Re-enables foreign keys on every exit path.
+            struct ForeignKeysGuard
+            {
+                DatabaseManager& database;
+                bool active;
+
+                ~ForeignKeysGuard()
+                {
+                    if (active)
+                        database.Execute("PRAGMA foreign_keys = ON;");
+                }
+            } guard { database, migration.rebuildsTables };
+
             if (!database.Execute("BEGIN IMMEDIATE;"))
                 return false;
 
@@ -237,6 +439,17 @@ namespace DatabaseMigrations
 
                 std::cerr << "Migration failed: "
                           << error << std::endl;
+                return false;
+            }
+
+            std::string problem;
+
+            if (migration.rebuildsTables && !ForeignKeysValid(database, problem))
+            {
+                database.Execute("ROLLBACK;");
+
+                std::cerr << "Migration failed: "
+                          << problem << std::endl;
                 return false;
             }
 

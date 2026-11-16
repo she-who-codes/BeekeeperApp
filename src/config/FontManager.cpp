@@ -1,8 +1,11 @@
 
 #include "FontManager.h"
 #include "LayoutUI.h"
+#include "Paths.h"
 
+#include <filesystem>
 #include <iostream>
+#include <string>
 
 namespace
 {
@@ -11,15 +14,30 @@ namespace
     ImFont* g_semiBold = nullptr;
     ImFont* g_bold     = nullptr;
 
-    ImFont* LoadFace(const char* path)
+    ImFont* LoadFace(const char* fileName)
     {
+        // Found relative to the resources folder wherever
+        // BeeKeeper was started from (see Paths.h).
+        const std::string path = Paths::Resource(std::string("fonts/") + fileName);
+
+        // ImGui asserts (aborts in Debug builds) on a missing
+        // font file, so check first and let Load() fall back
+        // to the default font instead.
+        std::error_code error;
+
+        if (!std::filesystem::is_regular_file(path, error))
+        {
+            std::cerr << "Warning: font file not found: " << path << std::endl;
+            return nullptr;
+        }
+
         ImFontConfig config;
         config.OversampleH = 2;
         config.OversampleV = 2;
         config.PixelSnapH = false;
 
         return ImGui::GetIO().Fonts->AddFontFromFileTTF(
-            path,
+            path.c_str(),
             UI::Type::Body,
             &config
         );
@@ -48,10 +66,10 @@ namespace Fonts
         ImGuiIO& io = ImGui::GetIO();
 
         // Regular is loaded first so it becomes Fonts[0].
-        g_regular  = LoadFace("resources/fonts/Inter_18pt-Regular.ttf");
-        g_medium   = LoadFace("resources/fonts/Inter_18pt-Medium.ttf");
-        g_semiBold = LoadFace("resources/fonts/Inter_18pt-SemiBold.ttf");
-        g_bold     = LoadFace("resources/fonts/Inter_18pt-Bold.ttf");
+        g_regular  = LoadFace("Inter_18pt-Regular.ttf");
+        g_medium   = LoadFace("Inter_18pt-Medium.ttf");
+        g_semiBold = LoadFace("Inter_18pt-SemiBold.ttf");
+        g_bold     = LoadFace("Inter_18pt-Bold.ttf");
 
         const bool loaded = g_regular != nullptr;
 
@@ -64,7 +82,10 @@ namespace Fonts
                 << "Using default ImGui font."
                 << std::endl;
 
-            g_regular = io.Fonts->AddFontDefault();
+            // The scalable built-in font (AddFontDefault()'s
+            // automatic choice asserts when the theme changes
+            // the font size afterwards).
+            g_regular = io.Fonts->AddFontDefaultVector();
         }
 
         io.FontDefault = g_regular;

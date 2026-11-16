@@ -1,6 +1,7 @@
 
 #include "DateFormat.h"
 
+#include <algorithm>
 #include <cctype>
 #include <cstdio>
 #include <ctime>
@@ -221,5 +222,67 @@ namespace DateFormat
         }
 
         return false;
+    }
+
+    // Howard Hinnant's days_from_civil / civil_from_days.
+    long DaysFromCivil(const Date& date)
+    {
+        const long y = date.year - (date.month <= 2 ? 1 : 0);
+        const long era = (y >= 0 ? y : y - 399) / 400;
+        const long yoe = y - era * 400;
+        const long mp = (date.month + 9) % 12;
+        const long doy = (153 * mp + 2) / 5 + date.day - 1;
+        const long doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+        return era * 146097 + doe - 719468;
+    }
+
+    Date CivilFromDays(long days)
+    {
+        days += 719468;
+        const long era = (days >= 0 ? days : days - 146096) / 146097;
+        const long doe = days - era * 146097;
+        const long yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+        const long doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+        const long mp = (5 * doy + 2) / 153;
+
+        Date date;
+        date.day = static_cast<int>(doy - (153 * mp + 2) / 5 + 1);
+        date.month = static_cast<int>(mp < 10 ? mp + 3 : mp - 9);
+        date.year = static_cast<int>(yoe + era * 400 + (date.month <= 2 ? 1 : 0));
+        return date;
+    }
+
+    Date AddDays(const Date& date, long days)
+    {
+        return CivilFromDays(DaysFromCivil(date) + days);
+    }
+
+    Date AddMonths(const Date& date, int months)
+    {
+        const int total = date.year * 12 + (date.month - 1) + months;
+
+        Date result;
+        result.year = total / 12;
+        result.month = total % 12 + 1;
+        result.day = std::min(date.day, DaysInMonth(result.year, result.month));
+        return result;
+    }
+
+    long DaysBetween(const Date& from, const Date& to)
+    {
+        return DaysFromCivil(to) - DaysFromCivil(from);
+    }
+
+    int MonthsBetween(const Date& from, const Date& to)
+    {
+        if (Compare(to, from) < 0)
+            return 0;
+
+        int months = (to.year - from.year) * 12 + (to.month - from.month);
+
+        if (to.day < from.day)
+            --months;
+
+        return std::max(0, months);
     }
 }

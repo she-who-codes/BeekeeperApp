@@ -3,6 +3,8 @@
 
 #include "localization/DateFormat.h"
 #include "localization/Localization.h"
+#include "models/Box.h"
+#include "models/HiveEquipment.h"
 #include "models/HiveType.h"
 
 namespace Display
@@ -25,6 +27,96 @@ namespace Display
         return Tr(HiveTypes::All[index].labelKey);
     }
 
+    std::string BoxType(const std::string& key)
+    {
+        const auto* info = HiveEquipment::FindBoxType(key);
+        return info ? Tr(info->labelKey) : key;
+    }
+
+    std::string BoxRole(const std::string& key)
+    {
+        const auto* info = HiveEquipment::FindRole(key);
+        return info ? Tr(info->labelKey) : std::string();
+    }
+
+    std::string FrameType(const std::string& key)
+    {
+        const auto* info = HiveEquipment::FindFrameType(key);
+        return info ? Tr(info->labelKey) : (key.empty() ? std::string(Tr("frame_type.unknown")) : key);
+    }
+
+    std::string FrameTypeShort(const std::string& key)
+    {
+        const auto* info = HiveEquipment::FindFrameType(key);
+        return info ? Tr(info->shortKey) : std::string("?");
+    }
+
+    std::string BoxTitle(const Box& box)
+    {
+        std::string title = Localization::Format(
+            "boxes.box_number",
+            { { "number", std::to_string(box.position) } }
+        );
+
+        title += " \xC2\xB7 " + BoxType(box.boxType);
+
+        if (!box.role.empty())
+            title += " \xC2\xB7 " + BoxRole(box.role);
+
+        if (!box.label.empty())
+            title += " \xC2\xB7 " + box.label;
+
+        return title;
+    }
+
+    std::string CombAge(const std::string& installedIso)
+    {
+        DateFormat::Date installed;
+
+        if (!DateFormat::ParseIso(installedIso, installed))
+            return "";
+
+        const int months = DateFormat::MonthsBetween(installed, DateFormat::Today());
+        const int years = months / 12;
+        const int rest = months % 12;
+
+        if (months == 0)
+            return Tr("frames.age_under_month");
+
+        if (years == 0)
+            return Localization::FormatPlural("frames.age_months", rest);
+
+        if (rest == 0)
+            return Localization::FormatPlural("frames.age_years", years);
+
+        return Localization::Format(
+            "frames.age_years_months",
+            {
+                { "years", Localization::FormatPlural("frames.age_years", years) },
+                { "months", Localization::FormatPlural("frames.age_months", rest) }
+            }
+        );
+    }
+
+    std::string CombAgeShort(const std::string& installedIso)
+    {
+        DateFormat::Date installed;
+
+        if (!DateFormat::ParseIso(installedIso, installed))
+            return "";
+
+        const int months = DateFormat::MonthsBetween(installed, DateFormat::Today());
+
+        // Nothing for frames younger than a month (avoids
+        // "0 mo" on every new frame).
+        if (months == 0)
+            return "";
+
+        return months >= 12
+            ? Localization::FormatPlural("frames.age_years_short", months / 12)
+            : Localization::FormatPlural("frames.age_months_short", months);
+    }
+
     std::string Date(const std::string& iso)
     {
         return DateFormat::IsoToDisplay(iso, DatePattern());
@@ -32,12 +124,12 @@ namespace Display
 
     std::string DatePattern()
     {
-        return Tr("format.date_pattern");
+        return Localization::DatePattern();
     }
 
-    const char* DateHint()
+    std::string DateHint()
     {
-        return Tr("format.date_hint");
+        return Localization::DateHintFor(DatePattern());
     }
 
     bool ParseDateInput(

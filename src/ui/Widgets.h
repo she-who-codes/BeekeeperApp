@@ -4,6 +4,7 @@
 #include "imgui.h"
 #include "config/LayoutUI.h"
 
+#include <optional>
 #include <string>
 
 // ==================================================
@@ -25,9 +26,12 @@ namespace UI
     {
         Primary,    // main action on a view (honey)
         Secondary,  // default
-        Danger,     // destructive / archive
-        Subtle      // low-emphasis, transparent background
+        Danger      // destructive
     };
+
+    // Note: there is intentionally no transparent button
+    // style; every button keeps a visible background so it
+    // can't blend into the view.
 
     // Width the button will use for 'label' (text after
     // "##"/"###" is ignored, as in ImGui).
@@ -100,8 +104,11 @@ namespace UI
     // A child window that scrolls vertically AND shows
     // a horizontal scrollbar when it becomes narrower
     // than 'minContentWidth' (instead of squeezing or
-    // clipping its content). Always call EndScrollPane()
-    // whatever the return value, like BeginChild().
+    // clipping its content). Content width is
+    // max(minContentWidth, visible width): pass the width
+    // wide content needs (e.g. a frame grid) as the
+    // minimum. Always call EndScrollPane() whatever the
+    // return value, like BeginChild().
     bool BeginScrollPane(
         const char* id,
         const ImVec2& size,
@@ -111,6 +118,45 @@ namespace UI
     );
 
     void EndScrollPane();
+
+    // ----------------------------------------------
+    // Choice & number inputs
+    // ----------------------------------------------
+
+    // Row of large, equally sized toggle buttons (easy to
+    // hit with gloves). 'height' 0 = UI::Size::TouchTarget.
+    // Returns true when the selection changed.
+    bool SegmentedControl(
+        const char* id,
+        const char* const* labels,
+        int count,
+        int& selected,
+        float height = 0.0f
+    );
+
+    // Numeric text field whose value may be empty
+    // (std::nullopt). Accepts digits and one '.'.
+    // Returns true when the value changed.
+    bool OptionalNumberInput(
+        const char* id,
+        std::optional<double>& value,
+        const char* hint = ""
+    );
+
+    // Integer field without +/- buttons, clamped to
+    // [minimum, maximum]. Returns true when changed.
+    bool IntInput(const char* id, int& value, int minimum, int maximum);
+
+    // ----------------------------------------------
+    // Containers
+    // ----------------------------------------------
+
+    // Bordered, auto-height panel. Always call EndCard().
+    void BeginCard(const char* id);
+    void EndCard();
+
+    // "1 Region - 2 Seasons - ..." progress header.
+    void StepIndicator(const char* const* labels, int count, int current);
 
     // ----------------------------------------------
     // Feedback

@@ -7,6 +7,9 @@
 #include "imgui_stdlib.h"
 
 #include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <unordered_map>
 
 namespace
 {
@@ -14,6 +17,26 @@ namespace
     // user-resizable panes (ImGuiChildFlags_ResizeX)
     // can compute horizontal overflow correctly.
     ImVector<ImGuiID> g_scrollPaneStack;
+
+    // Text being edited in OptionalNumberInput fields,
+    // keyed by ImGui ID (kept only while active).
+    std::unordered_map<ImGuiID, std::string> g_numberText;
+
+    int NumberCharFilter(ImGuiInputTextCallbackData* data)
+    {
+        const ImWchar c = data->EventChar;
+        return ((c >= '0' && c <= '9') || c == '.') ? 0 : 1;
+    }
+
+    std::string FormatNumber(const std::optional<double>& value)
+    {
+        if (!value)
+            return "";
+
+        char buffer[32];
+        std::snprintf(buffer, sizeof(buffer), "%g", *value);
+        return buffer;
+    }
 
     int DateCharFilter(ImGuiInputTextCallbackData* data)
     {
@@ -83,18 +106,14 @@ namespace UI
                 push(ImGuiCol_ButtonHovered, Mix(Honey, Cream, 0.25f));
                 push(ImGuiCol_ButtonActive, Mix(Honey, Cream, 0.45f));
                 push(ImGuiCol_Text, Forest);
+                push(ImGuiCol_Border, Mix(Honey, Forest, 0.35f));
                 break;
 
             case ButtonKind::Danger:
                 push(ImGuiCol_Button, Mix(Surface, Danger, 0.55f));
                 push(ImGuiCol_ButtonHovered, Danger);
                 push(ImGuiCol_ButtonActive, Mix(Danger, Cream, 0.25f));
-                break;
-
-            case ButtonKind::Subtle:
-                push(ImGuiCol_Button, WithAlpha(SurfaceRaised, 0.0f));
-                push(ImGuiCol_ButtonHovered, SurfaceRaised);
-                push(ImGuiCol_ButtonActive, ForestLight);
+                push(ImGuiCol_Border, Danger);
                 break;
 
             case ButtonKind::Secondary:
@@ -297,14 +316,18 @@ namespace UI
         const bool padded =
             (childFlags & (ImGuiChildFlags_Borders | ImGuiChildFlags_AlwaysUseWindowPadding)) != 0;
 
+        // Visible content width with room reserved for a
+        // vertical scrollbar.
         const float inner = width
             - (padded ? style.WindowPadding.x * 2.0f : 0.0f)
             - style.ScrollbarSize;
 
-        // Only force a content width when the pane is too
-        // narrow; otherwise content fills the pane.
-        if (minContentWidth > 0.0f && inner < minContentWidth)
-            ImGui::SetNextWindowContentSize(ImVec2(minContentWidth, 0.0f));
+        // Always set the content width explicitly: max of the
+        // minimum and the visible width. Letting ImGui measure
+        // it would let wrapped text keep a horizontal
+        // scrollbar alive after a vertical one appears (text
+        // wraps to the measured width, which then stays wide).
+        ImGui::SetNextWindowContentSize(ImVec2(std::max(minContentWidth, inner), 0.0f));
 
         g_scrollPaneStack.push_back(key);
 
@@ -328,6 +351,213 @@ namespace UI
             );
 
             g_scrollPaneStack.pop_back();
+        }
+    }
+
+    // ----------------------------------------------
+    // Choice & number inputs
+    // ----------------------------------------------
+
+    bool SegmentedControl(
+        const char* id,
+        const char* const* labels,
+        int count,
+        int& selected,
+        float height)
+    {
+        using namespace Theme::Colors;
+
+        if (count <= 0)
+            return false;
+
+        if (height <= 0.0f)
+            height = Px(Size::TouchTarget);
+
+        const ImGuiStyle& style = ImGui::GetStyle();
+
+        // Equal widths: the widest label decides.
+        float width = Em(Controls::ButtonMinWidthEm);
+
+        for (int i = 0; i < count; ++i)
+            width = std::max(width, ImGui::CalcTextSize(labels[i], nullptr, true).x + style.FramePadding.x * 2.0f);
+
+        bool changed = false;
+
+        ImGui::PushID(id);
+
+        for (int i = 0; i < count; ++i)
+        {
+            if (i > 0)
+                SameLineOrWrap(width);
+
+            const bool active = i == selected;
+
+            // Unselected segments use the normal button colour so
+            // they are visible on panels and in dialogs.
+            ImGui::PushStyleColor(ImGuiCol_Button, active ? Honey : ForestLight);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, active ? Mix(Honey, Cream, 0.25f) : Sage);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, active ? Mix(Honey, Cream, 0.45f) : SageLight);
+            ImGui::PushStyleColor(ImGuiCol_Text, active ? Forest : TextPrimary);
+
+            ImGui::PushID(i);
+
+            if (ImGui::Button(labels[i], ImVec2(width, height)) && !active)
+            {
+                selected = i;
+                changed = true;
+            }
+
+            ImGui::PopID();
+            ImGui::PopStyleColor(4);
+        }
+
+        ImGui::PopID();
+        return changed;
+    }
+
+    bool OptionalNumberInput(const char* id, std::optional<double>& value, const char* hint)
+    {
+        const ImGuiID key = ImGui::GetID(id);
+
+        auto it = g_numberText.find(key);
+
+        std::string text = it != g_numberText.end() ? it->second : FormatNumber(value);
+
+        bool changed = false;
+
+        if (ImGui::InputTextWithHint(id, hint, &text, ImGuiInputTextFlags_CallbackCharFilter, NumberCharFilter))
+        {
+            std::optional<double> parsed;
+
+            if (!text.empty() && text != ".")
+            {
+                char* end = nullptr;
+                const double number = std::strtod(text.c_str(), &end);
+
+                if (end && *end == '\0')
+                    parsed = number;
+                else
+                    parsed = value;   // e.g. "1.2." - keep previous value
+            }
+
+            if (parsed != value)
+            {
+                value = parsed;
+                changed = true;
+            }
+        }
+
+        // Keep the raw text only while editing so the user
+        // can type "1." etc.; otherwise show the value.
+        if (ImGui::IsItemActive())
+            g_numberText[key] = text;
+        else
+            g_numberText.erase(key);
+
+        return changed;
+    }
+
+    bool IntInput(const char* id, int& value, int minimum, int maximum)
+    {
+        int edited = value;
+
+        // Apply while typing. Since Dear ImGui 1.92.9 number
+        // fields only apply on Enter / Tab / focus loss, so a
+        // value typed just before clicking Save would be lost
+        // together with that click, and live hints (e.g.
+        // "frames 9-10 will be retired") would lag behind.
+        ImGui::PushItemFlag(ImGuiItemFlags_LiveEditOnInputScalar, true);
+        ImGui::InputInt(id, &edited, 0, 0);
+        ImGui::PopItemFlag();
+
+        edited = std::clamp(edited, minimum, maximum);
+
+        if (edited != value)
+        {
+            value = edited;
+            return true;
+        }
+
+        return false;
+    }
+
+    // ----------------------------------------------
+    // Containers
+    // ----------------------------------------------
+
+    void BeginCard(const char* id)
+    {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, Px(Spacing::Panel, Spacing::Panel));
+
+        ImGui::BeginChild(
+            id,
+            ImVec2(0.0f, 0.0f),
+            ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY
+        );
+    }
+
+    void EndCard()
+    {
+        ImGui::EndChild();
+        ImGui::PopStyleVar();
+    }
+
+    void StepIndicator(const char* const* labels, int count, int current)
+    {
+        using namespace Theme::Colors;
+
+        const float dot = Em(1.6f);
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+        for (int i = 0; i < count; ++i)
+        {
+            char number[16];
+            std::snprintf(number, sizeof(number), "%d", i + 1);
+
+            const std::string label = labels[i];
+            const float labelWidth = ImGui::CalcTextSize(label.c_str()).x;
+            const float itemWidth = dot + ImGui::GetStyle().ItemInnerSpacing.x + labelWidth;
+
+            if (i > 0)
+                SameLineOrWrap(itemWidth + Em(1.5f));
+
+            if (i > 0)
+            {
+                // Connector line.
+                const ImVec2 p = ImGui::GetCursorScreenPos();
+                drawList->AddLine(
+                    ImVec2(p.x, p.y + dot * 0.5f),
+                    ImVec2(p.x + Em(1.0f), p.y + dot * 0.5f),
+                    ImGui::GetColorU32(Theme::Colors::Border),
+                    Px(2.0f)
+                );
+                ImGui::Dummy(ImVec2(Em(1.0f), dot));
+                ImGui::SameLine();
+            }
+
+            const bool done = i < current;
+            const bool active = i == current;
+
+            const ImVec4 fill = active ? Honey : (done ? Sage : SurfaceRaised);
+            const ImVec4 text = active ? Forest : (done ? Forest : TextSecondary);
+
+            const ImVec2 p = ImGui::GetCursorScreenPos();
+            const ImVec2 center(p.x + dot * 0.5f, p.y + dot * 0.5f);
+
+            drawList->AddCircleFilled(center, dot * 0.5f, ImGui::GetColorU32(fill));
+
+            const ImVec2 numberSize = ImGui::CalcTextSize(number);
+            drawList->AddText(
+                ImVec2(center.x - numberSize.x * 0.5f, center.y - numberSize.y * 0.5f),
+                ImGui::GetColorU32(text),
+                number
+            );
+
+            ImGui::Dummy(ImVec2(dot, dot));
+            ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (dot - ImGui::GetTextLineHeight()) * 0.5f);
+            ImGui::TextColored(active ? TextPrimary : TextSecondary, "%s", label.c_str());
         }
     }
 
@@ -371,9 +601,9 @@ namespace UI
 
             ImGui::SameLine(rightEdge - closeWidth);
 
-            ImGui::PushStyleColor(ImGuiCol_Button, WithAlpha(accent, 0.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, WithAlpha(accent, 0.25f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, WithAlpha(accent, 0.4f));
+            ImGui::PushStyleColor(ImGuiCol_Button, WithAlpha(accent, 0.25f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, WithAlpha(accent, 0.4f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, WithAlpha(accent, 0.55f));
 
             // U+00D7 multiplication sign as the close glyph.
             if (ImGui::Button("\xC3\x97###Dismiss", ImVec2(closeWidth, closeWidth)))

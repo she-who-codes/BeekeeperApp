@@ -26,7 +26,8 @@ namespace Fonts
     // then to ImGui's default font if files are missing).
     ImFont* Get(Face face);
 
-    // Loads all faces from resources/fonts. Returns false
+    // Loads all faces from <resources>/fonts (see Paths.h).
+    // Returns false
     // if the Inter fonts could not be loaded.
     bool Load();
 }

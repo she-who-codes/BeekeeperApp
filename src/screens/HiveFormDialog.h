@@ -1,8 +1,11 @@
 
 #pragma once
 
+#include "database/DatabaseManager.h"
 #include "models/Apiary.h"
 #include "models/Hive.h"
+#include "models/HiveEquipment.h"
+#include "repositories/BoxRepository.h"
 #include "repositories/HiveRepository.h"
 
 #include <string>
@@ -33,7 +36,11 @@ public:
         Updated
     };
 
-    explicit HiveFormDialog(HiveRepository& hiveRepository);
+    HiveFormDialog(
+        HiveRepository& hiveRepository,
+        BoxRepository& boxRepository,
+        DatabaseManager& database
+    );
 
     void OpenForCreate(int apiaryId);
     void OpenForEdit(const Hive& hive);
@@ -50,6 +57,21 @@ public:
 
 private:
     HiveRepository& m_hiveRepository;
+    BoxRepository& m_boxRepository;
+    DatabaseManager& m_database;
+
+    // Starting setup (Add Hive only): an optional first box
+    // created together with the hive.
+    bool m_addStartingBox = true;
+    std::string m_startForHiveType;     // hive type the defaults were made for
+    std::vector<const HiveEquipment::BoxTypeInfo*> m_startBoxTypes;
+    int m_startBoxIndex = 0;
+    int m_startFrameCount = 0;
+    int m_startFrameTypeIndex = 0;
+
+    void ResetStartingSetup(const std::string& hiveType);
+    void ApplyStartingBoxDefaults();
+    void DrawStartingSetup();
 
     bool m_requestOpen = false;
     bool m_isEdit = false;

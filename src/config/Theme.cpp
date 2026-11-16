@@ -129,5 +129,8 @@ namespace Theme
             Colors::Sage.x, Colors::Sage.y, Colors::Sage.z, 0.45f);
 
         colors[ImGuiCol_NavCursor] = Colors::Honey;
+
+        // Text links (breadcrumbs) use the accent colour.
+        colors[ImGuiCol_TextLink] = Colors::Honey;
     }
 }

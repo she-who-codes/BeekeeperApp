@@ -1,6 +1,5 @@
 {
     "format": {
-        "date_pattern": "DD/MM/YYYY",
-        "date_hint": "DD/MM/YYYY"
+        "date_pattern": "DD/MM/YYYY"
     }
 }

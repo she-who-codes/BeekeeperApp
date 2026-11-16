@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "models/Box.h"
 #include "models/Hive.h"
 
 #include <string>
@@ -20,9 +21,26 @@ namespace Display
     // Returns "" for empty / invalid values.
     std::string Date(const std::string& iso);
 
-    // Active locale's date pattern and its hint text.
+    // Equipment names (box type, role, frame type).
+    std::string BoxType(const std::string& key);
+    std::string BoxRole(const std::string& key);
+    std::string FrameType(const std::string& key);
+    std::string FrameTypeShort(const std::string& key);
+
+    // "Box 3 · Medium · Honey super" (+ " · label").
+    std::string BoxTitle(const Box& box);
+
+    // Comb age, e.g. "2 years, 3 months" / "5 months" /
+    // "Less than a month". Empty for invalid dates.
+    std::string CombAge(const std::string& installedIso);
+
+    // Short tile form: "2 yr" / "5 mo"; empty under a month.
+    std::string CombAgeShort(const std::string& installedIso);
+
+    // Active date pattern (Settings override or locale
+    // default) and its localized placeholder text.
     std::string DatePattern();
-    const char* DateHint();
+    std::string DateHint();
 
     enum class FutureDates
     {

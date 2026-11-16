@@ -1,0 +1,458 @@
+{
+    "meta": {
+        "language_name": "English"
+    },
+    "format": {
+        "date_pattern": "YYYY-MM-DD",
+        "token_year": "YYYY",
+        "token_month": "MM",
+        "token_day": "DD",
+        "month_day": "{month} {day}"
+    },
+    "app": {
+        "name": "BeeKeeper"
+    },
+    "navigation": {
+        "dashboard": "Dashboard",
+        "apiaries": "Apiaries",
+        "inspections": "Inspections",
+        "reports": "Reports",
+        "settings": "Settings"
+    },
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "add": "Add",
+        "search": "Search",
+        "today": "Today",
+        "dismiss": "Dismiss",
+        "archive": "Archive",
+        "restore": "Restore",
+        "required_legend": "Required",
+        "remove": "Remove",
+        "back": "Back",
+        "next": "Next",
+        "discard": "Discard",
+        "off": "Off"
+    },
+    "errors": {
+        "save_failed": "Could not save your changes. {details}",
+        "load_failed": "Could not load data. {details}"
+    },
+    "validation": {
+        "date_required": "Enter a date.",
+        "date_format": "Enter the date as {pattern}.",
+        "date_invalid": "That date does not exist.",
+        "date_future": "This date can't be in the future."
+    },
+    "apiary": {
+        "screen_title": "Apiary Management",
+        "screen_subtitle": "Manage your apiaries and the colonies they contain.",
+        "add_button": "+ Add Apiary",
+        "list_heading": "Your apiaries",
+        "list_empty": "No apiaries yet. Add your first apiary to get started.",
+        "welcome_title": "Welcome to BeeKeeper!",
+        "welcome_body": "Create an apiary to start organizing your hives.",
+        "form": {
+            "title_add": "Add Apiary",
+            "name": "Name",
+            "location": "Location",
+            "notes": "Notes",
+            "save": "Save Apiary",
+            "name_required": "Apiary name is required."
+        }
+    },
+    "hive": {
+        "section_title": "Hives",
+        "count_active": "{count} active",
+        "add_button": "+ Add Hive",
+        "show_archived": "Show archived ({count})",
+        "empty_title": "No hives yet",
+        "empty_body": "Add a hive to this apiary to begin tracking a colony.",
+        "type_not_set": "Hive type not specified",
+        "setup_on": "Hive set up {date}",
+        "setup_not_set": "Set-up date not set",
+        "colony_on": "Colony established {date}",
+        "colony_not_set": "No colony date recorded",
+        "archived_chip": "Archived",
+        "edit": "Edit",
+        "archive": "Archive",
+        "restore": "Restore",
+        "moved_notice": "\"{hive}\" was moved to {apiary}.",
+        "archived_notice": "\"{hive}\" was archived. Turn on \"Show archived\" to see or restore it.",
+        "restored_notice": "\"{hive}\" was restored.",
+        "form": {
+            "title_add": "Add Hive",
+            "title_edit": "Edit Hive",
+            "name": "Hive name",
+            "apiary": "Apiary",
+            "apiary_placeholder": "Select an apiary",
+            "type": "Hive type",
+            "type_placeholder": "Select a hive type",
+            "type_other": "Describe the hive type",
+            "type_other_hint": "e.g. Dadant, National, horizontal",
+            "setup_date": "Hive set-up date",
+            "setup_date_help": "When the hive equipment was set up at this apiary.",
+            "colony_date": "Colony established date",
+            "colony_date_help": "When the current colony was established, e.g. package or nuc installed, swarm caught, or split made. Leave blank if the hive has no colony yet.",
+            "notes": "Notes",
+            "save_add": "Save Hive",
+            "save_edit": "Save Changes",
+            "name_required": "Hive name is required.",
+            "apiary_required": "Choose the apiary this hive is located at.",
+            "type_required": "Choose a hive type.",
+            "type_other_required": "Describe the hive type.",
+            "start_title": "Starting setup",
+            "start_help": "Add the hive's first box now. You can add more boxes later.",
+            "start_add": "Add a starting box"
+        },
+        "archive_dialog": {
+            "title": "Archive Hive",
+            "body": "Archive \"{hive}\"? It will be hidden from active lists. All of its records are kept and it can be restored at any time.",
+            "confirm": "Archive Hive"
+        },
+        "open": "Open",
+        "no_boxes": "No boxes yet",
+        "equipment_summary": "{boxes} · {frames}",
+        "box_count": {
+            "one": "1 box",
+            "other": "{count} boxes"
+        },
+        "frame_count": {
+            "one": "1 frame",
+            "other": "{count} frames"
+        }
+    },
+    "hive_type": {
+        "langstroth_8": "Langstroth (8-frame)",
+        "langstroth_10": "Langstroth (10-frame)",
+        "long_langstroth": "Long Langstroth",
+        "top_bar": "Top Bar",
+        "warre": "Warré",
+        "layens": "Layens",
+        "flow": "Flow Hive",
+        "other": "Other"
+    },
+    "units": {
+        "fahrenheit": "°F  Fahrenheit",
+        "celsius": "°C  Celsius"
+    },
+    "month": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    },
+    "season": {
+        "spring": "Spring",
+        "summer": "Summer",
+        "fall": "Fall",
+        "winter": "Winter"
+    },
+    "mite_method": {
+        "alcohol_wash": "Alcohol wash",
+        "sugar_roll": "Sugar roll",
+        "co2_wash": "CO₂ wash",
+        "sticky_board": "Sticky board (natural mite fall)",
+        "drone_uncapping": "Drone brood uncapping"
+    },
+    "mite_unit": {
+        "percent_bees": "% of bees (mites per 100 bees)",
+        "mites_per_day": "mites per day",
+        "percent_cells": "% of drone cells"
+    },
+    "task": {
+        "inspection": "Hive inspection",
+        "mite_check": "Mite check",
+        "treatment_follow_up": "Treatment follow-up check",
+        "feeding_check": "Feeding check",
+        "comb_replacement": "Comb / frame replacement",
+        "requeening": "Requeening"
+    },
+    "interval_unit": {
+        "days": "Days",
+        "weeks": "Weeks",
+        "months": "Months",
+        "years": "Years"
+    },
+    "interval": {
+        "every_days": {
+            "one": "Every day",
+            "other": "Every {count} days"
+        },
+        "every_weeks": {
+            "one": "Every week",
+            "other": "Every {count} weeks"
+        },
+        "every_months": {
+            "one": "Every month",
+            "other": "Every {count} months"
+        },
+        "every_years": {
+            "one": "Every year",
+            "other": "Every {count} years"
+        },
+        "after_treatment_days": {
+            "one": "1 day after a treatment",
+            "other": "{count} days after a treatment"
+        },
+        "after_treatment_weeks": {
+            "one": "1 week after a treatment",
+            "other": "{count} weeks after a treatment"
+        },
+        "after_treatment_months": {
+            "one": "1 month after a treatment",
+            "other": "{count} months after a treatment"
+        },
+        "after_treatment_years": {
+            "one": "1 year after a treatment",
+            "other": "{count} years after a treatment"
+        }
+    },
+    "setup": {
+        "title": "Welcome to BeeKeeper",
+        "subtitle": "Let's set BeeKeeper up for your apiaries. Each step is filled in with recommended values — change anything that doesn't fit how you keep bees. You can change all of this later in Settings.",
+        "review": "Review",
+        "review_help": "Check your choices. Use Back to change anything, then Finish.",
+        "finish": "Finish",
+        "use_defaults": "Use defaults and finish later",
+        "use_defaults_help": "Saves the values shown now (recommended defaults for anything you haven't changed). You can finish setup later in Settings.",
+        "finish_reminder": "Finish setup"
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Region, seasons, mite monitoring and maintenance schedules.",
+        "saved": "Settings saved.",
+        "unsaved": "You have unsaved changes.",
+        "fix_errors": "Some settings need attention. Fix the highlighted items to continue.",
+        "deferred_notice": "First-run setup was skipped, so recommended defaults are in use. Review each section and press Save to finish setup.",
+        "section": {
+            "region": "Region & language",
+            "seasons": "Seasons",
+            "mites": "Mite monitoring",
+            "maintenance": "Maintenance"
+        },
+        "region": {
+            "language": "Language",
+            "language_help": "Language used throughout BeeKeeper.",
+            "language_auto": "Automatic (match Windows)",
+            "date_format": "Date format",
+            "date_format_help": "How dates are shown and typed. Dates are always stored the same way, so changing this never alters your records.",
+            "date_auto": "Automatic (from your region) — {example}",
+            "date_option": "{format} — {example}",
+            "temperature": "Temperature unit",
+            "temperature_help": "Used for weather readings in inspections."
+        },
+        "seasons": {
+            "hemisphere": "Hemisphere",
+            "hemisphere_help": "Sets typical season dates. Changing it resets the season and off-season dates below.",
+            "northern": "Northern",
+            "southern": "Southern",
+            "starts": "Season start dates",
+            "starts_help": "Adjust these to match your local climate. Mite alert levels are set per season.",
+            "season": "Season",
+            "starts_on": "Starts on",
+            "current": "Today falls in {season}.",
+            "invalid_order": "Seasons must start on different days and follow the order Spring, Summer, Fall, Winter."
+        },
+        "mites": {
+            "track": "Track mite checks",
+            "track_help": "Some keepers choose not to monitor mites. Turn this off to hide mite checks throughout BeeKeeper.",
+            "tracking_off": "Mite tracking is off. Mite checks will not be shown or scheduled.",
+            "methods": "Methods you use",
+            "methods_help": "Tick the methods you use. Alert levels are prefilled with commonly published guidance; adjust them for your region.",
+            "watch": "Watch",
+            "act": "Act",
+            "blank_help": "Leave a level blank for no alert in that season.",
+            "sample_bees": "Bees per sample",
+            "sample_days": "Days on board",
+            "sample_cells": "Drone cells uncapped",
+            "measured_as": "Measured as",
+            "name_hint": "Method name",
+            "unnamed": "Unnamed method",
+            "name_required": "Enter a name for this method.",
+            "percent_max": "{season}: a percentage can't be more than 100.",
+            "watch_above_act": "{season}: the Watch level must not be higher than the Act level.",
+            "add_custom": "+ Add custom method",
+            "select_one": "Select at least one method, or turn off mite tracking."
+        },
+        "maintenance": {
+            "off_season": "Off-season pause",
+            "off_season_help": "All recurring tasks are paused during this period and resume when it ends.",
+            "pause_enabled": "Pause all recurring tasks during the off-season",
+            "pause_from": "Pause from",
+            "pause_until": "until",
+            "use_winter": "Use winter season dates",
+            "off_season_same": "The off-season must start and end on different days.",
+            "tasks": "Recurring tasks",
+            "tasks_help": "How often each task is due for every active hive.",
+            "col_on": "On",
+            "col_task": "Task",
+            "col_interval": "Interval",
+            "after_treatment": "after a treatment",
+            "name_hint": "Task name",
+            "unnamed": "Unnamed task",
+            "name_required": "Enter a name for this task.",
+            "interval_required": "Enter an interval of at least 1.",
+            "mite_tracking_off": "Mite tracking is off.",
+            "add_custom": "+ Add custom task"
+        },
+        "review": {
+            "method_detail": "{sample} · {sample_label} · {unit}",
+            "no_methods": "No methods selected",
+            "off_season_range": "{start} until {end} (all recurring tasks paused)"
+        },
+        "leave_dialog": {
+            "title": "Unsaved changes",
+            "body": "You have unsaved changes in Settings. Save them before leaving?",
+            "save": "Save changes",
+            "discard": "Discard changes",
+            "stay": "Keep editing"
+        },
+        "save_finish": "Save and finish setup"
+    },
+    "hive_detail": {
+        "tab_overview": "Overview",
+        "tab_boxes": "Boxes & Frames",
+        "edit_hive": "Edit hive",
+        "section_hive": "Hive",
+        "section_equipment": "Equipment",
+        "boxes": "Boxes",
+        "frames": "Frames",
+        "feeder_frames": "Feeder frames",
+        "replacement_due": "Frames due for comb replacement"
+    },
+    "box_type": {
+        "deep": "Deep",
+        "medium": "Medium",
+        "shallow": "Shallow",
+        "warre_box": "Warré box",
+        "flow_super": "Flow super",
+        "horizontal_body": "Hive body (horizontal)",
+        "queen_excluder": "Queen excluder",
+        "feeder": "Feeder (box / top feeder)"
+    },
+    "box_role": {
+        "brood": "Brood",
+        "honey_super": "Honey super"
+    },
+    "frame_type": {
+        "wax_foundation": "Wax foundation",
+        "plastic_foundation": "Plastic foundation",
+        "foundationless": "Foundationless",
+        "flow_frame": "Flow frame",
+        "feeder": "Feeder frame",
+        "follower_board": "Follower / divider board",
+        "unknown": "Not specified"
+    },
+    "frame_type_short": {
+        "wax_foundation": "Wax",
+        "plastic_foundation": "Plastic",
+        "foundationless": "No fdn",
+        "flow_frame": "Flow",
+        "feeder": "Feeder",
+        "follower_board": "Divider"
+    },
+    "boxes": {
+        "box_number": "Box {number}",
+        "add": "+ Add box",
+        "added_notice": "Box added.",
+        "updated_notice": "Box updated.",
+        "removed_notice": "{box} was removed.",
+        "empty_title": "No boxes yet",
+        "empty": "Add the first box to start tracking this hive's frames.",
+        "top_of_hive": "Top of hive",
+        "bottom_of_hive": "Bottom of hive",
+        "installed_on": "Installed {date}",
+        "move_up": "Move up",
+        "move_down": "Move down",
+        "excluder_bar": "Queen excluder",
+        "feeder_bar": "Feeder — no frames",
+        "dialog": {
+            "title_add": "Add Box",
+            "add": "Add Box",
+            "type": "Box type",
+            "type_fixed": "To change the type, remove this box and add a new one.",
+            "role": "Role",
+            "frame_count": "Number of frames",
+            "frame_count_help": "Frames are numbered 1 to N from left to right, standing behind the hive.",
+            "frames_retired": "Frames {from}–{to} will be retired. Their history is kept.",
+            "frame_type": "Frame type",
+            "new_frame_type": "Type of the added frames",
+            "no_frames": "This box holds no frames.",
+            "installed": "Installed on",
+            "label": "Label",
+            "label_hint": "Optional, e.g. Super A",
+            "notes": "Notes"
+        },
+        "remove_dialog": {
+            "title": "Remove Box",
+            "body": "Remove {box} from this hive? Its frames and their history are kept.",
+            "date": "Removed on",
+            "confirm": "Remove Box"
+        }
+    },
+    "frames": {
+        "age_under_month": "Less than a month",
+        "age_months": {
+            "one": "1 month",
+            "other": "{count} months"
+        },
+        "age_years": {
+            "one": "1 year",
+            "other": "{count} years"
+        },
+        "age_years_months": "{years}, {months}",
+        "age_years_short": {
+            "one": "{count} yr",
+            "other": "{count} yrs"
+        },
+        "age_months_short": {
+            "one": "{count} mo",
+            "other": "{count} mo"
+        },
+        "replace_interval": "Comb replacement: {interval}",
+        "legend_feeder": "Feeder",
+        "legend_due": "Comb replacement due",
+        "tile_tooltip": "Frame {number}",
+        "installed_age": "Installed {date} ({age})",
+        "panel_heading": "Frame details",
+        "select_hint": "Select a frame to see and edit its details.",
+        "panel_title": "Box {box} · Frame {frame}",
+        "type": "Frame type",
+        "no_comb_help": "Feeder frames and divider boards have no comb, so no brood, honey or pollen is recorded for them.",
+        "label": "Label",
+        "label_hint": "Optional, e.g. queen marked",
+        "installed": "Installed on",
+        "comb_age": "Comb age: {age}",
+        "notes": "Notes",
+        "save": "Save frame",
+        "replace": "Replace frame…",
+        "replace_help": "Swap in a new frame. The old frame's history is kept.",
+        "unsaved": "Unsaved changes",
+        "saved_notice": "Frame {frame} saved.",
+        "replaced_notice": "Frame {frame} replaced.",
+        "replace_dialog": {
+            "title": "Replace Frame",
+            "body": "Replace frame {frame} in box {box}? The current frame is retired (its history is kept) and a new frame is installed in the same position.",
+            "new_type": "New frame type",
+            "confirm": "Replace Frame"
+        },
+        "discard_dialog": {
+            "title": "Unsaved Changes",
+            "body": "You have unsaved changes to this frame. Discard them?",
+            "discard": "Discard changes",
+            "stay": "Keep editing"
+        }
+    }
+}

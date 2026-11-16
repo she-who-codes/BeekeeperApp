@@ -46,12 +46,30 @@ namespace
 
 ApiaryScreen::ApiaryScreen(
     ApiaryRepository& apiaryRepository,
-    HiveRepository& hiveRepository
+    HiveRepository& hiveRepository,
+    BoxRepository& boxRepository,
+    DatabaseManager& database
 )
     : m_apiaryRepository(apiaryRepository),
       m_hiveRepository(hiveRepository),
-      m_hiveForm(hiveRepository)
+      m_boxRepository(boxRepository),
+      m_hiveForm(hiveRepository, boxRepository, database)
 {
+    LoadApiaries();
+}
+
+int ApiaryScreen::TakeOpenHiveRequest()
+{
+    const int hiveId = m_openHiveRequest;
+    m_openHiveRequest = 0;
+    return hiveId;
+}
+
+void ApiaryScreen::Refresh(int selectApiaryId)
+{
+    if (selectApiaryId != 0)
+        m_selectedApiaryId = selectApiaryId;
+
     LoadApiaries();
 }
 
@@ -83,6 +101,7 @@ void ApiaryScreen::LoadApiaries()
 void ApiaryScreen::LoadHives()
 {
     m_hives.clear();
+    m_equipment.clear();
 
     if (m_selectedApiaryId == 0)
         return;
@@ -95,6 +114,14 @@ void ApiaryScreen::LoadHives()
         m_pageError = Localization::Format(
             "errors.load_failed",
             { { "details", m_hiveRepository.GetLastError() } }
+        );
+    }
+
+    if (!m_boxRepository.GetCountsByApiary(m_selectedApiaryId, m_equipment))
+    {
+        m_pageError = Localization::Format(
+            "errors.load_failed",
+            { { "details", m_boxRepository.GetLastError() } }
         );
     }
 }
@@ -138,36 +165,9 @@ void ApiaryScreen::SetArchived(const Hive& hive, bool archived)
 
 void ApiaryScreen::Render()
 {
-    const ImGuiIO& io = ImGui::GetIO();
-
-    // Fill the application window.
-    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-    ImGui::SetNextWindowSize(io.DisplaySize);
-
-    // Page side padding scales with window width.
-    const float pagePaddingX = std::clamp(
-        io.DisplaySize.x * UI::Spacing::PageRatio,
-        UI::Px(UI::Spacing::PageMin),
-        UI::Px(UI::Spacing::PageMax)
-    );
-
-    ImGui::PushStyleVar(
-        ImGuiStyleVar_WindowPadding,
-        ImVec2(pagePaddingX, UI::Px(UI::Spacing::PageTop))
-    );
-
-    ImGui::Begin(
-        "###ApiaryManagement",
-        nullptr,
-        ImGuiWindowFlags_NoDecoration |
-        ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoBringToFrontOnFocus
-    );
-
-    // Pop straight away: the page padding must not leak
-    // into the child panes.
-    ImGui::PopStyleVar();
+    // Drawn inside the page area provided by App (which
+    // owns the window, top bar and page padding).
+    ImGui::PushID("ApiaryScreen");
 
     DrawHeader();
     DrawBanners();
@@ -230,7 +230,7 @@ void ApiaryScreen::Render()
     DrawHiveFormDialog();
     DrawArchiveConfirmDialog();
 
-    ImGui::End();
+    ImGui::PopID();
 }
 
 // --------------------------------------------------
@@ -323,9 +323,7 @@ void ApiaryScreen::DrawApiaryList()
 
         const ImVec2 rowMin = ImGui::GetCursorScreenPos();
 
-        // The selectable is the click/keyboard target;
-        // the two text lines are drawn on top of it.
-        if (ImGui::Selectable("##Apiary", selected, ImGuiSelectableFlags_None, ImVec2(0.0f, rowHeight)))
+if (ImGui::Selectable("##Apiary", selected, ImGuiSelectableFlags_None, ImVec2(0.0f, rowHeight)))
         {
             if (m_selectedApiaryId != apiary.id)
             {
@@ -335,6 +333,25 @@ void ApiaryScreen::DrawApiaryList()
 
                 LoadHives();
             }
+        }
+
+        // Resting fill + outline over the selectable's real
+        // area (same width as the selected highlight) so rows
+        // read as tappable. Not drawn while hovered or
+        // selected: the selectable paints those states.
+        if (!selected && !ImGui::IsItemHovered())
+        {
+            drawList->AddRectFilled(
+                ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+                ImGui::GetColorU32(Theme::Colors::SurfaceRaised),
+                UI::Px(UI::Radius::Frame));
+
+            drawList->AddRect(
+                ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+                ImGui::GetColorU32(Theme::Colors::Border),
+                UI::Px(UI::Radius::Frame),
+                0,
+                UI::Px(UI::Border::Frame));
         }
 
         const ImVec2 rowMax = ImGui::GetItemRectMax();
@@ -578,6 +595,23 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
     UI::TextStyledWrapped(UI::Text::Caption, TextMuted, setupText.c_str());
     UI::TextStyledWrapped(UI::Text::Caption, TextMuted, colonyText.c_str());
 
+    // Equipment summary
+    {
+        const auto it = m_equipment.find(hive.id);
+        const HiveEquipmentCounts counts = it != m_equipment.end() ? it->second : HiveEquipmentCounts();
+
+        const std::string equipment = counts.boxes == 0
+            ? std::string(Tr("hive.no_boxes"))
+            : Localization::Format(
+                "hive.equipment_summary",
+                {
+                    { "boxes", Localization::FormatPlural("hive.box_count", counts.boxes) },
+                    { "frames", Localization::FormatPlural("hive.frame_count", counts.frames) }
+                });
+
+        UI::TextStyledWrapped(UI::Text::Caption, TextSecondary, equipment.c_str());
+    }
+
     // Notes preview
     if (!hive.notes.empty())
     {
@@ -600,9 +634,16 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + spacer);
 
     // Actions
+    const std::string openLabel = Localization::Label("hive.open", "Open");
+
+    if (UI::Button(openLabel.c_str(), UI::ButtonKind::Primary, -1.0f))
+        m_openHiveRequest = hive.id;
+
     if (archived)
     {
         const std::string restoreLabel = Localization::Label("hive.restore", "Restore");
+
+        UI::SameLineOrWrap(UI::ButtonWidth(restoreLabel.c_str()));
 
         if (UI::Button(restoreLabel.c_str(), UI::ButtonKind::Secondary, -1.0f))
             SetArchived(hive, false);
@@ -612,6 +653,8 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
         const std::string editLabel = Localization::Label("hive.edit", "Edit");
         const std::string archiveLabel = Localization::Label("hive.archive", "Archive");
 
+        UI::SameLineOrWrap(UI::ButtonWidth(editLabel.c_str()));
+
         if (UI::Button(editLabel.c_str(), UI::ButtonKind::Secondary, -1.0f))
         {
             m_pageNotice.clear();
@@ -620,7 +663,7 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
 
         UI::SameLineOrWrap(UI::ButtonWidth(archiveLabel.c_str()));
 
-        if (UI::Button(archiveLabel.c_str(), UI::ButtonKind::Subtle, -1.0f))
+        if (UI::Button(archiveLabel.c_str(), UI::ButtonKind::Secondary, -1.0f))
         {
             m_archiveCandidate = hive;
             m_openArchiveConfirm = true;

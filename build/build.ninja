@@ -80,6 +80,15 @@ build CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj: CXX_COMPILE
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\database
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
+build CMakeFiles/BeeKeeper.dir/src/database/DatabaseLocation.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/database/DatabaseLocation.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\database\DatabaseLocation.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\database
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
 build CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/database/DatabaseMigrations.cpp || cmake_object_order_depends_target_BeeKeeper
   DEFINES = -DGLFW_INCLUDE_NONE
   DEP_FILE = CMakeFiles\BeeKeeper.dir\src\database\DatabaseMigrations.cpp.obj.d
@@ -141,6 +150,96 @@ build CMakeFiles/BeeKeeper.dir/src/screens/BoxDialog.cpp.obj: CXX_COMPILER__BeeK
   INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/screens/InspectionScreen.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/InspectionScreen.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\InspectionScreen.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/screens/Dashboard.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/Dashboard.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\Dashboard.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/screens/MaintenanceUI.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/MaintenanceUI.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\MaintenanceUI.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/screens/MiteDialogs.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/screens/MiteDialogs.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\screens\MiteDialogs.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\screens
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/repositories/InspectionRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/InspectionRepository.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\repositories\InspectionRepository.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\repositories
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/repositories/MiteRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/MiteRepository.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\repositories\MiteRepository.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\repositories
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/repositories/MaintenanceRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/MaintenanceRepository.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\repositories\MaintenanceRepository.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\repositories
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/settings/MaintenanceSchedule.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/settings/MaintenanceSchedule.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\settings\MaintenanceSchedule.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\settings
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/models/InspectionOptions.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/models/InspectionOptions.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\models\InspectionOptions.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\models
+  TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
+
+build CMakeFiles/BeeKeeper.dir/src/localization/TimeFormat.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/localization/TimeFormat.cpp || cmake_object_order_depends_target_BeeKeeper
+  DEFINES = -DGLFW_INCLUDE_NONE
+  DEP_FILE = CMakeFiles\BeeKeeper.dir\src\localization\TimeFormat.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/sqlite -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/backends -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/imgui/misc/cpp -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/implot -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/json/include -IC:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/external/glfw/include
+  OBJECT_DIR = CMakeFiles\BeeKeeper.dir
+  OBJECT_FILE_DIR = CMakeFiles\BeeKeeper.dir\src\localization
   TARGET_SUPPORT_DIR = CMakeFiles\BeeKeeper.dir
 
 build CMakeFiles/BeeKeeper.dir/src/repositories/BoxRepository.cpp.obj: CXX_COMPILER__BeeKeeper_unscanned_ C$:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/src/repositories/BoxRepository.cpp || cmake_object_order_depends_target_BeeKeeper
@@ -384,7 +483,7 @@ build CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj: C_COMPILER__BeeKee
 #############################################
 # Link the executable BeeKeeper.exe
 
-build BeeKeeper.exe: CXX_EXECUTABLE_LINKER__BeeKeeper_ CMakeFiles/BeeKeeper.dir/src/main.cpp.obj CMakeFiles/BeeKeeper.dir/src/App.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Theme.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/ApiaryRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/HiveRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/ApiaryScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/HiveFormDialog.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/HiveDetailScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/BoxDialog.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/BoxRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/models/HiveEquipment.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SettingsEditors.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SettingsScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SetupWizard.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/SettingsRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/Seasons.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/SettingsDefaults.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/RegionalSettings.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/FontManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Paths.cpp.obj CMakeFiles/BeeKeeper.dir/generated/EmbeddedLocales.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/Localization.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/DateFormat.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Widgets.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Display.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/misc/cpp/imgui_stdlib.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot_items.cpp.obj CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
+build BeeKeeper.exe: CXX_EXECUTABLE_LINKER__BeeKeeper_ CMakeFiles/BeeKeeper.dir/src/main.cpp.obj CMakeFiles/BeeKeeper.dir/src/App.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Theme.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseLocation.cpp.obj CMakeFiles/BeeKeeper.dir/src/database/DatabaseMigrations.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/ApiaryRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/HiveRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/ApiaryScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/HiveFormDialog.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/HiveDetailScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/BoxDialog.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/InspectionScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/Dashboard.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/MaintenanceUI.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/MiteDialogs.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/InspectionRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/MiteRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/MaintenanceRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/MaintenanceSchedule.cpp.obj CMakeFiles/BeeKeeper.dir/src/models/InspectionOptions.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/TimeFormat.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/BoxRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/models/HiveEquipment.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SettingsEditors.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SettingsScreen.cpp.obj CMakeFiles/BeeKeeper.dir/src/screens/SetupWizard.cpp.obj CMakeFiles/BeeKeeper.dir/src/repositories/SettingsRepository.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/Seasons.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/SettingsDefaults.cpp.obj CMakeFiles/BeeKeeper.dir/src/settings/RegionalSettings.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/FontManager.cpp.obj CMakeFiles/BeeKeeper.dir/src/config/Paths.cpp.obj CMakeFiles/BeeKeeper.dir/generated/EmbeddedLocales.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/Localization.cpp.obj CMakeFiles/BeeKeeper.dir/src/localization/DateFormat.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Widgets.cpp.obj CMakeFiles/BeeKeeper.dir/src/ui/Display.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_glfw.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/backends/imgui_impl_opengl3.cpp.obj CMakeFiles/BeeKeeper.dir/external/imgui/misc/cpp/imgui_stdlib.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot.cpp.obj CMakeFiles/BeeKeeper.dir/external/implot/implot_items.cpp.obj CMakeFiles/BeeKeeper.dir/external/sqlite/sqlite3.c.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
   LINK_LIBRARIES = external/glfw/src/libglfw3.a  -lopengl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\BeeKeeper.dir
   POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\mandy\Documents\BeekeeperApp\BeekeeperApp\build && C:\msys64\ucrt64\bin\cmake.exe -E copy_directory C:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/resources C:/Users/mandy/Documents/BeekeeperApp/BeekeeperApp/build/resources"

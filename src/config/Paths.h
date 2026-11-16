@@ -12,6 +12,8 @@
 //   1. <working directory>/resources
 //   2. <executable folder>/resources
 //   3. <executable folder>/../resources
+// All paths are UTF-8 (safe for non-ASCII user folders
+// on Windows).
 // ==================================================
 
 namespace Paths

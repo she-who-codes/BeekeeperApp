@@ -1,5 +1,6 @@
 {
     "format": {
-        "date_pattern": "MM/DD/YYYY"
+        "date_pattern": "MM/DD/YYYY",
+        "time_pattern": "h:MM a"
     }
 }

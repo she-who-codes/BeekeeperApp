@@ -3,6 +3,9 @@
 
 #include "models/Box.h"
 #include "models/Hive.h"
+#include "models/Settings.h"
+
+#include <optional>
 
 #include <string>
 
@@ -41,6 +44,30 @@ namespace Display
     // default) and its localized placeholder text.
     std::string DatePattern();
     std::string DateHint();
+
+    // ---------------- Time ----------------
+
+    // Stored "HH:MM" -> locale text ("2:30 PM" / "14:30").
+    std::string Time(const std::string& storage);
+    std::string TimeNow();                          // locale text
+    std::string TimeHint();                         // "e.g. 2:30 PM"
+
+    // Optional time typed in the locale style. On success
+    // sets 'storage' ("HH:MM" or "" when empty).
+    bool ParseTimeInput(const std::string& text, std::string& storage, std::string& error);
+
+    // ---------------- Temperature ----------------
+    // Stored in degrees Celsius, shown in the keeper's unit.
+
+    void SetTemperatureUnit(TemperatureUnit unit);
+    TemperatureUnit CurrentTemperatureUnit();
+    const char* TemperatureSymbol();                // "°F" / "°C"
+
+    std::optional<double> CelsiusToDisplay(const std::optional<double>& celsius);
+    std::optional<double> DisplayToCelsius(const std::optional<double>& value);
+
+    // "72 °F" (rounded to 0.1), "" when empty.
+    std::string Temperature(const std::optional<double>& celsius);
 
     enum class FutureDates
     {

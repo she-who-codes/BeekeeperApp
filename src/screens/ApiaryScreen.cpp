@@ -3,7 +3,9 @@
 
 #include "config/LayoutUI.h"
 #include "config/Theme.h"
+#include "localization/DateFormat.h"
 #include "localization/Localization.h"
+#include "screens/MiteDialogs.h"
 #include "ui/Display.h"
 #include "ui/Widgets.h"
 
@@ -48,11 +50,17 @@ ApiaryScreen::ApiaryScreen(
     ApiaryRepository& apiaryRepository,
     HiveRepository& hiveRepository,
     BoxRepository& boxRepository,
+    MaintenanceRepository& maintenanceRepository,
+    MiteRepository& miteRepository,
+    const SettingsData& settings,
     DatabaseManager& database
 )
     : m_apiaryRepository(apiaryRepository),
       m_hiveRepository(hiveRepository),
       m_boxRepository(boxRepository),
+      m_maintenanceRepository(maintenanceRepository),
+      m_miteRepository(miteRepository),
+      m_settings(settings),
       m_hiveForm(hiveRepository, boxRepository, database)
 {
     LoadApiaries();
@@ -123,6 +131,48 @@ void ApiaryScreen::LoadHives()
             "errors.load_failed",
             { { "details", m_boxRepository.GetLastError() } }
         );
+    }
+
+    LoadStatus();
+}
+
+void ApiaryScreen::LoadStatus()
+{
+    m_status.clear();
+
+    const DateFormat::Date today = DateFormat::Today();
+
+    for (const Hive& hive : m_hives)
+    {
+        if (!hive.isActive)
+            continue;
+
+        HiveStatus status;
+        std::vector<DueItem> items;
+
+        if (!m_maintenanceRepository.DueItems(hive.id, m_settings, today, items))
+        {
+            m_pageError = Localization::Format(
+                "errors.load_failed",
+                { { "details", m_maintenanceRepository.GetLastError() } }
+            );
+            return;
+        }
+
+        for (const DueItem& item : items)
+        {
+            if (item.status == DueStatus::Overdue)
+                ++status.overdue;
+            else if (item.status == DueStatus::DueSoon)
+                ++status.dueSoon;
+        }
+
+        MiteCheck latest;
+
+        if (m_settings.app.miteTrackingEnabled && m_miteRepository.LatestCheck(hive.id, latest))
+            status.mites = MiteText::Alert(m_settings, latest);
+
+        m_status[hive.id] = status;
     }
 }
 
@@ -576,6 +626,9 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
     if (archived)
         UI::StatusChip(Tr("hive.archived_chip"), Warning);
 
+    if (!archived)
+        DrawStatusBadges(hive.id);
+
     // Type
     const std::string type = Display::HiveType(hive);
     UI::TextStyledWrapped(UI::Text::Caption, TextSecondary, type.c_str());
@@ -680,6 +733,41 @@ void ApiaryScreen::DrawHiveCard(const Hive& hive, float rowHeight)
 
     ImGui::PopStyleVar();
     ImGui::PopID();
+}
+
+// Chips under the hive name: "2 overdue", "1 due this
+// week", "Mites: Act". Wrap when the card is narrow.
+void ApiaryScreen::DrawStatusBadges(int hiveId)
+{
+    using namespace Theme::Colors;
+
+    const auto it = m_status.find(hiveId);
+
+    if (it == m_status.end())
+        return;
+
+    const HiveStatus& status = it->second;
+
+    std::vector<std::pair<std::string, ImVec4>> chips;
+
+    if (status.overdue > 0)
+        chips.emplace_back(Localization::FormatPlural("maintenance.badge_overdue", status.overdue), Danger);
+
+    if (status.dueSoon > 0)
+        chips.emplace_back(Localization::FormatPlural("maintenance.badge_due_soon", status.dueSoon), Warning);
+
+    if (status.mites == MiteAlert::Act)
+        chips.emplace_back(Tr("mites.alert_act"), Danger);
+    else if (status.mites == MiteAlert::Watch)
+        chips.emplace_back(Tr("mites.alert_watch"), Warning);
+
+    for (size_t i = 0; i < chips.size(); ++i)
+    {
+        if (i > 0)
+            UI::SameLineOrWrap(UI::StatusChipWidth(chips[i].first.c_str()));
+
+        UI::StatusChip(chips[i].first.c_str(), chips[i].second);
+    }
 }
 
 // --------------------------------------------------

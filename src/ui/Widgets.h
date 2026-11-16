@@ -126,13 +126,26 @@ namespace UI
     // Row of large, equally sized toggle buttons (easy to
     // hit with gloves). 'height' 0 = UI::Size::TouchTarget.
     // Returns true when the selection changed.
+    //  allowNone : tapping the selected option clears it
+    //              (selected = -1, "not recorded").
+    //  enabled   : optional per-option enabled flags.
     bool SegmentedControl(
         const char* id,
         const char* const* labels,
         int count,
         int& selected,
-        float height = 0.0f
+        float height = 0.0f,
+        bool allowNone = false,
+        const bool* enabled = nullptr
     );
+
+    // Large on/off button (gloves). 'onColor' fills it when
+    // on. height 0 = UI::Size::TouchTarget.
+    bool ToggleButton(const char* label, bool& value, const ImVec4& onColor, float height = 0.0f);
+
+    // Time entry in the locale format ("2:30 PM" / "14:30")
+    // with a "Now" button. Same conventions as DateInput.
+    bool TimeInput(const char* id, std::string& text, const char* hint, const char* nowLabel, const std::string& nowText);
 
     // Numeric text field whose value may be empty
     // (std::nullopt). Accepts digits and one '.'.
@@ -140,12 +153,37 @@ namespace UI
     bool OptionalNumberInput(
         const char* id,
         std::optional<double>& value,
-        const char* hint = ""
+        const char* hint = "",
+        bool allowNegative = false
     );
 
     // Integer field without +/- buttons, clamped to
     // [minimum, maximum]. Returns true when changed.
     bool IntInput(const char* id, int& value, int minimum, int maximum);
+
+    // ----------------------------------------------
+    // Tables
+    // ----------------------------------------------
+
+    // Row height for tappable table rows (>= button height).
+    float TableRowHeight();
+
+    // First cell of a row: a selectable spanning all columns
+    // (the whole row is the tap target), label centred
+    // vertically. Returns true when clicked.
+    bool RowSelectable(const char* label, float rowHeight);
+
+    // Call at the start of a cell: centres one line of text
+    // vertically in a row of 'rowHeight'.
+    void AlignCellText(float rowHeight);
+
+    // Width the current table's columns need at their
+    // natural (auto-fit) size, as measured last frame. Call
+    // before EndTable(). Pass it (as the minimum content
+    // width) to the BeginScrollPane() holding the table so
+    // a narrow pane scrolls sideways instead of squeezing
+    // and clipping columns.
+    float TableFitWidth();
 
     // ----------------------------------------------
     // Containers

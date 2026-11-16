@@ -4,8 +4,8 @@
 #include "models/Settings.h"
 
 // ==================================================
-// Applies language and date format from AppSettings
-// to the Localization module.
+// Applies language, date format and temperature unit
+// from AppSettings.
 // ==================================================
 
 namespace RegionalSettings

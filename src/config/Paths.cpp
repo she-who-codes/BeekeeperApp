@@ -30,10 +30,10 @@ namespace Paths
         if (length == 0)
             return "";
 
-        return fs::path(buffer).parent_path().string();
+        return fs::path(buffer).parent_path().u8string();
 #else
         const fs::path exe = fs::read_symlink("/proc/self/exe", error);
-        return error ? std::string() : exe.parent_path().string();
+        return error ? std::string() : exe.parent_path().u8string();
 #endif
     }
 
@@ -49,14 +49,14 @@ namespace Paths
 
             if (!exeDir.empty())
             {
-                candidates.push_back(fs::path(exeDir) / "resources");
-                candidates.push_back(fs::path(exeDir) / ".." / "resources");
+                candidates.push_back(fs::u8path(exeDir) / "resources");
+                candidates.push_back(fs::u8path(exeDir) / ".." / "resources");
             }
 
             for (const fs::path& candidate : candidates)
             {
                 if (fs::is_directory(candidate, error))
-                    return fs::weakly_canonical(candidate, error).string();
+                    return fs::weakly_canonical(candidate, error).u8string();
             }
 
             return std::string("resources");
@@ -67,6 +67,6 @@ namespace Paths
 
     std::string Resource(const std::string& relative)
     {
-        return (fs::path(Resources()) / relative).string();
+        return (fs::u8path(Resources()) / fs::u8path(relative)).u8string();
     }
 }

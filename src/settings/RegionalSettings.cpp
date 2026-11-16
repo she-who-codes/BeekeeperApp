@@ -2,6 +2,7 @@
 #include "RegionalSettings.h"
 
 #include "localization/Localization.h"
+#include "ui/Display.h"
 
 namespace RegionalSettings
 {
@@ -25,6 +26,7 @@ namespace RegionalSettings
         const bool ok = Localization::Initialize(locale);
 
         Localization::SetDatePatternOverride(settings.datePattern);
+        Display::SetTemperatureUnit(settings.temperatureUnit);
         return ok;
     }
 }

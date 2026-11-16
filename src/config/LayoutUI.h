@@ -321,6 +321,38 @@ namespace UI
         constexpr float StackMinEm         = 24.0f;  // below: horizontal scroll
     }
 
+    // ----------------------------------------------
+    // Inspections
+    // ----------------------------------------------
+
+    namespace Inspection
+    {
+        constexpr float NavigatorWidthEm = 17.0f;   // frame navigator (wide windows)
+        constexpr float NavigatorMinEm   = 11.0f;   // below: horizontal scroll
+        constexpr float EditorMinEm      = 30.0f;   // below: horizontal scroll
+        constexpr float TileHeightEm     = 3.4f;    // navigator tiles (>= touch target)
+        constexpr float CoverageLabelEm  = 7.5f;    // "Brood" / "Honey" / "Pollen" column
+        constexpr float ListMinHeightEm  = 12.0f;   // inspections table
+        constexpr float CompactHeightEm  = 36.0f;   // below: smaller header
+        constexpr float MapHeightRatio   = 0.4f;    // frame map share when stacked
+    }
+
+    // ----------------------------------------------
+    // Maintenance, mites and the dashboard
+    // ----------------------------------------------
+
+    namespace Maintenance
+    {
+        constexpr float ContentMinEm      = 34.0f;  // mites tab / dashboard: below -> horizontal scroll
+        constexpr float ContentMaxWidthEm = 64.0f;  // readable line length
+        constexpr float TaskTextMinEm     = 14.0f;  // below: Done / Postpone under the task
+        constexpr float PostponeMenuEm    = 10.0f;  // postpone interval list
+        constexpr float SideColumnEm      = 24.0f;  // dashboard mite alerts (wide windows)
+        constexpr float TwoColumnMinEm    = 62.0f;  // dashboard: below -> one column
+        constexpr float NotesHeightEm     = 3.5f;   // mite check / treatment notes
+        constexpr int   NotesPreviewChars = 60;     // notes column in the mite tables
+    }
+
     namespace SettingsView
     {
         constexpr float NavWidthEm        = 14.0f;

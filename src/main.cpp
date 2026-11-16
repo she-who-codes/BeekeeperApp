@@ -18,6 +18,7 @@
 #include "config/FontManager.h"
 #include "config/LayoutUI.h"
 
+#include "database/DatabaseLocation.h"
 #include "database/DatabaseManager.h"
 #include "database/DatabaseMigrations.h"
 
@@ -191,9 +192,46 @@ int main()
     // 10. Initialize SQLite Database
     // ----------------------------------------------
 
+    // Fixed per-user location (see DatabaseLocation.h). On
+    // first start an existing database from the start
+    // folder is copied there; if that copy fails we stop
+    // rather than continue with an empty database.
+    std::string copiedFrom;
+    std::string locationError;
+
+    if (!DatabaseLocation::AdoptLegacyDatabase(copiedFrom, locationError))
+    {
+        std::cerr << "Database setup failed: "
+                  << locationError
+                  << std::endl;
+
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+
+        ImPlot::DestroyContext();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(window);
+        glfwTerminate();
+
+        return 1;
+    }
+
+    if (!copiedFrom.empty())
+    {
+        std::cout << "Copied existing database from "
+                  << copiedFrom
+                  << " (the original file was left unchanged)."
+                  << std::endl;
+    }
+
+    const std::string databasePath = DatabaseLocation::DatabasePath();
+
+    std::cout << "Database: " << databasePath << std::endl;
+
     DatabaseManager database;
 
-    if (!database.Open("beekeeper.db"))
+    if (!database.Open(databasePath))
     {
         std::cerr << "Database connection failed: "
                   << database.GetLastError()

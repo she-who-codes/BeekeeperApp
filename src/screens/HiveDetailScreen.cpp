@@ -5,7 +5,10 @@
 #include "config/Theme.h"
 #include "localization/DateFormat.h"
 #include "localization/Localization.h"
+#include "localization/TimeFormat.h"
 #include "models/HiveEquipment.h"
+#include "models/InspectionOptions.h"
+#include "screens/MaintenanceUI.h"
 #include "screens/SettingsEditors.h"
 #include "ui/Display.h"
 #include "ui/Widgets.h"
@@ -14,6 +17,7 @@
 #include "imgui_stdlib.h"
 
 #include <algorithm>
+#include <cstdio>
 
 namespace
 {
@@ -75,6 +79,14 @@ namespace
         return UI::Em(UI::HiveStack::FrameTileHeightEm);
     }
 
+    // Notes on one line, shortened, for a table cell.
+    std::string NotesCell(std::string notes)
+    {
+        std::replace(notes.begin(), notes.end(), '\n', ' ');
+        std::replace(notes.begin(), notes.end(), '\r', ' ');
+        return UI::Ellipsize(notes, UI::Maintenance::NotesPreviewChars);
+    }
+
     // Info row in a two-column table.
     void InfoRow(const char* label, const std::string& value)
     {
@@ -93,13 +105,22 @@ HiveDetailScreen::HiveDetailScreen(
     ApiaryRepository& apiaryRepository,
     HiveRepository& hiveRepository,
     BoxRepository& boxRepository,
+    InspectionRepository& inspectionRepository,
+    MiteRepository& miteRepository,
+    MaintenanceRepository& maintenanceRepository,
     const SettingsData& settings)
     : m_apiaryRepository(apiaryRepository),
       m_hiveRepository(hiveRepository),
       m_boxRepository(boxRepository),
+      m_inspectionRepository(inspectionRepository),
+      m_miteRepository(miteRepository),
+      m_maintenanceRepository(maintenanceRepository),
       m_settings(settings),
+      m_inspectionScreen(inspectionRepository, boxRepository, miteRepository, settings),
       m_boxDialog(boxRepository),
-      m_hiveForm(hiveRepository, boxRepository, database)
+      m_hiveForm(hiveRepository, boxRepository, database),
+      m_miteDialog(miteRepository, settings),
+      m_treatmentDialog(miteRepository)
 {
 }
 
@@ -113,6 +134,8 @@ bool HiveDetailScreen::Open(int hiveId)
     m_notice.clear();
     m_selectedFrameId = 0;
     m_pendingFrameId = 0;
+    m_inInspection = false;
+    m_selectOverviewTab = true;
 
     if (!m_hiveRepository.GetById(hiveId, m_hive))
     {
@@ -141,6 +164,34 @@ void HiveDetailScreen::Reload()
 
     if (!m_boxRepository.GetStack(m_hive.id, m_stack))
         m_error = Localization::Format("errors.load_failed", { { "details", m_boxRepository.GetLastError() } });
+
+    // Inspections
+    if (!m_inspectionRepository.ListByHive(m_hive.id, m_inspections))
+        m_error = Localization::Format("errors.load_failed", { { "details", m_inspectionRepository.GetLastError() } });
+
+    m_hasLatestInspection = m_inspectionRepository.LatestCompleted(m_hive.id, m_latestInspection);
+
+    m_draftId = 0;
+
+    for (const InspectionSummary& summary : m_inspections)
+    {
+        if (!summary.completed)
+        {
+            m_draftId = summary.id;
+            break;
+        }
+    }
+
+    // Mites
+    if (!m_miteRepository.ListChecks(m_hive.id, m_miteChecks)
+        || !m_miteRepository.ListTreatments(m_hive.id, m_treatments))
+        m_error = Localization::Format("errors.load_failed", { { "details", m_miteRepository.GetLastError() } });
+
+    // Maintenance (archived hives have no schedule)
+    m_dueItems.clear();
+
+    if (!IsReadOnly() && !m_maintenanceRepository.DueItems(m_hive.id, m_settings, DateFormat::Today(), m_dueItems))
+        m_error = Localization::Format("errors.load_failed", { { "details", m_maintenanceRepository.GetLastError() } });
 
     // Keep the selection if the frame still exists.
     if (m_selectedFrameId != 0 && !FindFrame(m_selectedFrameId))
@@ -264,16 +315,79 @@ HiveDetailScreen::Navigation HiveDetailScreen::Render()
 {
     ImGui::PushID("HiveDetail");
 
+    // ---------------- Inspection view ----------------
+    if (m_inInspection)
+    {
+        Navigation navigation = Navigation::None;
+
+        // Breadcrumb: Apiaries > Apiary > Hive > Inspection
+        {
+            UI::ScopedFont font(UI::Text::Caption);
+
+            if (ImGui::TextLink(Localization::Label("navigation.apiaries", "CrumbApiaries").c_str()))
+                navigation = Navigation::Apiaries;
+
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+            ImGui::TextColored(Theme::Colors::TextMuted, "\xE2\x80\xBA");
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+
+            if (ImGui::TextLink(Localization::WithId(m_apiary.name, "CrumbApiary").c_str()))
+                navigation = Navigation::Apiary;
+
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+            ImGui::TextColored(Theme::Colors::TextMuted, "\xE2\x80\xBA");
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+
+            if (ImGui::TextLink(Localization::WithId(m_hive.name, "CrumbHive").c_str()))
+                m_inInspection = false;
+
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+            ImGui::TextColored(Theme::Colors::TextMuted, "\xE2\x80\xBA");
+            ImGui::SameLine(0.0f, UI::Em(0.4f));
+            ImGui::TextColored(Theme::Colors::TextSecondary, "%s", Tr("inspection.breadcrumb"));
+        }
+
+        ImGui::Spacing();
+
+        const InspectionScreen::Result result = m_inspectionScreen.Render();
+
+        if (result == InspectionScreen::Result::Finished)
+            m_notice = Tr("inspection.finished_notice");
+        else if (result == InspectionScreen::Result::Deleted)
+            m_notice = Tr("inspection.deleted_notice");
+
+        if (result != InspectionScreen::Result::None || !m_inInspection || navigation != Navigation::None)
+        {
+            m_inInspection = false;
+            m_selectInspectionsTab = true;
+            RequestReload();
+        }
+
+        ImGui::PopID();
+
+        if (m_reloadRequested)
+        {
+            m_reloadRequested = false;
+            Reload();
+        }
+
+        return navigation;
+    }
+
     Navigation navigation = DrawHeader();
 
     DrawBanners();
 
     const std::string overviewLabel = Localization::Label("hive_detail.tab_overview", "TabOverview");
     const std::string boxesLabel = Localization::Label("hive_detail.tab_boxes", "TabBoxes");
+    const std::string inspectionsLabel = Localization::Label("hive_detail.tab_inspections", "TabInspections");
 
     if (ImGui::BeginTabBar("HiveTabs"))
     {
-        if (ImGui::BeginTabItem(overviewLabel.c_str()))
+        const ImGuiTabItemFlags overviewFlags = m_selectOverviewTab ? ImGuiTabItemFlags_SetSelected : ImGuiTabItemFlags_None;
+        m_selectOverviewTab = false;
+
+        if (ImGui::BeginTabItem(overviewLabel.c_str(), nullptr, overviewFlags))
         {
             ImGui::Spacing();
             DrawOverview();
@@ -285,6 +399,28 @@ HiveDetailScreen::Navigation HiveDetailScreen::Render()
             ImGui::Spacing();
             DrawBoxesTab();
             ImGui::EndTabItem();
+        }
+
+        const ImGuiTabItemFlags inspectionsFlags = m_selectInspectionsTab ? ImGuiTabItemFlags_SetSelected : ImGuiTabItemFlags_None;
+        m_selectInspectionsTab = false;
+
+        if (ImGui::BeginTabItem(inspectionsLabel.c_str(), nullptr, inspectionsFlags))
+        {
+            ImGui::Spacing();
+            DrawInspectionsTab();
+            ImGui::EndTabItem();
+        }
+
+        if (m_settings.app.miteTrackingEnabled)
+        {
+            const std::string mitesLabel = Localization::Label("hive_detail.tab_mites", "TabMites");
+
+            if (ImGui::BeginTabItem(mitesLabel.c_str()))
+            {
+                ImGui::Spacing();
+                DrawMitesTab();
+                ImGui::EndTabItem();
+            }
         }
 
         ImGui::EndTabBar();
@@ -301,6 +437,22 @@ HiveDetailScreen::Navigation HiveDetailScreen::Render()
 
     if (m_hiveForm.Draw(m_apiaries) != HiveFormDialog::Result::None)
         RequestReload();
+
+    const MiteCheckDialog::Result miteResult = m_miteDialog.Draw();
+
+    if (miteResult != MiteCheckDialog::Result::None)
+    {
+        m_notice = Tr(miteResult == MiteCheckDialog::Result::Saved ? "mites.saved_notice" : "mites.deleted_notice");
+        RequestReload();
+    }
+
+    const TreatmentDialog::Result treatmentResult = m_treatmentDialog.Draw();
+
+    if (treatmentResult != TreatmentDialog::Result::None)
+    {
+        m_notice = Tr(treatmentResult == TreatmentDialog::Result::Saved ? "treatments.saved_notice" : "treatments.deleted_notice");
+        RequestReload();
+    }
 
     DrawRemoveBoxDialog();
     DrawReplaceFrameDialog();
@@ -440,6 +592,9 @@ void HiveDetailScreen::DrawOverview()
     UI::EndCard();
     ImGui::Spacing();
 
+    DrawMaintenanceCard();
+    ImGui::Spacing();
+
     // ---------------- Equipment ----------------
     int frames = 0;
     int feeders = 0;
@@ -458,6 +613,41 @@ void HiveDetailScreen::DrawOverview()
                 ++due;
         }
     }
+
+    // ---------------- Latest inspection ----------------
+    UI::BeginCard("LatestInspection");
+    UI::TextStyled(UI::Text::Title, TextPrimary, Tr("hive_detail.section_latest_inspection"));
+    ImGui::Spacing();
+
+    if (!m_hasLatestInspection)
+    {
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("hive_detail.no_inspections"));
+    }
+    else if (beginTable("LatestRows"))
+    {
+        const InspectionSummary& latest = m_latestInspection;
+        char number[32];
+
+        InfoRow(Tr("inspection.date"), Display::Date(latest.date));
+
+        const std::string queen = InspectionOptions::Label(InspectionOptions::QueenStatus(), latest.queenStatus);
+        InfoRow(Tr("inspection.queen_label"), queen.empty() ? std::string(Tr("inspection.not_recorded_short")) : queen);
+
+        std::snprintf(number, sizeof(number), "%g", latest.broodFrames);
+        InfoRow(Tr("inspection.brood"), Localization::Format("inspection.frames_of", { { "count", number } }));
+        std::snprintf(number, sizeof(number), "%g", latest.honeyFrames);
+        InfoRow(Tr("inspection.honey"), Localization::Format("inspection.frames_of", { { "count", number } }));
+        std::snprintf(number, sizeof(number), "%g", latest.pollenFrames);
+        InfoRow(Tr("inspection.pollen"), Localization::Format("inspection.frames_of", { { "count", number } }));
+
+        if (latest.findings > 0)
+            InfoRow(Tr("inspection.findings_label"), Localization::FormatPlural("inspection.findings_count", latest.findings));
+
+        ImGui::EndTable();
+    }
+
+    UI::EndCard();
+    ImGui::Spacing();
 
     UI::BeginCard("Equipment");
     UI::TextStyled(UI::Text::Title, TextPrimary, Tr("hive_detail.section_equipment"));
@@ -485,6 +675,414 @@ void HiveDetailScreen::DrawOverview()
 
     ImGui::EndChild();
     UI::EndScrollPane();
+}
+
+// --------------------------------------------------
+// Maintenance
+// --------------------------------------------------
+
+void HiveDetailScreen::DrawMaintenanceCard()
+{
+    using namespace Theme::Colors;
+
+    UI::BeginCard("Maintenance");
+    UI::TextStyled(UI::Text::Title, TextPrimary, Tr("hive_detail.section_maintenance"));
+    ImGui::Spacing();
+
+    // Latest mite check and its Watch / Act level.
+    if (m_settings.app.miteTrackingEnabled && !m_miteChecks.empty())
+    {
+        const MiteCheck& latest = m_miteChecks.front();
+        const std::string result = MiteText::Result(m_settings, latest);
+
+        const std::string text = Localization::Format(
+            "hive_detail.latest_mite_check",
+            {
+                { "result", result.empty() ? std::string(Tr("mites.no_result")) : result },
+                { "date", Display::Date(latest.checkedOn) }
+            });
+
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, text.c_str());
+
+        const MiteAlert alert = MiteText::Alert(m_settings, latest);
+
+        if (alert != MiteAlert::None)
+            MaintenanceUI::MiteAlertChip(alert);
+
+        ImGui::Spacing();
+    }
+
+    if (IsReadOnly())
+    {
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("hive_detail.maintenance_archived"));
+    }
+    else if (m_dueItems.empty())
+    {
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("hive_detail.maintenance_none"));
+    }
+    else
+    {
+        for (size_t i = 0; i < m_dueItems.size(); ++i)
+        {
+            if (i > 0)
+            {
+                ImGui::Spacing();
+                ImGui::Separator();
+                ImGui::Spacing();
+            }
+
+            ImGui::PushID(static_cast<int>(i));
+
+            if (MaintenanceUI::DueRow(m_dueItems[i], m_maintenanceRepository, m_error))
+                RequestReload();
+
+            ImGui::PopID();
+        }
+    }
+
+    UI::EndCard();
+}
+
+// --------------------------------------------------
+// Mites
+// --------------------------------------------------
+
+void HiveDetailScreen::DrawMitesTab()
+{
+    using namespace Theme::Colors;
+
+    // Wide enough for both tables at their natural width
+    // (measured last frame): narrow windows scroll sideways.
+    const float minWidth = std::max(UI::Em(UI::Maintenance::ContentMinEm), m_mitesTablesWidth);
+    m_mitesTablesWidth = 0.0f;
+
+    UI::BeginScrollPane("Mites", ImVec2(0.0f, 0.0f), minWidth, ImGuiChildFlags_None);
+
+    // Toolbar
+    ImGui::BeginDisabled(IsReadOnly());
+
+    const std::string checkLabel = Localization::Label("mites.new", "NewMiteCheck");
+    const std::string treatmentLabel = Localization::Label("treatments.new", "NewTreatment");
+
+    if (UI::Button(checkLabel.c_str(), UI::ButtonKind::Primary))
+        m_miteDialog.OpenForAdd(m_hive.id);
+
+    UI::SameLineOrWrap(UI::ButtonWidth(treatmentLabel.c_str()));
+
+    if (UI::Button(treatmentLabel.c_str()))
+        m_treatmentDialog.OpenForAdd(m_hive.id);
+
+    ImGui::EndDisabled();
+
+    // Open treatment: when the follow-up check is due.
+    for (const DueItem& item : m_dueItems)
+    {
+        if (item.taskKey == "treatment_follow_up")
+        {
+            ImGui::Spacing();
+            const std::string text = Localization::Format("treatments.follow_up_due", { { "date", Display::Date(item.dueOn) } });
+            UI::TextStyledWrapped(UI::Text::Body, item.status == DueStatus::Overdue ? Danger : TextSecondary, text.c_str());
+        }
+    }
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // ---------------- Mite checks ----------------
+    UI::TextStyled(UI::Text::Heading, TextPrimary, Tr("mites.section_checks"));
+    ImGui::Spacing();
+
+    if (m_miteChecks.empty())
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("mites.empty"));
+    else
+        DrawMiteChecksTable();
+
+    ImGui::Spacing();
+    ImGui::Spacing();
+
+    // ---------------- Treatments ----------------
+    UI::TextStyled(UI::Text::Heading, TextPrimary, Tr("treatments.section"));
+    ImGui::Spacing();
+
+    if (m_treatments.empty())
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("treatments.empty"));
+    else
+        DrawTreatmentsTable();
+
+    UI::EndScrollPane();
+}
+
+void HiveDetailScreen::DrawMiteChecksTable()
+{
+    using namespace Theme::Colors;
+
+    // Tables grow with their rows; the tab's scroll pane
+    // scrolls them (both ways) together.
+    const ImGuiTableFlags flags =
+        ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerH |
+        ImGuiTableFlags_SizingFixedFit;
+
+    if (!ImGui::BeginTable("MiteChecks", 6, flags))
+        return;
+
+    ImGui::TableSetupColumn(Tr("mites.date"));
+    ImGui::TableSetupColumn(Tr("mites.method"));
+    ImGui::TableSetupColumn(Tr("mites.col_sample"));
+    ImGui::TableSetupColumn(Tr("mites.col_count"));
+    ImGui::TableSetupColumn(Tr("mites.col_result"));
+    ImGui::TableSetupColumn(Tr("mites.col_notes"), ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableHeadersRow();
+
+    const float rowHeight = UI::TableRowHeight();
+    const MiteCheck* edit = nullptr;
+
+    for (const MiteCheck& check : m_miteChecks)
+    {
+        ImGui::PushID(check.id);
+        ImGui::TableNextRow(ImGuiTableRowFlags_None, rowHeight);
+
+        // Whole row is the tap target (edit).
+        ImGui::TableNextColumn();
+
+        if (UI::RowSelectable(Display::Date(check.checkedOn).c_str(), rowHeight))
+            edit = &check;
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        ImGui::TextUnformatted(MiteText::MethodName(m_settings, check.methodId).c_str());
+
+        if (check.inspectionId != 0)
+        {
+            ImGui::SameLine();
+            UI::StatusChip(Tr("mites.from_inspection"), SageLight);
+        }
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        ImGui::Text("%d", check.sampleSize);
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        ImGui::Text("%d", check.miteCount);
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        ImGui::TextUnformatted(MiteText::Result(m_settings, check).c_str());
+
+        const MiteAlert alert = MiteText::Alert(m_settings, check);
+
+        if (alert != MiteAlert::None)
+        {
+            ImGui::SameLine();
+            MaintenanceUI::MiteAlertChip(alert);
+        }
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        const std::string notes = NotesCell(check.notes);
+        ImGui::TextUnformatted(notes.c_str());
+
+        ImGui::PopID();
+    }
+
+    m_mitesTablesWidth = std::max(m_mitesTablesWidth, UI::TableFitWidth());
+    ImGui::EndTable();
+
+    if (edit && !IsReadOnly())
+        m_miteDialog.OpenForEdit(*edit);
+}
+
+void HiveDetailScreen::DrawTreatmentsTable()
+{
+    const ImGuiTableFlags flags =
+        ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerH |
+        ImGuiTableFlags_SizingFixedFit;
+
+    if (!ImGui::BeginTable("Treatments", 3, flags))
+        return;
+
+    ImGui::TableSetupColumn(Tr("treatments.started"));
+    ImGui::TableSetupColumn(Tr("treatments.product"));
+    ImGui::TableSetupColumn(Tr("treatments.notes"), ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableHeadersRow();
+
+    const float rowHeight = UI::TableRowHeight();
+    const Treatment* edit = nullptr;
+
+    for (const Treatment& treatment : m_treatments)
+    {
+        ImGui::PushID(treatment.id);
+        ImGui::TableNextRow(ImGuiTableRowFlags_None, rowHeight);
+
+        ImGui::TableNextColumn();
+
+        if (UI::RowSelectable(Display::Date(treatment.startedOn).c_str(), rowHeight))
+            edit = &treatment;
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        ImGui::TextUnformatted(treatment.product.c_str());
+
+        ImGui::TableNextColumn();
+        UI::AlignCellText(rowHeight);
+        const std::string notes = NotesCell(treatment.notes);
+        ImGui::TextUnformatted(notes.c_str());
+
+        ImGui::PopID();
+    }
+
+    m_mitesTablesWidth = std::max(m_mitesTablesWidth, UI::TableFitWidth());
+    ImGui::EndTable();
+
+    if (edit && !IsReadOnly())
+        m_treatmentDialog.OpenForEdit(*edit);
+}
+
+// --------------------------------------------------
+// Inspections
+// --------------------------------------------------
+
+void HiveDetailScreen::OpenInspection(int inspectionId)
+{
+    if (m_inspectionScreen.Open(inspectionId, m_hive, IsReadOnly()))
+        m_inInspection = true;
+    else
+        m_error = Localization::Format("errors.load_failed", { { "details", m_inspectionRepository.GetLastError() } });
+}
+
+void HiveDetailScreen::StartInspection()
+{
+    Inspection draft;
+    draft.hiveId = m_hive.id;
+    draft.date = DateFormat::ToIso(DateFormat::Today());
+    draft.time = TimeFormat::ToStorage(TimeFormat::Now());
+
+    if (!m_inspectionRepository.CreateDraft(draft))
+    {
+        m_error = Localization::Format("errors.save_failed", { { "details", m_inspectionRepository.GetLastError() } });
+        return;
+    }
+
+    OpenInspection(draft.id);
+}
+
+void HiveDetailScreen::DrawInspectionsTab()
+{
+    using namespace Theme::Colors;
+
+    // Toolbar: one draft at a time per hive.
+    if (!IsReadOnly())
+    {
+        if (m_draftId != 0)
+        {
+            const std::string resumeLabel = Localization::Label("inspection.resume_draft", "ResumeDraft");
+
+            if (UI::Button(resumeLabel.c_str(), UI::ButtonKind::Primary))
+                OpenInspection(m_draftId);
+
+            ImGui::SameLine();
+            ImGui::AlignTextToFramePadding();
+            UI::TextStyled(UI::Text::Caption, TextMuted, Tr("inspection.resume_help"));
+        }
+        else
+        {
+            const std::string newLabel = Localization::Label("inspection.new", "NewInspection");
+
+            if (UI::Button(newLabel.c_str(), UI::ButtonKind::Primary))
+                StartInspection();
+        }
+
+        ImGui::Spacing();
+    }
+
+    if (m_inspections.empty())
+    {
+        UI::TextStyled(UI::Text::Heading, TextPrimary, Tr("hive_detail.no_inspections_title"));
+        ImGui::Spacing();
+        UI::TextStyledWrapped(UI::Text::Body, TextSecondary, Tr("hive_detail.no_inspections"));
+        return;
+    }
+
+    // History table: scrolls both ways, date column and
+    // header stay in view.
+    const ImGuiTableFlags flags =
+        ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
+        ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerH |
+        ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_Resizable;
+
+    const float height = std::max(ImGui::GetContentRegionAvail().y, UI::Em(UI::Inspection::ListMinHeightEm));
+
+    if (ImGui::BeginTable("InspectionList", 8, flags, ImVec2(0.0f, height)))
+    {
+        ImGui::TableSetupScrollFreeze(1, 1);
+        ImGui::TableSetupColumn(Tr("inspection.date"), ImGuiTableColumnFlags_NoHide);
+        ImGui::TableSetupColumn(Tr("inspection.time"));
+        ImGui::TableSetupColumn(Tr("inspection.col_status"));
+        ImGui::TableSetupColumn(Tr("inspection.queen_label"));
+        ImGui::TableSetupColumn(Tr("inspection.brood"));
+        ImGui::TableSetupColumn(Tr("inspection.honey"));
+        ImGui::TableSetupColumn(Tr("inspection.pollen"));
+        ImGui::TableSetupColumn(Tr("inspection.findings_label"));
+        ImGui::TableHeadersRow();
+
+        const float rowHeight = UI::TableRowHeight();
+        int open = 0;
+
+        for (const InspectionSummary& summary : m_inspections)
+        {
+            ImGui::PushID(summary.id);
+            ImGui::TableNextRow(ImGuiTableRowFlags_None, rowHeight);
+
+            ImGui::TableNextColumn();
+
+            // Whole row is the tap target.
+            if (UI::RowSelectable(Display::Date(summary.date).c_str(), rowHeight))
+                open = summary.id;
+
+            char number[32];
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            ImGui::TextUnformatted(Display::Time(summary.time).c_str());
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            UI::StatusChip(Tr(summary.completed ? "inspection.status_completed" : "inspection.status_draft"),
+                summary.completed ? Success : Warning);
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            ImGui::TextUnformatted(InspectionOptions::Label(InspectionOptions::QueenStatus(), summary.queenStatus).c_str());
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            std::snprintf(number, sizeof(number), "%g", summary.broodFrames);
+            ImGui::TextUnformatted(number);
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            std::snprintf(number, sizeof(number), "%g", summary.honeyFrames);
+            ImGui::TextUnformatted(number);
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+            std::snprintf(number, sizeof(number), "%g", summary.pollenFrames);
+            ImGui::TextUnformatted(number);
+
+            ImGui::TableNextColumn();
+            UI::AlignCellText(rowHeight);
+
+            if (summary.findings > 0)
+                UI::StatusChip(Localization::FormatPlural("inspection.findings_count", summary.findings).c_str(), Danger);
+
+            ImGui::PopID();
+        }
+
+        ImGui::EndTable();
+
+        if (open != 0)
+            OpenInspection(open);
+    }
 }
 
 // --------------------------------------------------

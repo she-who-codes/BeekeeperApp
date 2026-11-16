@@ -86,6 +86,7 @@ add_executable(BeeKeeper
     src/App.cpp
     src/config/Theme.cpp
     src/database/DatabaseManager.cpp
+    src/database/DatabaseLocation.cpp
     src/database/DatabaseMigrations.cpp
     src/repositories/ApiaryRepository.cpp
     src/repositories/HiveRepository.cpp
@@ -93,6 +94,16 @@ add_executable(BeeKeeper
     src/screens/HiveFormDialog.cpp
     src/screens/HiveDetailScreen.cpp
     src/screens/BoxDialog.cpp
+    src/screens/InspectionScreen.cpp
+    src/screens/Dashboard.cpp
+    src/screens/MaintenanceUI.cpp
+    src/screens/MiteDialogs.cpp
+    src/repositories/InspectionRepository.cpp
+    src/repositories/MiteRepository.cpp
+    src/repositories/MaintenanceRepository.cpp
+    src/settings/MaintenanceSchedule.cpp
+    src/models/InspectionOptions.cpp
+    src/localization/TimeFormat.cpp
     src/repositories/BoxRepository.cpp
     src/models/HiveEquipment.cpp
     src/screens/SettingsEditors.cpp

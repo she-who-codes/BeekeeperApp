@@ -25,6 +25,9 @@ namespace Theme
         const ImVec4 Success = ImVec4(0.427f, 0.690f, 0.494f, 1.0f);
         const ImVec4 Warning = ImVec4(0.839f, 0.663f, 0.310f, 1.0f);
         const ImVec4 Danger = ImVec4(0.800f, 0.345f, 0.310f, 1.0f);
+
+        const ImVec4 Brood = ImVec4(0.722f, 0.525f, 0.361f, 1.0f);      // #B8865C capped-brood tan
+        const ImVec4 Pollen = ImVec4(0.878f, 0.541f, 0.235f, 1.0f);     // #E08A3C pollen orange
     }
 
     void Apply()

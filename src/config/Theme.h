@@ -31,6 +31,10 @@ namespace Theme
         extern const ImVec4 Success;
         extern const ImVec4 Warning;
         extern const ImVec4 Danger;
+
+        // Frame coverage (inspections). Honey uses Honey.
+        extern const ImVec4 Brood;
+        extern const ImVec4 Pollen;
     }
 
     void Apply();

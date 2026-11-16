@@ -7,7 +7,11 @@
         "token_year": "YYYY",
         "token_month": "MM",
         "token_day": "DD",
-        "month_day": "{month} {day}"
+        "month_day": "{month} {day}",
+        "time_pattern": "HH:MM",
+        "am": "AM",
+        "pm": "PM",
+        "time_hint": "e.g. {example}"
     },
     "app": {
         "name": "BeeKeeper"
@@ -35,7 +39,8 @@
         "back": "Back",
         "next": "Next",
         "discard": "Discard",
-        "off": "Off"
+        "off": "Off",
+        "keep": "Keep"
     },
     "errors": {
         "save_failed": "Could not save your changes. {details}",
@@ -45,7 +50,8 @@
         "date_required": "Enter a date.",
         "date_format": "Enter the date as {pattern}.",
         "date_invalid": "That date does not exist.",
-        "date_future": "This date can't be in the future."
+        "date_future": "This date can't be in the future.",
+        "time_invalid": "Enter the time like {example}."
     },
     "apiary": {
         "screen_title": "Apiary Management",
@@ -330,7 +336,16 @@
         "boxes": "Boxes",
         "frames": "Frames",
         "feeder_frames": "Feeder frames",
-        "replacement_due": "Frames due for comb replacement"
+        "replacement_due": "Frames due for comb replacement",
+        "tab_inspections": "Inspections",
+        "section_latest_inspection": "Latest inspection",
+        "no_inspections_title": "No inspections yet",
+        "no_inspections": "Start an inspection to record what you find in each frame.",
+        "tab_mites": "Mites",
+        "section_maintenance": "Maintenance",
+        "maintenance_none": "No maintenance tasks are turned on. Choose the tasks you track in Settings › Maintenance.",
+        "maintenance_archived": "Archived hives have no maintenance schedule.",
+        "latest_mite_check": "Latest mite check: {result} on {date}"
     },
     "box_type": {
         "deep": "Deep",
@@ -454,5 +469,246 @@
             "discard": "Discard changes",
             "stay": "Keep editing"
         }
+    },
+    "inspection": {
+        "breadcrumb": "Inspection",
+        "title": "Inspection · {date}",
+        "status_draft": "Draft",
+        "status_completed": "Completed",
+        "autosave": "Changes are saved automatically.",
+        "read_only": "Archived hive — read only.",
+        "new": "+ New inspection",
+        "resume_draft": "Resume draft",
+        "resume_help": "An unfinished inspection is saved as a draft.",
+        "continue_later": "Continue later",
+        "close": "Close",
+        "finish": "Finish inspection",
+        "fix_before_finish": "Check the date and time before finishing.",
+        "finished_notice": "Inspection finished.",
+        "deleted_notice": "Inspection deleted.",
+        "delete": "Delete",
+        "delete_dialog": {
+            "title": "Delete Inspection",
+            "body": "Delete the inspection from {date}? Its frame records are deleted too. This cannot be undone.",
+            "confirm": "Delete Inspection"
+        },
+        "tab_frames": "Frames",
+        "tab_colony": "Colony & weather",
+        "tab_summary": "Summary",
+        "no_boxes": "This hive has no boxes yet. Add boxes on the Boxes & Frames tab to record frames; colony and weather can still be recorded.",
+        "copy_last": "Start from last inspection ({date})",
+        "copy_last_help": "Copies each frame's coverage and observations from the last completed inspection as a starting point.",
+        "progress": "Frames recorded: {done} of {total}",
+        "select_frame": "Select a frame on the left.",
+        "not_recorded": "Not recorded yet — any change records this frame.",
+        "not_recorded_short": "Not recorded",
+        "coverage": "Coverage",
+        "coverage_help": "Both sides together. Empty is whatever is left, so the frame always adds up to 100%.",
+        "percent": "{value}%",
+        "brood": "Brood",
+        "honey": "Honey",
+        "pollen": "Pollen",
+        "empty_value": "Empty: {value}",
+        "seen": "Seen on this frame",
+        "eggs": "Eggs",
+        "larvae": "Larvae",
+        "capped_brood": "Capped brood",
+        "drone_brood": "Drone brood",
+        "queen_seen": "Queen seen",
+        "queen_cells": "Queen cells",
+        "swarm_cells": "Swarm cells",
+        "supersedure_cells": "Supersedure cells",
+        "comb_label": "Comb drawn",
+        "comb": {
+            "none": "Not drawn",
+            "partial": "Partly drawn",
+            "full": "Fully drawn"
+        },
+        "previous_frame": "◀  Previous frame",
+        "next_frame": "Next frame  ▶",
+        "clear_frame": "Clear frame",
+        "clear_frame_help": "Remove this frame's record (marks it as not inspected).",
+        "date": "Date",
+        "time": "Time",
+        "now": "Now",
+        "temperature": "Temperature",
+        "choice_help": "Tap a choice to record it; tap it again to clear it.",
+        "weather_label": "Weather",
+        "weather": {
+            "sunny": "Sunny",
+            "partly_cloudy": "Partly cloudy",
+            "overcast": "Overcast",
+            "light_rain": "Light rain",
+            "windy": "Windy"
+        },
+        "temperament_label": "Temperament",
+        "temperament": {
+            "calm": "Calm",
+            "nervous": "Nervous",
+            "defensive": "Defensive"
+        },
+        "queen_label": "Queen",
+        "queen": {
+            "seen": "Seen",
+            "eggs_only": "Eggs only",
+            "not_seen": "Not seen",
+            "queenless": "Queenless"
+        },
+        "strength_label": "Colony strength",
+        "strength": {
+            "weak": "Weak",
+            "moderate": "Moderate",
+            "strong": "Strong"
+        },
+        "stores_label": "Stores",
+        "stores": {
+            "low": "Low",
+            "adequate": "Adequate",
+            "plentiful": "Plentiful"
+        },
+        "findings_label": "Pests & disease signs",
+        "findings_help": "Tap every sign you noticed.",
+        "finding": {
+            "chalkbrood": "Chalkbrood",
+            "sacbrood": "Sacbrood",
+            "suspected_foulbrood": "Suspected foulbrood",
+            "small_hive_beetle": "Small hive beetle",
+            "wax_moth": "Wax moth",
+            "deformed_wings": "Deformed wings"
+        },
+        "findings_count": {
+            "one": "1 sign",
+            "other": "{count} signs"
+        },
+        "no_findings": "None recorded",
+        "notes": "Notes",
+        "summary_totals": "Totals",
+        "summary_boxes": "By box",
+        "frames_inspected": "Frames recorded",
+        "frames_of": "{count} frames",
+        "frames_with_eggs": "Frames with eggs",
+        "on_frames": {
+            "one": "on 1 frame",
+            "other": "on {count} frames"
+        },
+        "cells_value": "{swarm} swarm, {supersedure} supersedure (frames)",
+        "col_box": "Box",
+        "col_inspected": "Recorded",
+        "col_status": "Status",
+        "show_map": "Show frame map",
+        "hide_map": "Hide frame map",
+        "mite_checks_label": "Mite checks",
+        "record_mite_check": "+ Record mite check"
+    },
+    "maintenance": {
+        "done": "Done",
+        "done_help": "Mark this task as done today. The next one is scheduled from today.",
+        "postpone": "Postpone",
+        "postpone_for": "Postpone for",
+        "postpone_1_day": "1 day",
+        "postpone_3_days": "3 days",
+        "postpone_1_week": "1 week",
+        "postpone_2_weeks": "2 weeks",
+        "postpone_1_month": "1 month",
+        "postponed_note": "Postponed",
+        "off_season_note": "Moved to the end of the off-season",
+        "status_overdue": "Overdue",
+        "status_due_soon": "Due soon",
+        "status_upcoming": "Upcoming",
+        "overdue_since": "Was due {date}",
+        "due_today": "Due today",
+        "due_on": "Due {date}",
+        "frames_count": {
+            "one": "1 frame",
+            "other": "{count} frames"
+        },
+        "badge_overdue": {
+            "one": "1 overdue",
+            "other": "{count} overdue"
+        },
+        "badge_due_soon": {
+            "one": "1 due this week",
+            "other": "{count} due this week"
+        }
+    },
+    "mites": {
+        "new": "+ New mite check",
+        "section_checks": "Mite checks",
+        "empty": "No mite checks yet. Record one here or during an inspection.",
+        "date": "Date",
+        "method": "Method",
+        "no_method": "Choose a method",
+        "no_method_help": "No mite check methods are turned on. Choose the methods you use in Settings › Mites.",
+        "count_mites": "Mites counted",
+        "count_cells": "Infested cells",
+        "notes": "Notes",
+        "col_sample": "Sample",
+        "col_count": "Count",
+        "col_result": "Result",
+        "col_notes": "Notes",
+        "result_label": "Result: {value}",
+        "result_percent": "{value}%",
+        "result_per_day": "{value} mites/day",
+        "no_result": "no result",
+        "alert_watch": "Mites: Watch",
+        "alert_act": "Mites: Act",
+        "from_inspection": "Inspection",
+        "saved_notice": "Mite check saved.",
+        "deleted_notice": "Mite check deleted.",
+        "delete_confirm": "Delete this mite check? This cannot be undone.",
+        "dialog": {
+            "title_add": "New mite check",
+            "title_edit": "Edit mite check"
+        }
+    },
+    "treatments": {
+        "new": "+ Add treatment",
+        "section": "Treatments",
+        "empty": "No treatments recorded.",
+        "started": "Started",
+        "product": "Product",
+        "product_hint": "e.g. oxalic acid, formic acid, thymol",
+        "product_required": "Enter the product used.",
+        "follow_up_help": "A follow-up mite check is scheduled after the treatment (Settings › Maintenance).",
+        "follow_up_due": "Follow-up mite check due {date}",
+        "notes": "Notes",
+        "saved_notice": "Treatment saved.",
+        "deleted_notice": "Treatment deleted.",
+        "delete_confirm": "Delete this treatment? This cannot be undone.",
+        "dialog": {
+            "title_add": "Add treatment",
+            "title_edit": "Edit treatment"
+        }
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "subtitle": "{date} · {hives}",
+        "off_season": "Off-season: maintenance is paused until {date}.",
+        "active_hives": {
+            "one": "1 active hive",
+            "other": "{count} active hives"
+        },
+        "hive_label": "{hive} · {apiary}",
+        "all_caught_up": "All caught up",
+        "mite_alert_count": {
+            "one": "1 mite alert",
+            "other": "{count} mite alerts"
+        },
+        "section_overdue": "Overdue ({count})",
+        "section_due_soon": "Due this week ({count})",
+        "section_coming_up": "Coming up ({count})",
+        "coming_up_help": {
+            "one": "Due in the next day",
+            "other": "Due in the next {count} days"
+        },
+        "none_overdue": "Nothing is overdue.",
+        "none_due_soon": "Nothing is due this week.",
+        "none_coming_up": "Nothing else is due soon.",
+        "section_mites": "Mite alerts",
+        "mites_help": "Hives whose latest mite check reached the Watch or Act level.",
+        "none_mites": "No mite alerts.",
+        "mite_detail": "{result} · {method} · {date}",
+        "no_hives_title": "No hives yet",
+        "no_hives": "Add hives under Apiaries. Their inspections, mite checks and other maintenance will be listed here when due."
     }
 }

@@ -4,6 +4,7 @@
 #include "config/Theme.h"
 #include "localization/DateFormat.h"
 
+#include "imgui_internal.h"    // ImGuiTable (TableFitWidth)
 #include "imgui_stdlib.h"
 
 #include <algorithm>
@@ -26,6 +27,12 @@ namespace
     {
         const ImWchar c = data->EventChar;
         return ((c >= '0' && c <= '9') || c == '.') ? 0 : 1;
+    }
+
+    int SignedNumberCharFilter(ImGuiInputTextCallbackData* data)
+    {
+        const ImWchar c = data->EventChar;
+        return ((c >= '0' && c <= '9') || c == '.' || c == '-') ? 0 : 1;
     }
 
     std::string FormatNumber(const std::optional<double>& value)
@@ -363,7 +370,9 @@ namespace UI
         const char* const* labels,
         int count,
         int& selected,
-        float height)
+        float height,
+        bool allowNone,
+        const bool* enabled)
     {
         using namespace Theme::Colors;
 
@@ -401,12 +410,24 @@ namespace UI
 
             ImGui::PushID(i);
 
-            if (ImGui::Button(labels[i], ImVec2(width, height)) && !active)
+            const bool disabled = enabled && !enabled[i];
+            ImGui::BeginDisabled(disabled);
+
+            if (ImGui::Button(labels[i], ImVec2(width, height)))
             {
-                selected = i;
-                changed = true;
+                if (!active)
+                {
+                    selected = i;
+                    changed = true;
+                }
+                else if (allowNone)
+                {
+                    selected = -1;
+                    changed = true;
+                }
             }
 
+            ImGui::EndDisabled();
             ImGui::PopID();
             ImGui::PopStyleColor(4);
         }
@@ -415,7 +436,7 @@ namespace UI
         return changed;
     }
 
-    bool OptionalNumberInput(const char* id, std::optional<double>& value, const char* hint)
+    bool OptionalNumberInput(const char* id, std::optional<double>& value, const char* hint, bool allowNegative)
     {
         const ImGuiID key = ImGui::GetID(id);
 
@@ -425,11 +446,12 @@ namespace UI
 
         bool changed = false;
 
-        if (ImGui::InputTextWithHint(id, hint, &text, ImGuiInputTextFlags_CallbackCharFilter, NumberCharFilter))
+        if (ImGui::InputTextWithHint(id, hint, &text, ImGuiInputTextFlags_CallbackCharFilter,
+            allowNegative ? SignedNumberCharFilter : NumberCharFilter))
         {
             std::optional<double> parsed;
 
-            if (!text.empty() && text != ".")
+            if (!text.empty() && text != "." && text != "-" && text != "-.")
             {
                 char* end = nullptr;
                 const double number = std::strtod(text.c_str(), &end);
@@ -457,6 +479,55 @@ namespace UI
         return changed;
     }
 
+    bool ToggleButton(const char* label, bool& value, const ImVec4& onColor, float height)
+    {
+        using namespace Theme::Colors;
+
+        if (height <= 0.0f)
+            height = Px(Size::TouchTarget);
+
+        const float width = std::max(
+            ImGui::CalcTextSize(label, nullptr, true).x + ImGui::GetStyle().FramePadding.x * 2.0f,
+            Em(Controls::ButtonMinWidthEm));
+
+        ImGui::PushStyleColor(ImGuiCol_Button, value ? onColor : ForestLight);
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, value ? Mix(onColor, Cream, 0.2f) : Sage);
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, value ? Mix(onColor, Cream, 0.35f) : SageLight);
+        ImGui::PushStyleColor(ImGuiCol_Text, value ? Forest : TextPrimary);
+
+        const bool pressed = ImGui::Button(label, ImVec2(width, height));
+
+        ImGui::PopStyleColor(4);
+
+        if (pressed)
+            value = !value;
+
+        return pressed;
+    }
+
+    bool TimeInput(const char* id, std::string& text, const char* hint, const char* nowLabel, const std::string& nowText)
+    {
+        const ImGuiStyle& style = ImGui::GetStyle();
+        const float nowWidth = ButtonWidth(nowLabel);
+
+        ImGui::SetNextItemWidth(std::max(Em(7.0f),
+            std::min(Em(10.0f), ImGui::GetContentRegionAvail().x - nowWidth - style.ItemSpacing.x)));
+
+        bool changed = ImGui::InputTextWithHint(id, hint, &text);
+
+        ImGui::SameLine();
+        ImGui::PushID(id);
+
+        if (Button(nowLabel, ButtonKind::Secondary, -1.0f))
+        {
+            text = nowText;
+            changed = true;
+        }
+
+        ImGui::PopID();
+        return changed;
+    }
+
     bool IntInput(const char* id, int& value, int minimum, int maximum)
     {
         int edited = value;
@@ -479,6 +550,40 @@ namespace UI
         }
 
         return false;
+    }
+
+    // ----------------------------------------------
+    // Tables
+    // ----------------------------------------------
+
+    float TableRowHeight()
+    {
+        return std::max(Px(Size::ButtonHeight), ImGui::GetFrameHeight());
+    }
+
+    bool RowSelectable(const char* label, float rowHeight)
+    {
+        ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.0f, 0.5f));
+
+        const bool pressed = ImGui::Selectable(label, false,
+            ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowOverlap, ImVec2(0.0f, rowHeight));
+
+        ImGui::PopStyleVar();
+        return pressed;
+    }
+
+    float TableFitWidth()
+    {
+        const ImGuiTable* table = ImGui::GetCurrentTable();
+        return table ? table->ColumnsAutoFitWidth : 0.0f;
+    }
+
+    void AlignCellText(float rowHeight)
+    {
+        const float offset = (rowHeight - ImGui::GetTextLineHeight()) * 0.5f;
+
+        if (offset > 0.0f)
+            ImGui::SetCursorPosY(ImGui::GetCursorPosY() + offset);
     }
 
     // ----------------------------------------------

@@ -152,7 +152,9 @@ namespace
         }
 
         const std::string path = directory + "/" + tag + ".json";
-        std::ifstream file(path, std::ios::binary);
+
+        // u8path: UTF-8 paths (non-ASCII folders) on Windows.
+        std::ifstream file(std::filesystem::u8path(path), std::ios::binary);
 
         if (!file)
         {
@@ -394,12 +396,12 @@ namespace Localization
 
         std::error_code error;
 
-        for (const auto& entry : std::filesystem::directory_iterator(directory, error))
+        for (const auto& entry : std::filesystem::directory_iterator(std::filesystem::u8path(directory), error))
         {
             if (!entry.is_regular_file() || entry.path().extension() != ".json")
                 continue;
 
-            const std::string tag = entry.path().stem().string();
+            const std::string tag = entry.path().stem().u8string();
 
             if (tag.find('-') == std::string::npos
                 && std::find(tags.begin(), tags.end(), tag) == tags.end())

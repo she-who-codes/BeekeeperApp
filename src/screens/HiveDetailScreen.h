@@ -5,12 +5,19 @@
 #include "models/Apiary.h"
 #include "models/Box.h"
 #include "models/Hive.h"
+#include "models/Maintenance.h"
+#include "models/Mites.h"
 #include "models/Settings.h"
 #include "repositories/ApiaryRepository.h"
 #include "repositories/BoxRepository.h"
 #include "repositories/HiveRepository.h"
+#include "repositories/InspectionRepository.h"
+#include "repositories/MaintenanceRepository.h"
+#include "repositories/MiteRepository.h"
 #include "screens/BoxDialog.h"
 #include "screens/HiveFormDialog.h"
+#include "screens/InspectionScreen.h"
+#include "screens/MiteDialogs.h"
 
 #include <string>
 #include <vector>
@@ -19,11 +26,18 @@
 // HiveDetailScreen
 // --------------------------------------------------
 // Apiaries > Apiary > Hive. Tabs:
-//   Overview        hive info and equipment summary
+//   Overview        hive info, maintenance due (Done /
+//                   Postpone), latest inspection and
+//                   equipment summary
 //   Boxes & Frames  the box stack (bottom box at the
 //                   bottom) with frame tiles, and a
 //                   details panel for the selected frame
-// Archived hives are shown read-only.
+//   Inspections     history; new / resume draft; opens
+//                   the InspectionScreen
+//   Mites           mite checks and treatments (only
+//                   while mite tracking is on)
+// Archived hives are shown read-only and have no
+// maintenance schedule.
 // ==================================================
 
 class HiveDetailScreen
@@ -41,6 +55,9 @@ public:
         ApiaryRepository& apiaryRepository,
         HiveRepository& hiveRepository,
         BoxRepository& boxRepository,
+        InspectionRepository& inspectionRepository,
+        MiteRepository& miteRepository,
+        MaintenanceRepository& maintenanceRepository,
         const SettingsData& settings
     );
 
@@ -56,7 +73,27 @@ private:
     ApiaryRepository& m_apiaryRepository;
     HiveRepository& m_hiveRepository;
     BoxRepository& m_boxRepository;
+    InspectionRepository& m_inspectionRepository;
+    MiteRepository& m_miteRepository;
+    MaintenanceRepository& m_maintenanceRepository;
     const SettingsData& m_settings;
+
+    // Maintenance and mites
+    std::vector<DueItem> m_dueItems;            // soonest first
+    std::vector<MiteCheck> m_miteChecks;        // newest first
+    std::vector<Treatment> m_treatments;        // newest first
+    float m_mitesTablesWidth = 0.0f;            // natural width of the mite tables
+
+    // Inspections
+    std::vector<InspectionSummary> m_inspections;     // newest first
+    InspectionSummary m_latestInspection;
+    bool m_hasLatestInspection = false;
+    int m_draftId = 0;
+
+    InspectionScreen m_inspectionScreen;
+    bool m_inInspection = false;
+    bool m_selectInspectionsTab = false;
+    bool m_selectOverviewTab = false;       // opening a hive starts on Overview
 
     Hive m_hive;
     Apiary m_apiary;
@@ -81,6 +118,8 @@ private:
     // Dialogs
     BoxDialog m_boxDialog;
     HiveFormDialog m_hiveForm;
+    MiteCheckDialog m_miteDialog;
+    TreatmentDialog m_treatmentDialog;
 
     bool m_openRemoveBox = false;
     Box m_removeCandidate;
@@ -112,6 +151,13 @@ private:
     Navigation DrawHeader();
     void DrawBanners();
     void DrawOverview();
+    void DrawMaintenanceCard();
+    void DrawMitesTab();
+    void DrawMiteChecksTable();
+    void DrawTreatmentsTable();
+    void DrawInspectionsTab();
+    void OpenInspection(int inspectionId);
+    void StartInspection();
     void DrawBoxesTab();
     void DrawStack();
     void DrawBox(const Box& box, bool isTop, bool isBottom, float rowWidth);

@@ -25,7 +25,7 @@ namespace
         // to the default font instead.
         std::error_code error;
 
-        if (!std::filesystem::is_regular_file(path, error))
+        if (!std::filesystem::is_regular_file(std::filesystem::u8path(path), error))
         {
             std::cerr << "Warning: font file not found: " << path << std::endl;
             return nullptr;

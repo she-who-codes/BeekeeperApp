@@ -2,9 +2,13 @@
 #pragma once
 
 #include "database/DatabaseManager.h"
+#include "models/Mites.h"
+#include "models/Settings.h"
 #include "repositories/ApiaryRepository.h"
 #include "repositories/BoxRepository.h"
 #include "repositories/HiveRepository.h"
+#include "repositories/MaintenanceRepository.h"
+#include "repositories/MiteRepository.h"
 #include "screens/HiveFormDialog.h"
 
 #include <map>
@@ -19,6 +23,9 @@ public:
         ApiaryRepository& apiaryRepository,
         HiveRepository& hiveRepository,
         BoxRepository& boxRepository,
+        MaintenanceRepository& maintenanceRepository,
+        MiteRepository& miteRepository,
+        const SettingsData& settings,
         DatabaseManager& database
     );
 
@@ -38,11 +45,24 @@ private:
     ApiaryRepository& m_apiaryRepository;
     HiveRepository& m_hiveRepository;
     BoxRepository& m_boxRepository;
+    MaintenanceRepository& m_maintenanceRepository;
+    MiteRepository& m_miteRepository;
+    const SettingsData& m_settings;
+
+    // Card badges (active hives): tasks overdue / due this
+    // week and the latest mite check's alert.
+    struct HiveStatus
+    {
+        int overdue = 0;
+        int dueSoon = 0;
+        MiteAlert mites = MiteAlert::None;
+    };
 
     // Data
     std::vector<Apiary> m_apiaries;
     std::vector<Hive> m_hives;          // active first, then archived
     std::map<int, HiveEquipmentCounts> m_equipment;   // by hive id
+    std::map<int, HiveStatus> m_status;               // by hive id
 
     int m_openHiveRequest = 0;
 
@@ -74,6 +94,7 @@ private:
     // Data operations
     void LoadApiaries();
     void LoadHives();
+    void LoadStatus();
     const Apiary* FindApiary(int id) const;
     void SetArchived(const Hive& hive, bool archived);
 
@@ -84,6 +105,7 @@ private:
     void DrawHivePanel();
     void DrawHiveGrid();
     void DrawHiveCard(const Hive& hive, float rowHeight);
+    void DrawStatusBadges(int hiveId);
 
     // Dialogs (drawn at root-window level so OpenPopup
     // and BeginPopupModal share the same ID stack)

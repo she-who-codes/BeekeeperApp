@@ -386,6 +386,174 @@ namespace
             )SQL",
 
             true    // rebuilds the frames table
+        },
+
+        {
+            5,
+            "Inspections: colony conditions, drafts, frame coverage, findings",
+
+            R"SQL(
+
+            -- Inspections ---------------------------------------
+            -- weather_temperature is stored in degrees Celsius and
+            -- shown in the keeper's unit (Settings).
+            -- status: 'draft' while being recorded (saved as the
+            -- keeper goes), 'completed' once finished.
+            ALTER TABLE inspections ADD COLUMN inspected_time TEXT;   -- "HH:MM" (24 h)
+            ALTER TABLE inspections ADD COLUMN status TEXT NOT NULL DEFAULT 'completed'
+                CHECK (status IN ('draft', 'completed'));
+            ALTER TABLE inspections ADD COLUMN temperament TEXT
+                CHECK (temperament IS NULL OR temperament IN ('calm', 'nervous', 'defensive'));
+            ALTER TABLE inspections ADD COLUMN queen_status TEXT
+                CHECK (queen_status IS NULL OR queen_status IN ('seen', 'eggs_only', 'not_seen', 'queenless'));
+            ALTER TABLE inspections ADD COLUMN colony_strength TEXT
+                CHECK (colony_strength IS NULL OR colony_strength IN ('weak', 'moderate', 'strong'));
+            ALTER TABLE inspections ADD COLUMN stores TEXT
+                CHECK (stores IS NULL OR stores IN ('low', 'adequate', 'plentiful'));
+            ALTER TABLE inspections ADD COLUMN completed_at TEXT;
+            ALTER TABLE inspections ADD COLUMN updated_at TEXT;
+
+            CREATE INDEX idx_inspections_hive_status
+                ON inspections(hive_id, status, inspected_at);
+
+            -- Pest / disease signs ticked during an inspection.
+            CREATE TABLE inspection_findings
+            (
+                inspection_id INTEGER NOT NULL,
+                finding_key TEXT NOT NULL,
+
+                PRIMARY KEY (inspection_id, finding_key),
+
+                FOREIGN KEY (inspection_id)
+                    REFERENCES inspections(id)
+                    ON DELETE CASCADE
+            );
+
+            -- Frame observations --------------------------------
+            -- Coverage in 25 % steps; empty = 100 - the others.
+            ALTER TABLE frame_observations ADD COLUMN brood_pct INTEGER NOT NULL DEFAULT 0
+                CHECK (brood_pct IN (0, 25, 50, 75, 100));
+            ALTER TABLE frame_observations ADD COLUMN honey_pct INTEGER NOT NULL DEFAULT 0
+                CHECK (honey_pct IN (0, 25, 50, 75, 100));
+            ALTER TABLE frame_observations ADD COLUMN pollen_pct INTEGER NOT NULL DEFAULT 0
+                CHECK (pollen_pct IN (0, 25, 50, 75, 100));
+            ALTER TABLE frame_observations ADD COLUMN eggs_seen INTEGER NOT NULL DEFAULT 0
+                CHECK (eggs_seen IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN larvae_seen INTEGER NOT NULL DEFAULT 0
+                CHECK (larvae_seen IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN capped_brood INTEGER NOT NULL DEFAULT 0
+                CHECK (capped_brood IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN drone_brood INTEGER NOT NULL DEFAULT 0
+                CHECK (drone_brood IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN queen_seen INTEGER NOT NULL DEFAULT 0
+                CHECK (queen_seen IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN swarm_cells INTEGER NOT NULL DEFAULT 0
+                CHECK (swarm_cells IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN supersedure_cells INTEGER NOT NULL DEFAULT 0
+                CHECK (supersedure_cells IN (0, 1));
+            ALTER TABLE frame_observations ADD COLUMN comb_drawn TEXT
+                CHECK (comb_drawn IS NULL OR comb_drawn IN ('none', 'partial', 'full'));
+            ALTER TABLE frame_observations ADD COLUMN updated_at TEXT;
+
+            -- A frame can never be more than 100 % covered.
+            CREATE TRIGGER frame_observations_coverage_insert
+            BEFORE INSERT ON frame_observations
+            WHEN NEW.brood_pct + NEW.honey_pct + NEW.pollen_pct > 100
+            BEGIN
+                SELECT RAISE(ABORT, 'Frame coverage exceeds 100%');
+            END;
+
+            CREATE TRIGGER frame_observations_coverage_update
+            BEFORE UPDATE ON frame_observations
+            WHEN NEW.brood_pct + NEW.honey_pct + NEW.pollen_pct > 100
+            BEGIN
+                SELECT RAISE(ABORT, 'Frame coverage exceeds 100%');
+            END;
+
+            )SQL"
+        },
+
+        {
+            6,
+            "Mite checks, treatments and maintenance (done / postponed)",
+
+            R"SQL(
+
+            -- Mite checks ---------------------------------------
+            -- sample_size: bees, days on board or drone cells
+            -- uncapped (depends on the method's unit).
+            -- mite_count: mites counted, or infested drone cells.
+            CREATE TABLE mite_checks
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                hive_id INTEGER NOT NULL,
+                inspection_id INTEGER,
+                method_id INTEGER NOT NULL,
+                checked_on TEXT NOT NULL,
+                sample_size INTEGER NOT NULL CHECK (sample_size > 0),
+                mite_count INTEGER NOT NULL CHECK (mite_count >= 0),
+                notes TEXT,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                FOREIGN KEY (hive_id) REFERENCES hives(id) ON DELETE RESTRICT,
+                FOREIGN KEY (inspection_id) REFERENCES inspections(id) ON DELETE SET NULL,
+                FOREIGN KEY (method_id) REFERENCES mite_check_methods(id) ON DELETE RESTRICT
+            );
+
+            CREATE INDEX idx_mite_checks_hive_date
+                ON mite_checks(hive_id, checked_on);
+
+            -- Mite treatments (start the follow-up check clock).
+            CREATE TABLE treatments
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                hive_id INTEGER NOT NULL,
+                started_on TEXT NOT NULL,
+                product TEXT NOT NULL,
+                notes TEXT,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                FOREIGN KEY (hive_id) REFERENCES hives(id) ON DELETE RESTRICT
+            );
+
+            CREATE INDEX idx_treatments_hive_date
+                ON treatments(hive_id, started_on);
+
+            -- Maintenance -------------------------------------
+            -- "Done" marks a task complete on a date.
+            CREATE TABLE maintenance_log
+            (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                hive_id INTEGER NOT NULL,
+                task_type_id INTEGER NOT NULL,
+                done_on TEXT NOT NULL,
+                notes TEXT,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+                FOREIGN KEY (hive_id) REFERENCES hives(id) ON DELETE RESTRICT,
+                FOREIGN KEY (task_type_id) REFERENCES maintenance_task_types(id) ON DELETE RESTRICT
+            );
+
+            CREATE INDEX idx_maintenance_log_hive_task
+                ON maintenance_log(hive_id, task_type_id, done_on);
+
+            -- "Postpone": the task is not due before
+            -- postponed_until. Ignored once the task is done
+            -- after postponed_on. One per hive and task.
+            CREATE TABLE maintenance_postponements
+            (
+                hive_id INTEGER NOT NULL,
+                task_type_id INTEGER NOT NULL,
+                postponed_on TEXT NOT NULL,
+                postponed_until TEXT NOT NULL,
+
+                PRIMARY KEY (hive_id, task_type_id),
+
+                FOREIGN KEY (hive_id) REFERENCES hives(id) ON DELETE RESTRICT,
+                FOREIGN KEY (task_type_id) REFERENCES maintenance_task_types(id) ON DELETE RESTRICT
+            );
+
+            )SQL"
         }
     };
 }

@@ -29,6 +29,9 @@ App::App(DatabaseManager& database)
       m_apiaryRepository(database),
       m_hiveRepository(database),
       m_boxRepository(database),
+      m_inspectionRepository(database),
+      m_miteRepository(database),
+      m_maintenanceRepository(database),
       m_settingsRepository(database),
       m_settingsScreen(m_settingsRepository),
       m_setupWizard(m_settingsRepository)
@@ -46,14 +49,19 @@ bool App::Initialize(std::string& error)
     if (!RegionalSettings::Apply(m_settings.app))
         error = Localization::GetLastError();   // not fatal: keys are shown
 
-    // Created after localization so its messages are translated.
-    m_apiaryScreen = std::make_unique<ApiaryScreen>(
-        m_apiaryRepository, m_hiveRepository, m_boxRepository, m_database);
+    // Created after localization so their messages are
+    // translated. They read m_settings by reference
+    // (intervals, mite methods...), so they always see the
+    // saved settings.
+    m_dashboard = std::make_unique<Dashboard>(m_maintenanceRepository, m_miteRepository, m_settings);
 
-    // Reads m_settings by reference (comb replacement
-    // interval), so it always sees the saved settings.
+    m_apiaryScreen = std::make_unique<ApiaryScreen>(
+        m_apiaryRepository, m_hiveRepository, m_boxRepository,
+        m_maintenanceRepository, m_miteRepository, m_settings, m_database);
+
     m_hiveDetailScreen = std::make_unique<HiveDetailScreen>(
-        m_database, m_apiaryRepository, m_hiveRepository, m_boxRepository, m_settings);
+        m_database, m_apiaryRepository, m_hiveRepository, m_boxRepository, m_inspectionRepository,
+        m_miteRepository, m_maintenanceRepository, m_settings);
 
     if (m_settings.app.setupStatus == SetupStatus::NotStarted)
     {
@@ -62,7 +70,8 @@ bool App::Initialize(std::string& error)
     }
     else
     {
-        m_page = Page::Apiaries;
+        m_dashboard->Refresh();
+        m_page = Page::Dashboard;
     }
 
     return true;
@@ -92,12 +101,21 @@ void App::GoTo(Page page)
     if (page == Page::Settings)
         m_settingsScreen.Load(m_settings);
 
-    // Coming back to the list: pick up changes made in a
-    // hive's detail view (box counts, moved hives...).
-    if (page == Page::Apiaries && m_page == Page::HiveDetail)
-        m_apiaryScreen->Refresh(m_hiveDetailScreen->ApiaryId());
+    // Pick up changes made elsewhere (box counts, moved
+    // hives, tasks done, settings...).
+    if (page == Page::Dashboard)
+        m_dashboard->Refresh();
+
+    if (page == Page::Apiaries)
+        m_apiaryScreen->Refresh(m_page == Page::HiveDetail ? m_hiveDetailScreen->ApiaryId() : 0);
 
     m_page = page;
+}
+
+void App::OpenHive(int hiveId)
+{
+    if (hiveId != 0 && m_hiveDetailScreen->Open(hiveId))
+        m_page = Page::HiveDetail;
 }
 
 // --------------------------------------------------
@@ -171,23 +189,21 @@ void App::DrawPage()
             if (result != SetupWizard::Result::None)
             {
                 m_settings = m_setupWizard.Saved();
-                GoTo(Page::Apiaries);
+                GoTo(Page::Dashboard);
             }
 
             break;
         }
 
-        case Page::Apiaries:
-        {
-            m_apiaryScreen->Render();
-
-            const int hiveId = m_apiaryScreen->TakeOpenHiveRequest();
-
-            if (hiveId != 0 && m_hiveDetailScreen->Open(hiveId))
-                m_page = Page::HiveDetail;
-
+        case Page::Dashboard:
+            m_dashboard->Render();
+            OpenHive(m_dashboard->TakeOpenHiveRequest());
             break;
-        }
+
+        case Page::Apiaries:
+            m_apiaryScreen->Render();
+            OpenHive(m_apiaryScreen->TakeOpenHiveRequest());
+            break;
 
         case Page::HiveDetail:
         {
@@ -286,6 +302,12 @@ void App::DrawTopBar(float pagePaddingX)
     if (m_page != Page::Setup)
     {
         ImGui::SameLine(0.0f, UI::Em(2.0f));
+        ImGui::SetCursorPosY(0.0f);
+
+        if (NavItem(Localization::Label("navigation.dashboard", "NavDashboard").c_str(), m_page == Page::Dashboard, height))
+            RequestPage(Page::Dashboard);
+
+        ImGui::SameLine(0.0f, 0.0f);
         ImGui::SetCursorPosY(0.0f);
 
         const bool onApiaries = m_page == Page::Apiaries || m_page == Page::HiveDetail;
